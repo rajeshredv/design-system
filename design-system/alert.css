@@ -1,0 +1,125 @@
+/* ==========================================================================
+   Alert (inline notification)
+   Figma component set: "Component 6" 3160:2323 — unnamed in Figma; it is an
+   inline alert / toast with an accent bar, icon, message and optional action.
+   Figma properties → code
+     Property 1=Success   → .alert (default)   Button/100 + Button/800, thumbs-up icon
+     Property 1=Error     → .alert--error      Negative/100 + Negative/800, warning icon
+     Property 1=Limit hit → .alert--warning    Alert-info/100 + Alert-info/Color, exclamation icon
+     Property 1=Modal     → .alert--warning.alert--banner  (flat strip inside a dialog, with link)
+     Property 1=CTA       → .alert + .alert__text subtext + .alert__action
+     Property 1=Variant6  → .alert--error + .alert__timer + .alert__action
+     Subtext=True         → .alert__text
+     CTA=True             → .alert__action (ghost button from button.css)
+   Requires tokens.css, icon.css (icon), button.css (action)
+
+   Markup:
+     <div class="alert" role="status">
+       <span class="icon alert__icon" style="--icon:url(assets/icons/like-line.svg)" aria-hidden="true"></span>
+       <div class="alert__body">Copied successfully!</div>
+     </div>
+   ========================================================================== */
+
+.alert {
+  /* Component-level tokens (override these to theme a single instance) */
+  --alert-bg: var(--color-button-100);
+  --alert-accent: var(--color-button-800);
+  --alert-shadow: 0 2px 4px rgb(0 0 0 / 0.04); /* unbound in Figma: drop shadow #000000 4%, y 2, blur 4 */
+
+  display: flex;
+  align-items: center;
+  gap: var(--space-btn);
+  box-sizing: border-box;
+  max-width: 100%;
+  min-height: 48px;
+  padding: var(--space-xl);
+  border-radius: var(--radius-sm);
+  background: var(--alert-bg);
+  /* 4px left INSIDE stroke in Figma, drawn as an inset shadow so it follows
+     the radius and doesn't shift the content */
+  box-shadow: inset 4px 0 0 var(--alert-accent), var(--alert-shadow);
+  -webkit-backdrop-filter: blur(9.5px); /* Figma background blur 19 */
+  backdrop-filter: blur(9.5px);
+  color: var(--color-text-primary);
+  font: var(--font-sub-text);   /* Sub text M */
+}
+
+/* With an action button the vertical padding drops to 8px (CTA / Variant6) */
+.alert:has(> .alert__action) {
+  padding-block: var(--space-l);
+}
+
+.alert__icon {
+  --icon-size: 24px;
+  color: var(--alert-accent);
+}
+
+.alert__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.alert__title {
+  font: var(--font-sub-text);
+}
+
+/* Subtext=True */
+.alert__text {
+  font: var(--font-body-3);     /* Body 3 R */
+  color: var(--color-text-t3);
+}
+
+/* Countdown chip after the message (Variant6) */
+.alert__timer {
+  display: inline-block;
+  padding: 0 var(--space-xs);
+  font: var(--font-body-3);
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Inline link (Modal) — Zoho Puvi Bold 14/18 in Figma, no text style */
+.alert__link {
+  font: 14px/18px var(--font-family-bold);
+  color: var(--color-button-800);
+  text-decoration: none;
+}
+.alert__link:hover {
+  text-decoration: underline;
+}
+.alert__link:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.alert__action {
+  flex-shrink: 0;
+}
+
+/* ---- Tones ---- */
+
+/* Property 1=Error */
+.alert--error {
+  --alert-bg: var(--color-negative-100);
+  --alert-accent: var(--color-negative-800);
+}
+
+/* Property 1=Limit hit */
+.alert--warning {
+  --alert-bg: var(--color-alert-info-100);
+  --alert-accent: var(--color-alert-info-color);
+}
+
+/* ---- Layout ---- */
+
+/* Property 1=Modal — full-width strip: no radius, accent bar or shadow */
+.alert--banner {
+  padding: var(--space-btn) var(--space-xl);
+  border-radius: 0;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}

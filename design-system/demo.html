@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <title>Button &amp; Toggle — design system gallery</title>
     <link rel="stylesheet" href="./tokens.css" />
+    <!-- Button.vue has no styles of its own: button.css is the single source -->
+    <link rel="stylesheet" href="./button.css" />
+    <link rel="stylesheet" href="./icon.css" />
     <style>
       body {
         font-family: var(--font-family-base);
@@ -156,26 +159,44 @@
             ),
 
             h("table", [
-              h("caption", "Link & full width"),
+              h("caption", "Link"),
+              h("thead", h("tr", [h("th", "Size"), ...STATES.map((s) => h("th", s.label))])),
+              h(
+                "tbody",
+                [undefined, "medium"].map((size) =>
+                  h("tr", { key: size || "default" }, [
+                    h("td", size ? "medium (3313:2456)" : "default = small (2145:2680)"),
+                    ...STATES.map((s) => h("td", h(Button, { variant: "link", size, ...s.props }, () => "View all"))),
+                  ])
+                )
+              ),
+            ]),
+
+            h("table", [
+              h("caption", "Ghost with icon (Buttons-Primary/Icon)"),
+              h("thead", h("tr", STATES.map((s) => h("th", s.label)))),
+              h(
+                "tbody",
+                h(
+                  "tr",
+                  STATES.map((s) =>
+                    h(
+                      "td",
+                      h(Button, { variant: "ghost", ...s.props }, {
+                        icon: () => h("span", { class: "icon", style: "--icon:url(assets/icons/forward.svg)" }),
+                        default: () => "Forward",
+                      })
+                    )
+                  )
+                )
+              ),
+            ]),
+
+            h("table", [
+              h("caption", "Full width"),
               h("tbody", [
-                h("tr", [
-                  h("td", h(Button, { variant: "link" }, () => "View all")),
-                  h("td", h(Button, { variant: "link", disabled: true }, () => "View all")),
-                ]),
-                h("tr", [
-                  h(
-                    "td",
-                    { colspan: 2, style: "width: 320px" },
-                    h(Button, { variant: "primary", fullWidth: true }, () => "Sign Up with Arattai")
-                  ),
-                ]),
-                h("tr", [
-                  h(
-                    "td",
-                    { colspan: 2, style: "width: 320px" },
-                    h(Button, { variant: "secondary", fullWidth: true }, () => "Cancel")
-                  ),
-                ]),
+                h("tr", h("td", { style: "width: 320px" }, h(Button, { variant: "primary", size: "large", fullWidth: true }, () => "Sign Up with Arattai"))),
+                h("tr", h("td", { style: "width: 320px" }, h(Button, { variant: "secondary", size: "large", fullWidth: true }, () => "Cancel"))),
               ]),
             ]),
           ]);

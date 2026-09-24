@@ -1,0 +1,57 @@
+/* ==========================================================================
+   Tag
+   Figma component set: Tags 3319:2359
+   Variants (Property 1):
+     Frame 28075 → .tag              neutral, optional leading icon ("Video")
+     Frame 28074 → .tag--highlight   yellow note ("Daily 11:00 - 11:30 pm, Never ends")
+   Requires tokens.css (+ icon.css for the icon)
+
+   Tags are static labels, not controls. For something the user can click,
+   select or remove, use a chip (chip.css).
+     <span class="tag">
+       <span class="icon tag__icon" style="--icon:url(assets/icons/video-line.svg)" aria-hidden="true"></span>
+       Video
+     </span>
+     <span class="tag tag--highlight">Daily 11:00 - 11:30 pm, Never ends</span>
+   ========================================================================== */
+
+.tag {
+  /* Component-level tokens (override these to theme a single instance) */
+  --tag-bg: var(--color-bg-2);
+  --tag-fg: var(--color-text-secondary);
+  --tag-icon: var(--color-chip-icon);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-m);
+  box-sizing: border-box;
+  max-width: 100%;
+  min-height: 24px;
+  padding: var(--space-xs) var(--space-l);
+  border-radius: var(--radius-sm);
+  background: var(--tag-bg);
+  color: var(--tag-fg);
+  font: var(--font-sub-text);   /* Sub text M */
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* A leading icon pulls the start padding in from 8px to 6px */
+.tag:has(> .tag__icon) {
+  padding-inline-start: var(--space-m);
+}
+
+.tag__icon {
+  --icon-size: 20px;
+  color: var(--tag-icon);
+}
+
+/* Property 1=Frame 28074 */
+.tag--highlight {
+  /* unbound in Figma: #fef5d4 (light). Figma has no dark value; the dark side
+     falls back to Theme/yellow/100 so the tag stays readable in dark mode. */
+  --tag-highlight-bg: light-dark(#fef5d4, var(--color-theme-yellow-100));
+  --tag-bg: var(--tag-highlight-bg);
+  gap: var(--space-s);
+  font: var(--font-body-3);     /* Body 3 R */
+}

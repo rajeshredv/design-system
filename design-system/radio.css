@@ -1,0 +1,85 @@
+/* ==========================================================================
+   Radio
+   Figma component set: Radio 2050:3169
+   Variants (States): Active · Selected · Disabled
+   Requires tokens.css
+
+   Markup — native radios grouped by name, so arrow keys, forms and
+   :checked work for free:
+     <input type="radio" class="radio" name="plan" value="free" aria-label="…">
+
+   Geometry (from Figma): 20 × 20 frame.
+     Active    16px ring inset 2px, 1.5px stroke Text/T2
+     Selected  20px Button/800 disc with a 10px BG/1 centre dot
+   The Selected disc is 4px larger than the Active ring. That is how the
+   Figma file is drawn, and is kept as designed.
+   ========================================================================== */
+
+.radio {
+  /* Component-level tokens (override these to theme a single instance) */
+  --radio-ring: var(--color-text-t2);     /* Active ring: Text/T2 */
+  --radio-fill: var(--color-button-800);  /* Selected disc: Button/800 */
+  --radio-dot: var(--color-bg-1);         /* Selected centre dot: BG/1 */
+
+  appearance: none;
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+/* Active — 16px ring, 1.5px inside stroke */
+.radio::before {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  box-sizing: border-box;
+  border: 1.5px solid var(--radio-ring);
+  border-radius: 50%;
+  background: transparent;
+  transition: inset 120ms ease, border-width 120ms ease, border-color 120ms ease;
+}
+
+.radio:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+/* Selected — 20px disc; a 5px border leaves the 10px centre dot */
+.radio:checked::before {
+  inset: 0;
+  border-width: 5px;
+  border-color: var(--radio-fill);
+  background: var(--radio-dot);
+}
+
+/* Disabled — the Active frame at 50% layer opacity */
+.radio:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Optional label wrapper (code only; Figma has no label) */
+.radio-field {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-l);
+  font: var(--font-body-3);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+.radio-field:has(.radio:disabled) {
+  color: var(--color-text-t2);
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radio::before {
+    transition: none;
+  }
+}

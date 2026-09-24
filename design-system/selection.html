@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Checkbox &amp; radio — Design System</title>
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="checkbox.css" />
+  <link rel="stylesheet" href="radio.css" />
+  <link rel="stylesheet" href="check-circle.css" />
+  <link rel="stylesheet" href="toggle.css" />
+  <link rel="stylesheet" href="docs.css" />
+  <style>
+    .stage figure { min-width: 84px; }
+    .stack { display: flex; flex-direction: column; gap: 12px; padding: 24px 28px; border-top: 1px solid var(--color-bg-border); }
+  </style>
+</head>
+<body>
+<main class="doc">
+
+  <div class="doc-bar">
+    <nav data-doc-nav></nav>
+    <label class="theme-switch">Dark mode <input type="checkbox" role="switch" class="toggle" data-theme-switch /></label>
+  </div>
+
+  <div class="eyebrow">Components · Selection</div>
+  <h1>Checkbox &amp; radio</h1>
+  <p class="lead">Controls for picking options. A checkbox turns one option on or off, or selects several. A radio picks exactly one option from a group. The check circle is a round checkbox for selecting items in a list.</p>
+  <div class="meta">
+    <span class="chip">Figma: <code>Check-box</code> · <code>Radio</code> · <code>multiselect</code></span>
+    <span class="chip">Nodes
+      <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2050-3150&m=dev" target="_blank" rel="noopener">2050:3150</a> ·
+      <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2050-3169&m=dev" target="_blank" rel="noopener">2050:3169</a> ·
+      <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2050-3106&m=dev" target="_blank" rel="noopener">2050:3106</a></span>
+    <span class="chip">13 variants</span>
+    <span class="chip">Light &amp; dark</span>
+  </div>
+
+  <p>All three are native <code>&lt;input&gt;</code> elements with <code>appearance: none</code>. The Figma variants come from the input's own <code>:checked</code>, <code>:indeterminate</code> and <code>:disabled</code> states, so there are no state classes to manage. Looking for the switch? See <a href="toggle.html">Toggle</a>.</p>
+
+  <!-- ================================================================ -->
+  <h2 id="checkbox">Checkbox</h2>
+  <p>Figma <code>Check-box</code> (<a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2050-3150&m=dev" target="_blank" rel="noopener">2050:3150</a>), property <code>States</code>, 5 variants. A 24 × 24px control that draws an 18px box, radius 2px. Use <code>checkbox.css</code> and <code>components/Checkbox.vue</code>.</p>
+
+  <h3>Variants</h3>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <input type="checkbox" class="checkbox" aria-label="Uncheck" />
+          <figcaption>Uncheck<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <input type="checkbox" class="checkbox" aria-label="Checked" checked />
+          <figcaption>Checked<code>:checked</code></figcaption>
+        </figure>
+        <figure>
+          <input type="checkbox" class="checkbox" aria-label="Semi" data-indeterminate />
+          <figcaption>Semi<code>:indeterminate</code></figcaption>
+        </figure>
+        <figure>
+          <input type="checkbox" class="checkbox" aria-label="Disabled" disabled />
+          <figcaption>Disabled<code>:disabled</code></figcaption>
+        </figure>
+        <figure>
+          <input type="checkbox" class="checkbox" aria-label="Check disabled" checked disabled />
+          <figcaption>Check disabled<code>:checked:disabled</code></figcaption>
+        </figure>
+      </div>
+      <div class="stack">
+        <label class="checkbox-field"><input type="checkbox" class="checkbox" checked /> Email me a copy</label>
+        <label class="checkbox-field"><input type="checkbox" class="checkbox" /> Mark as important</label>
+        <label class="checkbox-field"><input type="checkbox" class="checkbox" disabled /> Archive after sending</label>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color tokens</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-text-t2</code></td><td><code>Text/T2</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t2)"></span>#ABABAB</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t2)"></span>#727272</td>
+        <td>Uncheck / Disabled ring</td></tr>
+      <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>Checked / Semi box</td></tr>
+      <tr><td><code>--color-bg-1</code></td><td><code>BG/1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>Check and dash</td></tr>
+      <tr><td><code>--color-button-1000</code></td><td><code>Button/1000</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-1000)"></span>#0076CE</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-1000)"></span>#479EDF</td>
+        <td>Focus ring (code only)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Variant</th><th>Box</th><th>Mark</th><th>Opacity</th><th>Code selector</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Uncheck</strong></td><td>1.5px ring <code>--color-text-t2</code></td><td class="none">none</td><td>100%</td><td><code>.checkbox</code></td></tr>
+      <tr><td><strong>Checked</strong></td><td>Filled <code>--color-button-800</code></td><td>Check 10.5 × 8 at (7.25, 8.25), <code>--color-bg-1</code></td><td>100%</td><td><code>:checked</code></td></tr>
+      <tr><td><strong>Semi</strong></td><td>Filled <code>--color-button-800</code></td><td>Dash 10 × 1.5 at (7, 11.23), <code>--color-bg-1</code></td><td>100%</td><td><code>:indeterminate</code></td></tr>
+      <tr><td><strong>Disabled</strong></td><td>As Uncheck</td><td class="none">none</td><td>50%</td><td><code>:disabled</code></td></tr>
+      <tr><td><strong>Check disabled</strong></td><td>As Checked</td><td>As Checked</td><td>50%</td><td><code>:checked:disabled</code></td></tr>
+    </tbody>
+  </table>
+  <p>Size: 24 × 24px frame, 18 × 18px box inset 3px, radius 2px (unbound in Figma, hardcoded). Optional label wrapper <code>.checkbox-field</code>: 4px gap (<code>--space-s</code>), <code>--font-body-3</code>.</p>
+
+  <h3>Usage</h3>
+<pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
+&lt;link rel="stylesheet" href="checkbox.css"&gt;
+
+&lt;label class="checkbox-field"&gt;
+  &lt;input type="checkbox" class="checkbox" checked&gt; Email me a copy
+&lt;/label&gt;
+
+&lt;!-- No visible label --&gt;
+&lt;input type="checkbox" class="checkbox" aria-label="Select all"&gt;
+
+&lt;!-- Semi: set from script --&gt;
+&lt;script&gt;document.querySelector("#select-all").indeterminate = true;&lt;/script&gt;</code></pre>
+<pre><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Checkbox from "./design-system/components/Checkbox.vue";
+const copy = ref(true);
+const all = ref(false);
+const some = ref(true);
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Checkbox v-model="copy"&gt;Email me a copy&lt;/Checkbox&gt;
+  &lt;Checkbox v-model="all" v-model:indeterminate="some" label="Select all" /&gt;
+  &lt;Checkbox disabled&gt;Archive after sending&lt;/Checkbox&gt;
+&lt;/template&gt;</code></pre>
+
+  <h3>Accessibility</h3>
+  <ul>
+    <li>It's a real <code>&lt;input type="checkbox"&gt;</code>: Space toggles it and screen readers announce "checked", "not checked" or "mixed" (Semi).</li>
+    <li>Give every checkbox a name: a wrapping <code>&lt;label&gt;</code> or <code>aria-label</code>. The 24px input is the hit target, and the whole label is clickable.</li>
+    <li>Focus shows a 2px <code>--color-button-1000</code> ring 2px outside the box. Figma has no focus state, so it was added in code.</li>
+    <li>Contrast: the Uncheck ring (<code>Text/T2</code>) is about 2.1:1 on white in light mode and 2.9:1 on <code>#2B2B2B</code> in dark mode, below the WCAG 3:1 minimum for controls. Disabled states are only shown by 50% opacity.</li>
+  </ul>
+
+  <!-- ================================================================ -->
+  <h2 id="radio">Radio</h2>
+  <p>Figma <code>Radio</code> (<a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2050-3169&m=dev" target="_blank" rel="noopener">2050:3169</a>), property <code>States</code>, 3 variants. A 20 × 20px control. Use <code>radio.css</code> and <code>components/Radio.vue</code>.</p>
+
+  <h3>Variants</h3>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <input type="radio" class="radio" name="demo-radio-a" aria-label="Active" />
+          <figcaption>Active<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <input type="radio" class="radio" name="demo-radio-b" aria-label="Selected" checked />
+          <figcaption>Selected<code>:checked</code></figcaption>
+        </figure>
+        <figure>
+          <input type="radio" class="radio" name="demo-radio-c" aria-label="Disabled" disabled />
+          <figcaption>Disabled<code>:disabled</code></figcaption>
+        </figure>
+        <figure>
+          <input type="radio" class="radio" name="demo-radio-d" aria-label="Selected disabled" checked disabled />
+          <figcaption>Selected disabled<code>:checked:disabled</code><span class="muted">(code only)</span></figcaption>
+        </figure>
+      </div>
+      <div class="stack" role="radiogroup" aria-label="Notify me about">
+        <label class="radio-field"><input type="radio" class="radio" name="demo-notify" checked /> All messages</label>
+        <label class="radio-field"><input type="radio" class="radio" name="demo-notify" /> Mentions only</label>
+        <label class="radio-field"><input type="radio" class="radio" name="demo-notify" disabled /> Nothing</label>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color tokens</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-text-t2</code></td><td><code>Text/T2</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t2)"></span>#ABABAB</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t2)"></span>#727272</td>
+        <td>Active / Disabled ring</td></tr>
+      <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>Selected disc</td></tr>
+      <tr><td><code>--color-bg-1</code></td><td><code>BG/1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>Selected centre dot</td></tr>
+      <tr><td><code>--color-button-1000</code></td><td><code>Button/1000</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-1000)"></span>#0076CE</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-1000)"></span>#479EDF</td>
+        <td>Focus ring (code only)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Variant</th><th>Shape</th><th>Opacity</th><th>Code selector</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Active</strong></td><td>16px ring inset 2px, 1.5px stroke <code>--color-text-t2</code></td><td>100%</td><td><code>.radio</code></td></tr>
+      <tr><td><strong>Selected</strong></td><td>20px disc <code>--color-button-800</code> with a 10px <code>--color-bg-1</code> dot</td><td>100%</td><td><code>:checked</code></td></tr>
+      <tr><td><strong>Disabled</strong></td><td>As Active</td><td>50%</td><td><code>:disabled</code></td></tr>
+    </tbody>
+  </table>
+  <p>Figma has no "Selected disabled" frame; in code it's the Selected state at 50% opacity. The Selected disc (20px) is 4px larger than the Active ring (16px), as drawn in Figma. Optional label wrapper <code>.radio-field</code>: 8px gap (<code>--space-l</code>), <code>--font-body-3</code>.</p>
+
+  <h3>Usage</h3>
+<pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
+&lt;link rel="stylesheet" href="radio.css"&gt;
+
+&lt;div role="radiogroup" aria-label="Notify me about"&gt;
+  &lt;label class="radio-field"&gt;&lt;input type="radio" class="radio" name="notify" value="all" checked&gt; All messages&lt;/label&gt;
+  &lt;label class="radio-field"&gt;&lt;input type="radio" class="radio" name="notify" value="mentions"&gt; Mentions only&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+<pre><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Radio from "./design-system/components/Radio.vue";
+const notify = ref("all");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;div role="radiogroup" aria-label="Notify me about"&gt;
+    &lt;Radio v-model="notify" name="notify" value="all"&gt;All messages&lt;/Radio&gt;
+    &lt;Radio v-model="notify" name="notify" value="mentions"&gt;Mentions only&lt;/Radio&gt;
+    &lt;Radio v-model="notify" name="notify" value="none" disabled&gt;Nothing&lt;/Radio&gt;
+  &lt;/div&gt;
+&lt;/template&gt;</code></pre>
+
+  <h3>Accessibility</h3>
+  <ul>
+    <li>Give every radio in a group the same <code>name</code>. The browser then makes the group one tab stop and arrow keys move the selection.</li>
+    <li>Label the group: <code>role="radiogroup"</code> with <code>aria-label</code>, or a <code>&lt;fieldset&gt;</code> with a <code>&lt;legend&gt;</code>. Label each option with a wrapping <code>&lt;label&gt;</code>.</li>
+    <li>Focus shows a 2px <code>--color-button-1000</code> ring 2px outside the 20px frame (code only).</li>
+    <li>Contrast: the Active ring has the same low contrast as the checkbox ring (about 2.1:1 light, 2.9:1 dark).</li>
+  </ul>
+
+  <!-- ================================================================ -->
+  <h2 id="check-circle">Check circle</h2>
+  <p>Figma <code>multiselect</code> (<a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2050-3106&m=dev" target="_blank" rel="noopener">2050:3106</a>), property <code>Property 1</code>, 5 variants. A round checkbox for selecting several items in a list, such as messages or contacts. The component set is a hidden layer in Figma. Use <code>check-circle.css</code> and <code>components/CheckCircle.vue</code>.</p>
+
+  <h3>Variants</h3>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <input type="checkbox" class="check-circle" aria-label="default" />
+          <figcaption>default<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <input type="checkbox" class="check-circle" aria-label="selected" checked />
+          <figcaption>selected<code>:checked</code></figcaption>
+        </figure>
+        <figure>
+          <input type="checkbox" class="check-circle" aria-label="semi select" data-indeterminate />
+          <figcaption>semi select<code>:indeterminate</code></figcaption>
+        </figure>
+        <figure>
+          <input type="checkbox" class="check-circle" aria-label="disabled" disabled />
+          <figcaption>disabled<code>:disabled</code></figcaption>
+        </figure>
+        <figure>
+          <input type="checkbox" class="check-circle check-circle--outline" aria-label="Variant5" />
+          <figcaption>Variant5<code>--outline</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color tokens</h3>
+  <p>None of the fills in this Figma set are bound to variables. Each hex matches a token's Light value exactly, so that token is used, which also gives the control a dark mode.</p>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma fill</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-text-t2</code></td><td class="none">#ABABAB, unbound</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t2)"></span>#ABABAB</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t2)"></span>#727272</td>
+        <td>default / disabled disc, Variant5 ring</td></tr>
+      <tr><td><code>--color-button-800</code></td><td class="none">#0087ED, unbound</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>selected / semi select disc</td></tr>
+      <tr><td><code>--color-bg-1</code></td><td class="none">#FFFFFF, unbound</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>semi select dash</td></tr>
+      <tr><td><code>--color-button-1000</code></td><td><code>Button/1000</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-1000)"></span>#0076CE</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-1000)"></span>#479EDF</td>
+        <td>Focus ring (code only)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Variant</th><th>Disc (18px, inset 3px)</th><th>Mark</th><th>Opacity</th><th>Code selector</th></tr></thead>
+    <tbody>
+      <tr><td><strong>default</strong></td><td><code>--color-text-t2</code></td><td>Check cut out of the disc (see-through)</td><td>100%</td><td><code>.check-circle</code></td></tr>
+      <tr><td><strong>selected</strong></td><td><code>--color-button-800</code></td><td>Check cut out of the disc</td><td>100%</td><td><code>:checked</code></td></tr>
+      <tr><td><strong>semi select</strong></td><td><code>--color-button-800</code>, solid</td><td>Dash 10 × 1.5, <code>--color-bg-1</code></td><td>100%</td><td><code>:indeterminate</code></td></tr>
+      <tr><td><strong>disabled</strong></td><td>As default</td><td>As default</td><td>50%</td><td><code>:disabled</code></td></tr>
+      <tr><td><strong>Variant5</strong></td><td>1.5px ring <code>--color-text-t2</code></td><td class="none">none</td><td>100%</td><td><code>.check-circle--outline</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Usage</h3>
+<pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
+&lt;link rel="stylesheet" href="check-circle.css"&gt;
+
+&lt;input type="checkbox" class="check-circle" aria-label="Select message from Priya"&gt;
+&lt;input type="checkbox" class="check-circle check-circle--outline" aria-label="Select message from Arun"&gt;</code></pre>
+<pre><code>&lt;script setup&gt;
+import { ref } from "vue";
+import CheckCircle from "./design-system/components/CheckCircle.vue";
+const picked = ref(false);
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;CheckCircle v-model="picked" label="Select message from Priya" /&gt;
+  &lt;CheckCircle v-model="picked" outline label="Select message from Arun" /&gt;
+&lt;/template&gt;</code></pre>
+
+  <h3>Accessibility</h3>
+  <ul>
+    <li>It's a native checkbox, so it's announced as a checkbox with checked, not checked or mixed states.</li>
+    <li>It has no visible text, so always pass an <code>aria-label</code> that names the item, like "Select message from Priya", not just "Select".</li>
+    <li>Focus shows a 2px <code>--color-button-1000</code> ring around the circle (code only).</li>
+    <li>The tick in default and selected is cut out of the disc, so its contrast depends on what's behind the control. Use it on a plain <code>BG/1</code> or <code>BG/2</code> surface.</li>
+  </ul>
+
+  <!-- ================================================================ -->
+  <h2 id="toggle">Toggle (3315:2551)</h2>
+  <p>The Figma file has a second <code>Toggle</code> set (<a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3315-2551&m=dev" target="_blank" rel="noopener">3315:2551</a>). It has the same 4 variants, sizes and colors as <code>Toggle</code> 2050:3135, so it uses the same <code>.toggle</code> class. See <a href="toggle.html">Toggle</a>. The only difference is that its "On disabled" track fill (#E5F3FD) isn't bound to <code>Button/100</code>.</p>
+
+</main>
+
+<script src="docs.js"></script>
+<script>
+  // :indeterminate can only be set from script, and cloneNode doesn't copy it,
+  // so this runs after docs.js has built the Dark panels.
+  document.querySelectorAll('[data-indeterminate]').forEach((el) => { el.indeterminate = true; });
+  // The Dark copies of the demo radios must not join the Light panels' groups.
+  // Appending the clones into the same group unchecked the originals, so
+  // rename the copies and restore every radio's initial state.
+  document.querySelectorAll('.compare__panel[data-theme="dark"] input[type="radio"]').forEach((el) => { el.name += '-dark'; });
+  document.querySelectorAll('.compare input[type="radio"]').forEach((el) => { el.checked = el.defaultChecked; });
+</script>
+</body>
+</html>

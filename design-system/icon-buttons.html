@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Icon buttons — Design System</title>
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="icon.css" />
+  <link rel="stylesheet" href="icon-button.css" />
+  <link rel="stylesheet" href="toggle.css" />
+  <link rel="stylesheet" href="docs.css" />
+  <style>
+    .stage figure { min-width: 72px; }
+  </style>
+</head>
+<body>
+<main class="doc">
+
+  <div class="doc-bar">
+    <nav data-doc-nav></nav>
+    <label class="theme-switch">Dark mode <input type="checkbox" role="switch" class="toggle" data-theme-switch /></label>
+  </div>
+
+  <div class="eyebrow">Components · Actions</div>
+  <h1>Icon buttons</h1>
+  <p class="lead">Buttons that show only an icon, for compact or frequent actions like reacting, forwarding, deleting or closing. They share one class, <code>.icon-btn</code>, with a style modifier and a size modifier. Every icon button needs an <code>aria-label</code>.</p>
+  <div class="meta">
+    <span class="chip">Figma: 10 component sets</span>
+    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2050-3177&m=dev" target="_blank" rel="noopener">2050:3177</a> and 9 more</span>
+    <span class="chip">43 variants</span>
+    <span class="chip">40 / 32 / 24 / 20px</span>
+    <span class="chip">Light &amp; dark</span>
+  </div>
+
+  <!-- ================================================================ -->
+  <h2>Icon button: variants</h2>
+  <p>Each Figma set maps to a style and a size. The Figma property <code>States</code> maps to <code>:hover</code>, <code>:active</code> / <code>aria-pressed="true"</code> and <code>:disabled</code>. The Hover and Active columns below are forced with <code>.is-hover</code> and <code>.icon-btn--pressed</code> so the states can be seen side by side.</p>
+
+  <h3>Icon-Primary-Hard-fill <span class="muted" style="font-size:13px">· <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2050-3177&m=dev" target="_blank" rel="noopener">2050:3177</a> · 4 variants</span></h3>
+  <p>32px blue circle with a 20px white icon. The primary icon action, for example starting a call. <code>.icon-btn icon-btn--hard-fill icon-btn--small</code></p>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <button type="button" class="icon-btn icon-btn--hard-fill icon-btn--small" aria-label="Call"><span class="icon" style="--icon:url(assets/icons/call.svg)" aria-hidden="true"></span></button>
+          <figcaption>Default<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--hard-fill icon-btn--small is-hover" aria-label="Call"><span class="icon" style="--icon:url(assets/icons/call.svg)" aria-hidden="true"></span></button>
+          <figcaption>Hover<code>.is-hover / :hover</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--hard-fill icon-btn--small icon-btn--pressed" aria-label="Call"><span class="icon" style="--icon:url(assets/icons/call.svg)" aria-hidden="true"></span></button>
+          <figcaption>Active<code>:active / [aria-pressed=true]</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--hard-fill icon-btn--small" aria-label="Call" disabled><span class="icon" style="--icon:url(assets/icons/call.svg)" aria-hidden="true"></span></button>
+          <figcaption>Disabled<code>:disabled</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Icon-Small-Hard-fill <span class="muted" style="font-size:13px">· <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2148-2727&m=dev" target="_blank" rel="noopener">2148:2727</a> · 4 variants</span></h3>
+  <p>24px blue circle with an 18px icon. The icon uses <code>BG/1</code>, so it turns dark in dark mode (unlike the 32px set, which is white in both). <code>.icon-btn icon-btn--hard-fill icon-btn--xsmall</code></p>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <button type="button" class="icon-btn icon-btn--hard-fill icon-btn--xsmall" aria-label="Add"><span class="icon" style="--icon:url(assets/icons/add-fill.svg)" aria-hidden="true"></span></button>
+          <figcaption>Default<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--hard-fill icon-btn--xsmall is-hover" aria-label="Add"><span class="icon" style="--icon:url(assets/icons/add-fill.svg)" aria-hidden="true"></span></button>
+          <figcaption>Hover<code>.is-hover / :hover</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--hard-fill icon-btn--xsmall icon-btn--pressed" aria-label="Add"><span class="icon" style="--icon:url(assets/icons/add-fill.svg)" aria-hidden="true"></span></button>
+          <figcaption>Active<code>:active / [aria-pressed=true]</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--hard-fill icon-btn--xsmall" aria-label="Add" disabled><span class="icon" style="--icon:url(assets/icons/add-fill.svg)" aria-hidden="true"></span></button>
+          <figcaption>Disabled<code>:disabled</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Icon-Large-Transparent <span class="muted" style="font-size:13px">· <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2050-3186&m=dev" target="_blank" rel="noopener">2050:3186</a> · 6 variants</span></h3>
+  <p>40px, no fill until hover. The default for toolbars and headers. Two extra variants add a count badge or a dot. <code>.icon-btn icon-btn--transparent icon-btn--large</code></p>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Add reaction"><span class="icon" style="--icon:url(assets/icons/emoji-smiley.svg)" aria-hidden="true"></span></button>
+          <figcaption>Default<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--large is-hover" aria-label="Add reaction"><span class="icon" style="--icon:url(assets/icons/emoji-smiley.svg)" aria-hidden="true"></span></button>
+          <figcaption>Hover<code>.is-hover / :hover</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--large icon-btn--pressed" aria-label="Add reaction"><span class="icon" style="--icon:url(assets/icons/emoji-smiley.svg)" aria-hidden="true"></span></button>
+          <figcaption>Active<code>:active / [aria-pressed=true]</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Add reaction" disabled><span class="icon" style="--icon:url(assets/icons/emoji-smiley.svg)" aria-hidden="true"></span></button>
+          <figcaption>Disabled<code>:disabled</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Reactions, 2 new"><span class="icon" style="--icon:url(assets/icons/emoji-smiley.svg)" aria-hidden="true"></span><span class="icon-btn__badge" aria-hidden="true">2</span></button>
+          <figcaption>BadgeCount<code>.icon-btn__badge</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Reactions, new"><span class="icon" style="--icon:url(assets/icons/emoji-smiley.svg)" aria-hidden="true"></span><span class="icon-btn__badge icon-btn__badge--dot" aria-hidden="true"></span></button>
+          <figcaption>No number<code>.icon-btn__badge--dot</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Icon-Small-Transparent <span class="muted" style="font-size:13px">· <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2148-2688&m=dev" target="_blank" rel="noopener">2148:2688</a> · 4 variants</span></h3>
+  <p>32px version of the transparent button with a 20px icon. Used in dense rows such as message hover actions. <code>.icon-btn icon-btn--transparent icon-btn--small</code></p>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--small" aria-label="Forward"><span class="icon" style="--icon:url(assets/icons/forward.svg)" aria-hidden="true"></span></button>
+          <figcaption>Default<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--small is-hover" aria-label="Forward"><span class="icon" style="--icon:url(assets/icons/forward.svg)" aria-hidden="true"></span></button>
+          <figcaption>Hover<code>.is-hover / :hover</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--small icon-btn--pressed" aria-label="Forward"><span class="icon" style="--icon:url(assets/icons/forward.svg)" aria-hidden="true"></span></button>
+          <figcaption>Active<code>:active / [aria-pressed=true]</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--small" aria-label="Forward" disabled><span class="icon" style="--icon:url(assets/icons/forward.svg)" aria-hidden="true"></span></button>
+          <figcaption>Disabled<code>:disabled</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Icon-Large-Soft-fill <span class="muted" style="font-size:13px">· <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3016-6334&m=dev" target="_blank" rel="noopener">3016:6334</a> · 8 variants</span></h3>
+  <p>40px with a tinted fill. <code>Blue=True</code> uses <code>Button/100</code>; <code>Blue=False</code> (<code>.icon-btn--soft-fill-neutral</code>) uses <code>BG/1</code> for placing on grey surfaces. Figma names the Blue=False states States5–States8. <code>.icon-btn icon-btn--soft-fill icon-btn--large</code></p>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <button type="button" class="icon-btn icon-btn--soft-fill icon-btn--large" aria-label="Mark as done"><span class="icon" style="--icon:url(assets/icons/tick.svg)" aria-hidden="true"></span></button>
+          <figcaption>Blue=True · Default<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--soft-fill icon-btn--large is-hover" aria-label="Mark as done"><span class="icon" style="--icon:url(assets/icons/tick.svg)" aria-hidden="true"></span></button>
+          <figcaption>Blue=True · Hover<code>.is-hover / :hover</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--soft-fill icon-btn--large icon-btn--pressed" aria-label="Mark as done"><span class="icon" style="--icon:url(assets/icons/tick.svg)" aria-hidden="true"></span></button>
+          <figcaption>Blue=True · Active<code>:active / [aria-pressed=true]</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--soft-fill icon-btn--large" aria-label="Mark as done" disabled><span class="icon" style="--icon:url(assets/icons/tick.svg)" aria-hidden="true"></span></button>
+          <figcaption>Blue=True · Disabled<code>:disabled</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--soft-fill-neutral icon-btn--large" aria-label="Mark as done"><span class="icon" style="--icon:url(assets/icons/tick.svg)" aria-hidden="true"></span></button>
+          <figcaption>Blue=False · Default<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--soft-fill-neutral icon-btn--large is-hover" aria-label="Mark as done"><span class="icon" style="--icon:url(assets/icons/tick.svg)" aria-hidden="true"></span></button>
+          <figcaption>Blue=False · Hover<code>.is-hover / :hover</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--soft-fill-neutral icon-btn--large icon-btn--pressed" aria-label="Mark as done"><span class="icon" style="--icon:url(assets/icons/tick.svg)" aria-hidden="true"></span></button>
+          <figcaption>Blue=False · Active<code>:active / [aria-pressed=true]</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--soft-fill-neutral icon-btn--large" aria-label="Mark as done" disabled><span class="icon" style="--icon:url(assets/icons/tick.svg)" aria-hidden="true"></span></button>
+          <figcaption>Blue=False · Disabled<code>:disabled</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Icon-Large-Secondary <span class="muted" style="font-size:13px">· <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3016-6371&m=dev" target="_blank" rel="noopener">3016:6371</a> · 4 variants</span></h3>
+  <p>40px on a <code>BG/2</code> fill that lightens to <code>BG/1</code> on hover. Its Disabled frame is identical to Default in Figma (kept as designed; see Accessibility). <code>.icon-btn icon-btn--secondary icon-btn--large</code></p>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <button type="button" class="icon-btn icon-btn--secondary icon-btn--large" aria-label="Close"><span class="icon" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button>
+          <figcaption>Default<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--secondary icon-btn--large is-hover" aria-label="Close"><span class="icon" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button>
+          <figcaption>Hover<code>.is-hover / :hover</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--secondary icon-btn--large icon-btn--pressed" aria-label="Close"><span class="icon" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button>
+          <figcaption>Active<code>:active / [aria-pressed=true]</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--secondary icon-btn--large" aria-label="Close" disabled><span class="icon" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button>
+          <figcaption>Disabled<code>:disabled</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Icon-Large-Secondary (duplicate name) <span class="muted" style="font-size:13px">· <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3628-2793&m=dev" target="_blank" rel="noopener">3628:2793</a> · 4 variants</span></h3>
+  <p>Despite the name, this set behaves like Large Transparent with a two-color “add” glyph (yellow circle, dark plus) built from tokens as <code>.icon-btn__add</code>. Figma calls the states Frame 26787 / Hover / Focus / Disabled; Focus is the outlined Active frame. <code>.icon-btn icon-btn--transparent icon-btn--large</code></p>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Add"><span class="icon-btn__add" aria-hidden="true"><span class="icon" style="--icon:url(assets/icons/add-plus-10.svg)"></span></span></button>
+          <figcaption>Default<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--large is-hover" aria-label="Add"><span class="icon-btn__add" aria-hidden="true"><span class="icon" style="--icon:url(assets/icons/add-plus-10.svg)"></span></span></button>
+          <figcaption>Hover<code>.is-hover / :hover</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--large icon-btn--pressed" aria-label="Add"><span class="icon-btn__add" aria-hidden="true"><span class="icon" style="--icon:url(assets/icons/add-plus-10.svg)"></span></span></button>
+          <figcaption>Active<code>:active / [aria-pressed=true]</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Add" disabled><span class="icon-btn__add" aria-hidden="true"><span class="icon" style="--icon:url(assets/icons/add-plus-10.svg)"></span></span></button>
+          <figcaption>Disabled<code>:disabled</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Icon-Small-Negative <span class="muted" style="font-size:13px">· <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2148-2709&m=dev" target="_blank" rel="noopener">2148:2709</a> · 4 variants</span></h3>
+  <p>32px destructive action: red icon, pale red fill on hover, red stroke when active. <code>.icon-btn icon-btn--negative icon-btn--small</code></p>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <button type="button" class="icon-btn icon-btn--negative icon-btn--small" aria-label="Delete"><span class="icon" style="--icon:url(assets/icons/delete.svg)" aria-hidden="true"></span></button>
+          <figcaption>Default<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--negative icon-btn--small is-hover" aria-label="Delete"><span class="icon" style="--icon:url(assets/icons/delete.svg)" aria-hidden="true"></span></button>
+          <figcaption>Hover<code>.is-hover / :hover</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--negative icon-btn--small icon-btn--pressed" aria-label="Delete"><span class="icon" style="--icon:url(assets/icons/delete.svg)" aria-hidden="true"></span></button>
+          <figcaption>Active<code>:active / [aria-pressed=true]</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--negative icon-btn--small" aria-label="Delete" disabled><span class="icon" style="--icon:url(assets/icons/delete.svg)" aria-hidden="true"></span></button>
+          <figcaption>Disabled<code>:disabled</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Micro <span class="muted" style="font-size:13px">· <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2148-2732&m=dev" target="_blank" rel="noopener">2148:2732</a> · 4 variants</span></h3>
+  <p>20px square on a translucent black scrim, for overlaying images and thumbnails (e.g. remove an attachment). Figma calls the Active state Activated. <code>.icon-btn icon-btn--micro</code></p>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <button type="button" class="icon-btn icon-btn--micro" aria-label="Remove attachment"><span class="icon" style="--icon:url(assets/icons/close.svg)" aria-hidden="true"></span></button>
+          <figcaption>Default<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--micro is-hover" aria-label="Remove attachment"><span class="icon" style="--icon:url(assets/icons/close.svg)" aria-hidden="true"></span></button>
+          <figcaption>Hover<code>.is-hover / :hover</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--micro icon-btn--pressed" aria-label="Remove attachment"><span class="icon" style="--icon:url(assets/icons/close.svg)" aria-hidden="true"></span></button>
+          <figcaption>Activated<code>:active / [aria-pressed=true]</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="icon-btn icon-btn--micro" aria-label="Remove attachment" disabled><span class="icon" style="--icon:url(assets/icons/close.svg)" aria-hidden="true"></span></button>
+          <figcaption>Disabled<code>:disabled</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Class API</h3>
+  <table>
+    <thead><tr><th>Modifier</th><th>Values</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Style</td><td><code>--hard-fill</code> <code>--soft-fill</code> <code>--soft-fill-neutral</code> <code>--transparent</code> <code>--secondary</code> <code>--negative</code> <code>--micro</code></td><td>No style class = transparent</td></tr>
+      <tr><td>Size</td><td><code>--large</code> 40px / 24px icon · <code>--small</code> 32px / 20px icon · <code>--xsmall</code> 24px / 18px icon</td><td>No size class = large. <code>--micro</code> is always 20px with a 20px icon; don't add a size to it</td></tr>
+      <tr><td>State</td><td><code>:hover</code> · <code>:active</code>, <code>.icon-btn--pressed</code>, <code>[aria-pressed="true"]</code> · <code>:disabled</code>, <code>[aria-disabled="true"]</code></td><td><code>.is-hover</code> forces hover for static previews</td></tr>
+      <tr><td>Parts</td><td><code>.icon-btn__badge</code> · <code>.icon-btn__badge--dot</code> · <code>.icon-btn__add</code></td><td>Badge sits 2px from the top-right corner of a large button</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================ -->
+  <h2>Icon button: design tokens</h2>
+  <h3>Color</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>Hard-fill background; Active stroke and icon (all sets except Negative, Micro)</td></tr>
+      <tr><td><code>--color-button-1000</code></td><td><code>Button/1000</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-1000)"></span>#0076CE</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-1000)"></span>#479EDF</td>
+        <td>Hard-fill hover; focus ring (code only)</td></tr>
+      <tr><td><code>--color-button-100</code></td><td><code>Button/100</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-100)"></span>#E5F3FD</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-100)"></span>#273742</td>
+        <td>Soft-fill (Blue=True) background</td></tr>
+      <tr><td><code>--color-bg-1</code></td><td><code>BG/1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>Soft-fill neutral background; Secondary hover; xsmall Hard-fill icon; Micro icon; badge outline</td></tr>
+      <tr><td><code>--color-bg-2</code></td><td><code>BG/2</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-2)"></span>#F6F6F6</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-2)"></span>#1D1D1D</td>
+        <td>Secondary background</td></tr>
+      <tr><td><code>--color-bg-hover</code></td><td><code>BG/Hover</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-hover)"></span>#F1F4F7</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-hover)"></span>#3D3D3D</td>
+        <td>Transparent and Soft-fill hover</td></tr>
+      <tr><td><code>--color-text-primary</code></td><td><code>Text/Primary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-primary)"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>#E3E3E3</td>
+        <td>Transparent hover icon; Soft-fill icon; plus of the add glyph</td></tr>
+      <tr><td><code>--color-text-secondary</code></td><td><code>Text/Secondary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-secondary)"></span>#666666</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-secondary)"></span>#B3B3B3</td>
+        <td>Transparent and Secondary icon; Soft-fill disabled icon</td></tr>
+      <tr><td><code>--color-text-t2</code></td><td><code>Text/T2</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t2)"></span>#ABABAB</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t2)"></span>#727272</td>
+        <td>Micro Activated stroke</td></tr>
+      <tr><td><code>--color-negative-800</code></td><td><code>Negative/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-negative-800)"></span>#EB5757</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-negative-800)"></span>#FF7D7D</td>
+        <td>Negative icon and Active stroke</td></tr>
+      <tr><td><code>--color-negative-100</code></td><td><code>Negative/100</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-negative-100)"></span>#FDEEEE</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-negative-100)"></span>#483131</td>
+        <td>Negative hover</td></tr>
+      <tr><td><code>--color-draft-badge</code></td><td><code>Draft-badge</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-draft-badge)"></span>#F63B00</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-draft-badge)"></span>#F06C66</td>
+        <td>Badge count and dot</td></tr>
+      <tr><td><code>--color-theme-yellow-1000</code></td><td><code>Theme/yellow/1000</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-theme-yellow-1000)"></span>#F3CD00</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-theme-yellow-1000)"></span>#E4C100</td>
+        <td>Circle of the add glyph (3628:2793)</td></tr>
+      <tr><td><code>--color-label</code></td><td><code>Label (matched by hex)</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-label)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-label)"></span>#FFFFFF</td>
+        <td>32px Hard-fill icon and badge number: unbound #FFFFFF in Figma</td></tr>
+      <tr><td><code>--icon-btn-scrim</code></td><td class="none">Unbound in Figma</td>
+        <td class="swatch-cell"><span class="swatch" style="background:rgb(0 0 0 / .4)"></span>#000000 40%</td>
+        <td class="swatch-cell"><span class="swatch" style="background:rgb(0 0 0 / .4)"></span>#000000 40%</td>
+        <td>Micro background (component-local)</td></tr>
+      <tr><td><code>--icon-btn-scrim-hover</code></td><td class="none">Unbound in Figma</td>
+        <td class="swatch-cell"><span class="swatch" style="background:rgb(0 0 0 / .6)"></span>#000000 60%</td>
+        <td class="swatch-cell"><span class="swatch" style="background:rgb(0 0 0 / .6)"></span>#000000 60%</td>
+        <td>Micro hover and Activated (component-local)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Size and shape</h3>
+  <table>
+    <thead><tr><th>Size</th><th>Box</th><th>Icon</th><th>Radius</th><th>Figma sets</th></tr></thead>
+    <tbody>
+      <tr><td><code>--large</code></td><td>40 × 40px</td><td>24px (20px add glyph in 3628:2793)</td><td>Circle (Figma 68px / 28px / 42px)</td><td>Large-Transparent, Large-Soft-fill, Large-Secondary ×2</td></tr>
+      <tr><td><code>--small</code></td><td>32 × 32px</td><td>20px</td><td>Circle (Figma 42px / 100px)</td><td>Primary-Hard-fill, Small-Transparent, Small-Negative</td></tr>
+      <tr><td><code>--xsmall</code></td><td>24 × 24px</td><td>18px</td><td>Circle (Figma 71px / 27px)</td><td>Small-Hard-fill</td></tr>
+      <tr><td><code>--micro</code></td><td>20 × 20px</td><td>20px</td><td>4px (<code>--radius-sm</code>)</td><td>Micro</td></tr>
+      <tr><td>Badge</td><td>min 16 × 16px, 1px <code>BG/1</code> outline</td><td colspan="2">Zoho Puvi Semibold 9.6px (<code>--font-family-semibold</code>), pill</td><td>Large-Transparent BadgeCount</td></tr>
+      <tr><td>Dot</td><td>6 × 6px</td><td colspan="2">x 30, y 6 inside the 40px button</td><td>Large-Transparent No number</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================ -->
+  <h2>Icon button: variant specs</h2>
+  <table>
+    <thead><tr><th>Style</th><th>Default</th><th>Hover</th><th>Active</th><th>Disabled</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Hard-fill</strong></td><td>bg <code>button-800</code>, icon <code>label</code> (32px) / <code>bg-1</code> (24px)</td><td>bg <code>button-1000</code></td><td>no bg, ring + icon <code>button-800</code></td><td>Default at 50% opacity</td></tr>
+      <tr><td><strong>Transparent</strong></td><td>no bg, icon <code>text-secondary</code></td><td>bg <code>bg-hover</code>, icon <code>text-primary</code></td><td>ring + icon <code>button-800</code></td><td>Default at 50%</td></tr>
+      <tr><td><strong>Soft-fill</strong></td><td>bg <code>button-100</code>, icon <code>text-primary</code></td><td>bg <code>bg-hover</code></td><td>no bg, ring + icon <code>button-800</code></td><td>icon <code>text-secondary</code>, 50%</td></tr>
+      <tr><td><strong>Soft-fill neutral</strong></td><td>bg <code>bg-1</code>, icon <code>text-primary</code></td><td>bg <code>bg-hover</code></td><td>no bg, ring + icon <code>button-800</code></td><td>icon <code>text-secondary</code>, 50%</td></tr>
+      <tr><td><strong>Secondary</strong></td><td>bg <code>bg-2</code>, icon <code>text-secondary</code></td><td>bg <code>bg-1</code></td><td>no bg, ring + icon <code>button-800</code></td><td>Same as Default (as in Figma)</td></tr>
+      <tr><td><strong>Negative</strong></td><td>no bg, icon <code>negative-800</code></td><td>bg <code>negative-100</code></td><td>ring <code>negative-800</code></td><td>Default at 50%</td></tr>
+      <tr><td><strong>Micro</strong></td><td>bg black 40%, icon <code>bg-1</code></td><td>bg black 60%</td><td>bg black 60%, ring <code>text-t2</code></td><td>Default at 50%</td></tr>
+    </tbody>
+  </table>
+  <p>Rings are a 1px inside stroke, drawn with <code>box-shadow: inset</code> so the size never changes.</p>
+
+  <!-- ================================================================ -->
+  <h2>Icon button cluster</h2>
+  <p>Three Large Transparent buttons in a row with a 4px gap (<code>--space-s</code>), 128 × 40px. Used for header or panel actions such as sort, more and close.</p>
+  <div class="meta">
+    <span class="chip">Figma: <code>Icon btn cluster</code></span>
+    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3103-2067&m=dev" target="_blank" rel="noopener">3103:2067</a></span>
+    <span class="chip">1 variant</span>
+  </div>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <div class="icon-btn-cluster" role="group" aria-label="Panel actions">
+            <button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Sort"><span class="icon" style="--icon:url(assets/icons/sort-ascending.svg)" aria-hidden="true"></span></button>
+            <button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="More options"><span class="icon" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
+            <button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Close"><span class="icon" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button>
+          </div>
+          <figcaption>Default<code>.icon-btn-cluster</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+  <table>
+    <thead><tr><th>Property</th><th>Value</th><th>Token</th></tr></thead>
+    <tbody>
+      <tr><td>Layout</td><td>Horizontal, centered</td><td><code>display: inline-flex</code></td></tr>
+      <tr><td>Gap</td><td>4px</td><td><code>--space-s</code></td></tr>
+      <tr><td>Children</td><td>Icon-Large-Transparent, Default</td><td><code>.icon-btn--transparent.icon-btn--large</code></td></tr>
+      <tr><td>Color</td><td colspan="2">None of its own; see the icon button tokens above</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================ -->
+  <h2>Usage</h2>
+  <h3>HTML + CSS</h3>
+<pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
+&lt;link rel="stylesheet" href="icon.css"&gt;
+&lt;link rel="stylesheet" href="icon-button.css"&gt;
+
+&lt;button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Add reaction"&gt;
+  &lt;span class="icon" style="--icon:url(assets/icons/emoji-smiley.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;button type="button" class="icon-btn icon-btn--hard-fill icon-btn--small" aria-label="Call"&gt;
+  &lt;span class="icon" style="--icon:url(assets/icons/call.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Toggle button: aria-pressed switches the Active frame on and off --&gt;
+&lt;button type="button" class="icon-btn icon-btn--soft-fill icon-btn--large" aria-label="Mark as done" aria-pressed="false"&gt;…&lt;/button&gt;
+
+&lt;!-- Badge: put the count in the accessible name too --&gt;
+&lt;button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Reactions, 2 new"&gt;
+  &lt;span class="icon" style="--icon:url(assets/icons/emoji-smiley.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;span class="icon-btn__badge" aria-hidden="true"&gt;2&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Cluster --&gt;
+&lt;div class="icon-btn-cluster" role="group" aria-label="Panel actions"&gt;
+  &lt;button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Sort"&gt;…&lt;/button&gt;
+  &lt;button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="More options"&gt;…&lt;/button&gt;
+  &lt;button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Close"&gt;…&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3>Vue</h3>
+<pre><code>&lt;script setup&gt;
+import { ref } from "vue";
+import IconButton from "./design-system/components/IconButton.vue";
+import IconButtonCluster from "./design-system/components/IconButtonCluster.vue";
+const done = ref(false);
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;IconButton label="Add reaction" icon="/assets/icons/emoji-smiley.svg" /&gt;
+  &lt;IconButton label="Call" icon="/assets/icons/call.svg" variant="hard-fill" size="small" /&gt;
+  &lt;IconButton label="Delete" icon="/assets/icons/delete.svg" variant="negative" size="small" /&gt;
+  &lt;IconButton label="Remove attachment" icon="/assets/icons/close.svg" variant="micro" /&gt;
+  &lt;IconButton label="Mark as done" icon="/assets/icons/tick.svg" variant="soft-fill"
+              :pressed="done" @click="done = !done" /&gt;
+  &lt;IconButton label="Reactions" icon="/assets/icons/emoji-smiley.svg" :badge="2" badge-label="2 new" /&gt;
+
+  &lt;IconButtonCluster label="Panel actions"&gt;
+    &lt;IconButton label="Sort" icon="/assets/icons/sort-ascending.svg" /&gt;
+    &lt;IconButton label="More options" icon="/assets/icons/more-meatballs.svg" /&gt;
+    &lt;IconButton label="Close" icon="/assets/icons/close-line2.svg" /&gt;
+  &lt;/IconButtonCluster&gt;
+&lt;/template&gt;</code></pre>
+  <p>Props: <code>label</code> (required), <code>icon</code>, <code>variant</code> (default <code>transparent</code>), <code>size</code> (default <code>large</code>), <code>pressed</code>, <code>disabled</code>, <code>badge</code> (number/string for a count, <code>true</code> for the dot), <code>badge-label</code>. The default slot replaces the icon, e.g. for <code>.icon-btn__add</code>.</p>
+
+  <h3>Light and dark mode</h3>
+  <p>Icon buttons follow the OS setting. To force a theme, set <code>data-theme="light"</code> or <code>data-theme="dark"</code> on <code>&lt;html&gt;</code> or on any container. Icons are CSS masks filled with <code>currentColor</code>, so they switch with the button.</p>
+
+  <!-- ================================================================ -->
+  <h2>Accessibility</h2>
+  <ul>
+    <li>Always use a native <code>&lt;button type="button"&gt;</code> and give it an <code>aria-label</code> that names the action (“Delete message”, not “Trash”). The Vue <code>label</code> prop is required for this reason. Icons are <code>aria-hidden</code>.</li>
+    <li>Only add <code>aria-pressed</code> to buttons that toggle something on and off; it makes screen readers announce “pressed” / “not pressed”. Momentary press feedback comes from <code>:active</code>.</li>
+    <li>The badge is <code>aria-hidden</code>; put the count or “new” in the accessible name instead (the Vue component does this for you).</li>
+    <li>Focus shows a 2px <code>--color-button-1000</code> outline with a 2px offset. Figma has no focus state (3628:2793's “Focus” frame is the same outlined frame the other sets call Active), so the ring was added in code.</li>
+    <li>Icon-Large-Secondary 3016:6371's Disabled frame looks exactly like Default. It's kept as designed, so a disabled Secondary button is only distinguishable by the not-allowed cursor and by assistive tech. Prefer hiding the action, or ask design for a disabled treatment.</li>
+    <li>Target size: Micro (20px) and xsmall (24px) are below the 24px WCAG 2.2 minimum (Micro) or at it (xsmall). Leave spacing around them so neighbouring targets don't overlap.</li>
+    <li>Contrast: Micro's icon uses <code>BG/1</code>, which is <code>#2B2B2B</code> in dark mode, on a 40% black scrim, so it is very faint in dark mode. Kept as designed; place Micro buttons only on light imagery, or ask design for a dark-mode icon color.</li>
+    <li>Color transitions are turned off when <code>prefers-reduced-motion</code> is set.</li>
+  </ul>
+
+  <h2>Guidelines</h2>
+  <div class="dodont">
+    <div class="do">
+      <h4>✓ Do</h4>
+      <ul>
+        <li>Use icons whose meaning is widely understood (close, delete, more)</li>
+        <li>Use Hard-fill for one primary action per area; Transparent everywhere else</li>
+        <li>Use Negative only for destructive actions, and confirm them</li>
+      </ul>
+    </div>
+    <div class="dont">
+      <h4>✗ Don't</h4>
+      <ul>
+        <li>Ship an icon button without an <code>aria-label</code></li>
+        <li>Mix sizes inside one cluster</li>
+        <li>Recolor icons with hex values. Override <code>--icon-btn-fg</code> / <code>--icon-btn-bg</code> with tokens</li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+
+<script src="docs.js"></script>
+</body>
+</html>

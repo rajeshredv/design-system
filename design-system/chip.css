@@ -1,0 +1,254 @@
+/* ==========================================================================
+   Chip
+   Figma component set: Chips 3290:2336 (26 variants)
+   Figma properties → code
+     Type=Simple tag       → .chip                      (text only)
+     Type=With icon        → .chip + .chip__icon        (18px leading icon)
+     Type=Checkmark        → .chip + .chip__check       (tick, becomes a filled tick circle when selected)
+     Type=Dropdown-Icon    → .chip + .chip__icon + .chip__caret
+     Type=Dropdown         → .chip + .chip__caret       (32px) or .chip--media (36px, 28px artwork)
+     State=Default         → base
+     State=Hover           → :hover (.is-hover to force it in docs)
+     State=Activated       → [aria-pressed="true"] or .is-selected
+     State=Playing         → [aria-expanded="true"]     (menu open: blue border, caret flips up)
+     State=Disabled        → :disabled / [aria-disabled="true"]
+     State=Play-hover / Pause-Hover / Playing (media) → data-playback="playing|paused"
+     Collapse=True         → trailing .chip__caret (unselected) or .chip__remove (selected)
+     Badge=True            → trailing .badge.badge--muted (badge.css)
+   Padding adjusts automatically: 12px on a text edge, 6px next to an icon,
+   badge or caret (4px next to media artwork).
+   Requires tokens.css, icon.css (icons), badge.css (count)
+   ========================================================================== */
+
+.chip {
+  /* Component-level tokens (override these to theme a single instance) */
+  --chip-bg: var(--color-bg-2);
+  --chip-fg: var(--color-text-t3);
+  --chip-icon: var(--color-text-secondary);
+  --chip-caret: var(--color-chip-icon);
+  --chip-border: transparent;
+  --chip-height: 32px;
+  --chip-pad-start: var(--space-xl);
+  --chip-pad-end: var(--space-xl);
+
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-s);
+  flex-shrink: 0;
+  box-sizing: border-box;
+  height: var(--chip-height);
+  margin: 0;
+  padding: 0 var(--chip-pad-end) 0 var(--chip-pad-start);
+  border: 0;
+  border-radius: var(--radius-pill); /* 120 / 400 / 28px in Figma: all fully rounded */
+  background: var(--chip-bg);
+  box-shadow: inset 0 0 0 1px var(--chip-border); /* 1px INSIDE stroke, keeps the height */
+  color: var(--chip-fg);
+  font: var(--font-sub-text);        /* Sub text M */
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 120ms ease, box-shadow 120ms ease, color 120ms ease;
+}
+
+.chip:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+}
+
+/* ---- Padding next to icons / trailing parts ---- */
+.chip:has(> .chip__icon, > .chip__check) {
+  --chip-pad-start: var(--space-m);
+}
+.chip:has(> .chip__caret, > .chip__remove, > .badge) {
+  --chip-pad-end: var(--space-m);
+}
+
+/* ---- States ---- */
+
+/* State=Hover (only on chips that aren't selected, open or disabled) */
+.chip:is(:hover, .is-hover):not([aria-pressed="true"], .is-selected, [aria-expanded="true"], :disabled, [aria-disabled="true"]) {
+  --chip-bg: var(--color-bg-hover);
+}
+
+/* State=Activated */
+.chip[aria-pressed="true"],
+.chip.is-selected {
+  --chip-bg: var(--color-bg-1);
+  --chip-fg: var(--color-text-primary);
+  --chip-icon: var(--color-text-primary);
+  --chip-border: var(--color-text-t2);
+}
+
+/* State=Playing (Figma name) — the chip's menu is open */
+.chip[aria-expanded="true"] {
+  --chip-bg: var(--color-bg-1);
+  --chip-fg: var(--color-text-primary);
+  --chip-icon: var(--color-text-primary);
+  --chip-border: var(--color-button-800);
+}
+
+/* State=Disabled (drawn for the media chip in Figma; applies to every type) */
+.chip:disabled,
+.chip[aria-disabled="true"] {
+  --chip-bg: var(--color-bg-1);
+  --chip-fg: var(--color-text-t1);
+  --chip-caret: var(--color-disabled);
+  --chip-border: var(--color-bg-border);
+  cursor: not-allowed;
+}
+
+/* ---- Parts ---- */
+
+/* Type=With icon / Dropdown-Icon — 18px leading icon */
+.chip__icon {
+  --icon-size: 18px;
+  color: var(--chip-icon);
+}
+
+/* Type=Checkmark — plain tick (Text/T1) that turns into a filled tick circle (Button/800) */
+.chip__check {
+  --icon-size: 20px;
+  --icon: url("assets/icons/tick-mark.svg");
+  color: var(--color-text-t1);
+}
+.chip:is([aria-pressed="true"], .is-selected) .chip__check {
+  --icon: url("assets/icons/tick-circle-fill.svg");
+  color: var(--color-button-800);
+}
+
+/* Collapse=True (unselected) / Type=Dropdown — 16px disclosure caret */
+.chip__caret {
+  --icon-size: 16px;
+  --icon: url("assets/icons/disclosure-down-fill.svg");
+  color: var(--chip-caret);
+  transition: transform 150ms ease;
+}
+.chip[aria-expanded="true"] .chip__caret {
+  transform: rotate(180deg);
+}
+
+/* Collapse=True (selected) — remove button. The chip root must be a <span>
+   here, since a <button> can't contain another button. */
+.chip__remove {
+  appearance: none;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+.chip__remove::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background: currentColor;
+  -webkit-mask: url("assets/icons/close-small.svg") center / contain no-repeat;
+  mask: url("assets/icons/close-small.svg") center / contain no-repeat;
+}
+.chip__remove:hover {
+  color: var(--color-text-primary);
+}
+.chip__remove:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 1px;
+}
+.chip:is(span, div) {
+  cursor: default;
+}
+
+/* ---- Type=Dropdown with artwork (music picker) — 36px ---- */
+.chip--media {
+  --chip-height: 36px;
+  --chip-bg: var(--color-bg-1);
+  --chip-fg: var(--color-text-primary);
+  --chip-pad-start: var(--space-s);
+  --chip-pad-end: var(--space-xl);   /* stays 12px even with the caret, as in Figma */
+}
+.chip--media:has(> .chip__caret) {
+  --chip-pad-end: var(--space-xl);
+}
+.chip__media {
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--color-bg-2);
+}
+.chip__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.chip:is(:disabled, [aria-disabled="true"]) .chip__media img {
+  opacity: 0.5; /* layer opacity in Figma */
+}
+
+/* Playback overlay: ::before is the circle, ::after the 18px icon.
+   Figma: Playing → equalizer bars, Play-hover → pause icon, Pause-Hover → play icon. */
+.chip__media::before,
+.chip__media::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.chip__media::before {
+  inset: 0;
+  border-radius: 50%;
+  background: var(--color-button-100);
+}
+.chip__media::after {
+  inset: 5px;
+  background: var(--color-text-primary);
+  -webkit-mask: var(--chip-media-icon) center / contain no-repeat;
+  mask: var(--chip-media-icon) center / contain no-repeat;
+}
+
+/* Playing, not hovered: equalizer bars on a clear background (Button/1000) */
+.chip[data-playback="playing"] .chip__media {
+  --chip-media-icon: url("assets/icons/equalizer.svg");
+  background: transparent;
+}
+.chip[data-playback="playing"] .chip__media img {
+  visibility: hidden;
+}
+.chip[data-playback="playing"] .chip__media::after {
+  display: block;
+  inset: 7px 8px;  /* 10.5 × 12.6 bars centred in 28px */
+  background: var(--color-button-1000);
+}
+
+/* Playing + hover: pause.  Paused + hover: play. */
+.chip[data-playback]:is(:hover, .is-hover) .chip__media::before,
+.chip[data-playback]:is(:hover, .is-hover) .chip__media::after {
+  display: block;
+}
+.chip[data-playback]:is(:hover, .is-hover) .chip__media::after {
+  inset: 5px;
+  background: var(--color-text-primary);
+}
+.chip[data-playback="playing"]:is(:hover, .is-hover) .chip__media {
+  --chip-media-icon: url("assets/icons/pause-fill.svg");
+}
+.chip[data-playback="paused"]:is(:hover, .is-hover) .chip__media {
+  --chip-media-icon: url("assets/icons/media-play-fill.svg");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip,
+  .chip__caret {
+    transition: none;
+  }
+}

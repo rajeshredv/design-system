@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dialogs — Design System</title>
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="icon.css" />
+  <link rel="stylesheet" href="button.css" />
+  <link rel="stylesheet" href="modal.css" />
+  <link rel="stylesheet" href="toggle.css" />
+  <link rel="stylesheet" href="docs.css" />
+  <style>
+    /* Docs only: dialogs are wide, so their Light / Dark panels stack. */
+    .compare--stack { grid-template-columns: 1fr; }
+    /* Docs only: show dialogs in the page flow instead of the top layer. */
+    .stage dialog[open] { position: static; margin: 0; }
+    .stage--col { flex-direction: column; align-items: center; }
+    /* Docs only: outline the bare header / footer / button row so their edges show on BG/1 */
+    .frame { width: 450px; max-width: 100%; outline: 1px dashed var(--color-bg-border); outline-offset: 0; }
+    .frame--wide { width: 468px; }
+    .field-demo { display: flex; flex-direction: column; gap: 6px; font: var(--font-body-3); color: var(--color-text-secondary); }
+    .field-demo input { font: var(--font-body-1); padding: 10px 12px; border: 1px solid var(--color-bg-border); border-radius: var(--radius-lg); background: var(--color-bg-1); color: var(--color-text-primary); }
+    .live { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; margin-top: 16px; }
+  </style>
+</head>
+<body>
+<main class="doc">
+
+  <div class="doc-bar">
+    <nav data-doc-nav></nav>
+    <label class="theme-switch">Dark mode <input type="checkbox" role="switch" class="toggle" data-theme-switch /></label>
+  </div>
+
+  <div class="eyebrow">Components · Overlays</div>
+  <h1>Dialogs</h1>
+  <p class="lead">Modals hold a focused task, like creating a group, on top of the app. Confirmation dialogs ask one yes / no question before an action, especially one that can't be undone.</p>
+  <div class="meta">
+    <span class="chip">Figma: <code>Modal- Header</code> <code>Modal- Footer</code> <code>Button flex</code> <code>Confirmation dialog</code></span>
+    <span class="chip">Nodes <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3103-2145&m=dev" target="_blank" rel="noopener">3103:2145</a> · <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3159-2198&m=dev" target="_blank" rel="noopener">3159:2198</a> · <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3139-2395&m=dev" target="_blank" rel="noopener">3139:2395</a> · <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3139-2366&m=dev" target="_blank" rel="noopener">3139:2366</a></span>
+    <span class="chip">13 variants</span>
+    <span class="chip">Native &lt;dialog&gt;</span>
+    <span class="chip">Light &amp; dark</span>
+  </div>
+
+  <h2>Try it</h2>
+  <p>These open real modal dialogs with <code>showModal()</code>. Press Escape, click the backdrop or use the buttons to close them. Focus returns to the button that opened them.</p>
+  <div class="live">
+    <button class="btn btn--primary btn--medium" type="button" data-open="live-modal">Open dialog</button>
+    <button class="btn btn--negative btn--medium" type="button" data-open="live-confirm">Delete channel…</button>
+    <button class="btn btn--secondary btn--medium" type="button" data-open="live-outside">Session dialog</button>
+    <span id="live-result" class="muted" style="font-size:13px" aria-live="polite"></span>
+  </div>
+
+  <!-- Live dialogs (top layer) -->
+  <dialog class="modal" id="live-modal" aria-labelledby="live-modal-title">
+    <header class="modal__header">
+      <h2 class="modal__title" id="live-modal-title">Create group</h2>
+      <div class="modal__actions">
+        <form method="dialog"><button class="modal__close" value="close" aria-label="Close"><span class="icon icon--24" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button></form>
+      </div>
+    </header>
+    <div class="modal__body">
+      <label class="field-demo">Group name <input type="text" value="College group" /></label>
+      <label class="field-demo">Description <input type="text" value="Welcome to our college chat group!" /></label>
+    </div>
+    <form method="dialog" class="modal__footer">
+      <div class="button-flex">
+        <button class="btn btn--secondary btn--medium" value="back">Back</button>
+        <button class="btn btn--primary btn--medium" value="next">Next</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="confirm" id="live-confirm" role="alertdialog" aria-labelledby="live-confirm-title" aria-describedby="live-confirm-desc">
+    <div class="confirm__text">
+      <div class="confirm__heading">
+        <span class="icon confirm__icon" style="--icon:url(assets/icons/warning-fill.svg)" aria-hidden="true"></span>
+        <h2 class="confirm__title" id="live-confirm-title">Delete channel</h2>
+      </div>
+      <p class="confirm__description" id="live-confirm-desc">Are sure you want to delete this channel, The messages will be lost forever and all the subscribers will be removed ?</p>
+      <label class="confirm__ack"><input type="checkbox" class="confirm__checkbox" id="live-ack" /> I am aware that the action cannot be reverted &amp; I agree to proceed</label>
+    </div>
+    <form method="dialog" class="button-flex">
+      <div class="button-flex__aux"><a class="btn btn--link btn--medium" href="#confirmation-dialog">Learn more</a></div>
+      <button class="btn btn--secondary btn--medium" value="cancel" autofocus>Cancel</button>
+      <button class="btn btn--negative btn--medium" value="delete" id="live-delete" disabled>Delete</button>
+    </form>
+  </dialog>
+
+  <dialog class="confirm confirm--outside" id="live-outside" aria-labelledby="live-outside-title">
+    <div class="confirm__text">
+      <h2 class="confirm__title" id="live-outside-title">Arattai is active in another window. Using it here will close the session in the other window.</h2>
+    </div>
+    <form method="dialog" class="button-flex button-flex--large">
+      <button class="btn btn--secondary btn--large" value="cancel" autofocus>Cancel</button>
+      <button class="btn btn--primary btn--large" value="use-here">Use here</button>
+    </form>
+  </dialog>
+
+  <!-- ================================================================ -->
+  <h2 id="modal">Modal</h2>
+  <p>A 450px surface built from <strong>Modal- Header</strong>, a scrolling body and <strong>Modal- Footer</strong>. The Figma file composes them in "Create group" (<code>3158:2296</code>), which is where the surface radius, shadow and body padding come from.</p>
+
+  <h3>Header variants <span class="muted">(Back = False · True)</span></h3>
+  <div class="compare compare--stack">
+    <section class="compare__panel">
+      <div class="stage stage--col">
+        <figure>
+          <div class="frame">
+            <header class="modal__header">
+              <h2 class="modal__title">Contacts</h2>
+              <div class="modal__actions">
+                <button class="modal__icon-btn" type="button" aria-label="Sort"><span class="icon icon--24" style="--icon:url(assets/icons/sort-ascending.svg)" aria-hidden="true"></span></button>
+                <button class="modal__icon-btn" type="button" aria-label="More"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
+                <button class="modal__close" type="button" aria-label="Close"><span class="icon icon--24" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button>
+              </div>
+            </header>
+          </div>
+          <figcaption>Back=False<code>.modal__header</code></figcaption>
+        </figure>
+        <figure>
+          <div class="frame">
+            <header class="modal__header modal__header--back">
+              <button class="modal__icon-btn modal__icon-btn--back" type="button" aria-label="Back"><span class="icon icon--24" style="--icon:url(assets/icons/back.svg)" aria-hidden="true"></span></button>
+              <h2 class="modal__title">Settings</h2>
+              <div class="modal__actions">
+                <button class="modal__icon-btn" type="button" aria-label="More"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
+                <button class="modal__close" type="button" aria-label="Close"><span class="icon icon--24" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button>
+              </div>
+            </header>
+          </div>
+          <figcaption>Back=True<code>.modal__header--back</code></figcaption>
+        </figure>
+        <figure>
+          <div class="modal__actions">
+            <button class="modal__icon-btn" type="button" aria-label="Default"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
+            <button class="modal__icon-btn is-hover" type="button" aria-label="Hover"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
+            <button class="modal__icon-btn" type="button" aria-label="Active" aria-pressed="true"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
+            <button class="modal__icon-btn" type="button" aria-label="Disabled" disabled><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
+          </div>
+          <figcaption>Header icon button: Default · Hover · Active · Disabled<code>.modal__icon-btn / .modal__close</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Footer <span class="muted">(Property 1 = Default)</span></h3>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <div class="frame">
+            <footer class="modal__footer">
+              <div class="button-flex">
+                <button class="btn btn--secondary btn--medium" type="button">Back</button>
+                <button class="btn btn--primary btn--medium" type="button">Next</button>
+              </div>
+            </footer>
+          </div>
+          <figcaption>Default<code>.modal__footer</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Composed modal</h3>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <dialog class="modal" open aria-label="Create group (example)">
+          <header class="modal__header">
+            <h2 class="modal__title">Create group</h2>
+            <div class="modal__actions">
+              <button class="modal__close" type="button" aria-label="Close"><span class="icon icon--24" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button>
+            </div>
+          </header>
+          <div class="modal__body">
+            <label class="field-demo">Group name <input type="text" value="College group" /></label>
+          </div>
+          <footer class="modal__footer">
+            <div class="button-flex">
+              <button class="btn btn--secondary btn--medium" type="button">Back</button>
+              <button class="btn btn--primary btn--medium" type="button">Next</button>
+            </div>
+          </footer>
+        </dialog>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-bg-1</code></td><td><code>BG/1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>Surface, header, footer</td></tr>
+      <tr><td><code>--color-text-primary</code></td><td><code>Text/Primary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-primary)"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>#E3E3E3</td>
+        <td>Title, back arrow, icon on hover</td></tr>
+      <tr><td><code>--color-text-secondary</code></td><td><code>Text/Secondary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-secondary)"></span>#666666</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-secondary)"></span>#B3B3B3</td>
+        <td>Header action icons (sort, more, close)</td></tr>
+      <tr><td><code>--color-bg-hover</code></td><td><code>BG/Hover</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-hover)"></span>#F1F4F7</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-hover)"></span>#3D3D3D</td>
+        <td>Icon button hover</td></tr>
+      <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>Icon button active stroke and icon</td></tr>
+      <tr><td><code>--color-button-1000</code></td><td><code>Button/1000</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-1000)"></span>#0076CE</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-1000)"></span>#479EDF</td>
+        <td>Focus ring (code only)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Effects &amp; shape</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma source</th><th>Value</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--shadow-dropdown-menu</code></td><td>Same values as the <code>Drop down menu</code> effect (not linked in Figma)</td><td>0 0 12px rgba(0,0,0,.25)</td><td>Modal surface</td></tr>
+      <tr><td><code>--radius-lg</code></td><td class="none">Hardcoded in Figma</td><td>8px</td><td>Modal surface</td></tr>
+      <tr><td><code>--dialog-backdrop</code> <span class="muted">(local)</span></td><td class="none">Not in Figma</td><td>rgb(0 0 0 / .4)</td><td><code>::backdrop</code> scrim</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Part</th><th>Layout</th><th>Padding</th><th>Type</th><th>Code</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Header, Back=False</strong></td><td>Row, space-between, 8px gap, 60px tall</td><td>10 · 8 · 10 · 20</td><td>Title H1 20 B (20/32 Bold)</td><td><code>.modal__header</code></td></tr>
+      <tr><td><strong>Header, Back=True</strong></td><td>Back button · title (fills, centered) · actions</td><td>10 · 8 · 10 · 8</td><td>Title H1 20 B</td><td><code>.modal__header--back</code></td></tr>
+      <tr><td><strong>Header actions</strong></td><td>Icon btn cluster, 4px gap</td><td>—</td><td>—</td><td><code>.modal__actions</code></td></tr>
+      <tr><td><strong>Icon button</strong></td><td>40 × 40, round, 24px icon</td><td>8</td><td>—</td><td><code>.modal__icon-btn</code>, <code>.modal__close</code></td></tr>
+      <tr><td><strong>Body</strong></td><td>Column, 16px gap, scrolls</td><td>0 · 20 · 40 · 20</td><td>Body 3 R</td><td><code>.modal__body</code></td></tr>
+      <tr><td><strong>Footer</strong></td><td>Row, right-aligned, 16px gap, holds a Button flex</td><td>16 · 20 · 24 · 20</td><td>—</td><td><code>.modal__footer</code></td></tr>
+      <tr><td><strong>Surface</strong></td><td>450px wide, column, 16px gap</td><td>0</td><td>—</td><td><code>.modal</code></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================ -->
+  <h2 id="button-flex">Button flex</h2>
+  <p>The action row used at the bottom of dialogs. Medium rows are right-aligned with a 24px gap; large rows are centered. It only arranges buttons from <code>button.css</code>. It has no colors of its own.</p>
+
+  <div class="compare compare--stack">
+    <section class="compare__panel">
+      <div class="stage stage--col">
+        <figure>
+          <div class="button-flex frame frame--wide">
+            <button class="btn btn--secondary btn--medium" type="button">Cancel</button>
+            <button class="btn btn--negative btn--medium" type="button">Delete</button>
+          </div>
+          <figcaption>Property 1=2<code>.button-flex</code></figcaption>
+        </figure>
+        <figure>
+          <div class="button-flex frame frame--wide">
+            <button class="btn btn--secondary btn--medium" type="button">Cancel</button>
+            <button class="btn btn--negative-secondary btn--medium" type="button">Delete all</button>
+            <button class="btn btn--negative btn--medium" type="button">Delete</button>
+          </div>
+          <figcaption>Property 1=3<code>.button-flex</code></figcaption>
+        </figure>
+        <figure>
+          <div class="button-flex frame frame--wide">
+            <div class="button-flex__aux"><a class="btn btn--link btn--medium" href="#button-flex">Learn more</a></div>
+            <button class="btn btn--secondary btn--medium" type="button">Cancel</button>
+            <button class="btn btn--negative btn--medium" type="button">Delete</button>
+          </div>
+          <figcaption>Property 1=Aux<code>.button-flex__aux</code></figcaption>
+        </figure>
+        <figure>
+          <div class="button-flex button-flex--large frame frame--wide">
+            <button class="btn btn--secondary btn--large" type="button">Cancel</button>
+            <button class="btn btn--primary btn--large" type="button">Use here</button>
+          </div>
+          <figcaption>Property 1=Large button<code>.button-flex--large</code></figcaption>
+        </figure>
+        <figure>
+          <div class="button-flex button-flex--fill frame frame--wide">
+            <button class="btn btn--secondary btn--large" type="button">Cancel</button>
+            <button class="btn btn--primary btn--large" type="button">Sign Up with Arattai</button>
+          </div>
+          <figcaption>Property 1=Large button-fill<code>.button-flex--fill</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color</h3>
+  <p>None. Button colors come from <code>button.css</code>: Secondary (<code>BG/2</code> / <code>Text/T3</code>), Primary (<code>Button/800</code> / <code>BG/1</code>), Negative (<code>Negative/800</code> / <code>BG/1</code>), Negative secondary (<code>Negative/100</code> / <code>Negative/800</code>), Link (<code>Button/800</code>).</p>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Variant</th><th>Buttons</th><th>Alignment</th><th>Gap</th><th>Code</th></tr></thead>
+    <tbody>
+      <tr><td><strong>2</strong></td><td>Secondary + Negative (medium)</td><td>Right</td><td>24px</td><td><code>.button-flex</code></td></tr>
+      <tr><td><strong>3</strong></td><td>Secondary + Negative secondary + Negative (medium)</td><td>Right</td><td>24px</td><td><code>.button-flex</code></td></tr>
+      <tr><td><strong>Aux</strong></td><td>Link (medium) on the left, then Secondary + Negative</td><td>Link area fills, 2px padding</td><td>24px (10px between links)</td><td><code>.button-flex__aux</code></td></tr>
+      <tr><td><strong>Large button</strong></td><td>Secondary large + Primary large</td><td>Center</td><td>24px</td><td><code>.button-flex--large</code></td></tr>
+      <tr><td><strong>Large button-fill</strong></td><td>Secondary large + Primary full width, equal widths</td><td>Stretch</td><td>10px</td><td><code>.button-flex--fill</code></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================ -->
+  <h2 id="confirmation-dialog">Confirmation dialog</h2>
+  <p>Asks one question before an action. <strong>Inside chat window</strong> dialogs are compact and left-aligned; <strong>Outside chat window</strong> dialogs are for app-level messages, with centered text and large buttons. Use the negative buttons for destructive actions.</p>
+
+  <div class="compare compare--stack">
+    <section class="compare__panel">
+      <div class="stage stage--col">
+        <figure>
+          <dialog class="confirm" open aria-label="Example: delete message">
+            <div class="confirm__text">
+              <h2 class="confirm__title">Are you sure you want to delete this message? This change cannot be undone</h2>
+            </div>
+            <div class="button-flex">
+              <button class="btn btn--secondary btn--medium" type="button">Cancel</button>
+              <button class="btn btn--negative btn--medium" type="button">Delete</button>
+            </div>
+          </dialog>
+          <figcaption>Place=Inside, Subtext=False, Icon=False<code>.confirm</code></figcaption>
+        </figure>
+        <figure>
+          <dialog class="confirm" open aria-label="Example: account exists">
+            <div class="confirm__text">
+              <h2 class="confirm__title">Account already exists</h2>
+              <p class="confirm__description">This account already exists. Please sign in to proceed.</p>
+            </div>
+            <div class="button-flex">
+              <button class="btn btn--secondary btn--medium" type="button">Cancel</button>
+              <button class="btn btn--primary btn--medium" type="button">Sign in</button>
+            </div>
+          </dialog>
+          <figcaption>Place=Inside, Subtext=True, Icon=False<code>+ .confirm__description</code></figcaption>
+        </figure>
+        <figure>
+          <dialog class="confirm" open aria-label="Example: delete channel">
+            <div class="confirm__text">
+              <div class="confirm__heading">
+                <span class="icon confirm__icon" style="--icon:url(assets/icons/warning-fill.svg)" aria-hidden="true"></span>
+                <h2 class="confirm__title">Delete channel</h2>
+              </div>
+              <p class="confirm__description">Are sure you want to delete this channel, The messages will be lost forever and all the subscribers will be removed ?</p>
+              <label class="confirm__ack"><input type="checkbox" class="confirm__checkbox" /> I am aware that the action cannot be reverted &amp; I agree to proceed</label>
+            </div>
+            <div class="button-flex">
+              <div class="button-flex__aux"><a class="btn btn--link btn--medium" href="#confirmation-dialog">Learn more</a></div>
+              <button class="btn btn--secondary btn--medium" type="button">Cancel</button>
+              <button class="btn btn--negative btn--medium" type="button">Delete</button>
+            </div>
+          </dialog>
+          <figcaption>Place=Inside, Subtext=True, Icon=True<code>+ .confirm__heading, .confirm__ack</code></figcaption>
+        </figure>
+        <figure>
+          <dialog class="confirm confirm--outside" open aria-label="Example: active in another window">
+            <div class="confirm__text">
+              <h2 class="confirm__title">Arattai is active in another window. Using it here will close the session in the other window.</h2>
+            </div>
+            <div class="button-flex button-flex--large">
+              <button class="btn btn--secondary btn--large" type="button">Cancel</button>
+              <button class="btn btn--primary btn--large" type="button">Use here</button>
+            </div>
+          </dialog>
+          <figcaption>Place=Outside, Subtext=False<code>.confirm--outside</code></figcaption>
+        </figure>
+        <figure>
+          <dialog class="confirm confirm--outside" open aria-label="Example: logged out">
+            <div class="confirm__text">
+              <h2 class="confirm__title">You have been logged out</h2>
+              <p class="confirm__description">Your SIM is no longer active on your primary device.<br /><br />For your security and as per Department of Telecommunications (DoT) guidelines, please verify your number on your primary device and then log in on secondary devices to continue using Arattai on this device.</p>
+            </div>
+            <div class="button-flex button-flex--large">
+              <button class="btn btn--primary btn--large" type="button">Log in</button>
+            </div>
+          </dialog>
+          <figcaption>Place=Outside, Subtext=True<code>.confirm--outside + .confirm__description</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-bg-1</code></td><td><code>BG/1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>Surface</td></tr>
+      <tr><td><code>--color-text-primary</code></td><td><code>Text/Primary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-primary)"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>#E3E3E3</td>
+        <td>Title; description (inside)</td></tr>
+      <tr><td><code>--color-text-secondary</code></td><td><code>Text/Secondary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-secondary)"></span>#666666</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-secondary)"></span>#B3B3B3</td>
+        <td>Description (outside), checkbox label</td></tr>
+      <tr><td><code>--color-negative-800</code></td><td><code>Negative/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-negative-800)"></span>#EB5757</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-negative-800)"></span>#FF7D7D</td>
+        <td>Warning icon and title (Icon=True)</td></tr>
+      <tr><td><code>--color-text-t1</code></td><td><code>Text/T1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t1)"></span>#888888</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t1)"></span>#848484</td>
+        <td>Checkbox border</td></tr>
+      <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>Checked checkbox (code only, not drawn in this set)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Effects &amp; shape</h3>
+  <table>
+    <thead><tr><th>Property</th><th>Inside chat window</th><th>Outside chat window</th></tr></thead>
+    <tbody>
+      <tr><td>Shadow</td><td><code>--shadow-dropdown-menu</code> (0 0 12px rgba(0,0,0,.25), values match, not linked)</td><td><code>--confirm-shadow</code> local: 0 4px 12px rgba(0,0,0,.1) <span class="none">(unbound)</span></td></tr>
+      <tr><td>Radius</td><td><code>--radius-sm</code> 4px <span class="none">(unbound)</span></td><td>16px <span class="none">(unbound)</span></td></tr>
+      <tr><td>Width</td><td colspan="2">540px (<code>--confirm-width</code>)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Variant</th><th>Padding</th><th>Text → buttons gap</th><th>Title</th><th>Description</th><th>Buttons</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Inside, Subtext=False</strong></td><td>36 · 36 · 24</td><td>44px</td><td>20/32 Bold (H1 20 B)</td><td>—</td><td>Button flex 2, medium</td></tr>
+      <tr><td><strong>Inside, Subtext=True</strong></td><td>36 · 36 · 24</td><td>36px</td><td>H1 20 B, 16px to description</td><td>Body 2 M, Text/Primary</td><td>Button flex 2 (Cancel + Primary)</td></tr>
+      <tr><td><strong>Inside, Icon=True</strong></td><td>36 · 36 · 24</td><td>36px</td><td>38px icon + H1 20 B in Negative/800, 20px gap</td><td>Body 2 M + checkbox row (Sub text M), 16px apart</td><td>Button flex Aux</td></tr>
+      <tr><td><strong>Outside, Subtext=False</strong></td><td>36 · 36 · 28</td><td>28px</td><td>H6 20M, centered, 1% tracking</td><td>—</td><td>Large button, centered</td></tr>
+      <tr><td><strong>Outside, Subtext=True</strong></td><td>36 · 36 · 28</td><td>28px</td><td>H6 20M, centered</td><td>Body 1 R, Text/Secondary, centered</td><td>One Primary large</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================ -->
+  <h2>Usage</h2>
+  <h3>HTML + CSS</h3>
+<pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
+&lt;link rel="stylesheet" href="icon.css"&gt;
+&lt;link rel="stylesheet" href="button.css"&gt;
+&lt;link rel="stylesheet" href="modal.css"&gt;
+
+&lt;!-- Modal --&gt;
+&lt;dialog class="modal" id="create-group" aria-labelledby="create-group-title"&gt;
+  &lt;header class="modal__header"&gt;
+    &lt;h2 class="modal__title" id="create-group-title"&gt;Create group&lt;/h2&gt;
+    &lt;div class="modal__actions"&gt;
+      &lt;form method="dialog"&gt;
+        &lt;button class="modal__close" aria-label="Close"&gt;
+          &lt;span class="icon icon--24" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+  &lt;div class="modal__body"&gt;…&lt;/div&gt;
+  &lt;form method="dialog" class="modal__footer"&gt;
+    &lt;div class="button-flex"&gt;
+      &lt;button class="btn btn--secondary btn--medium" value="back"&gt;Back&lt;/button&gt;
+      &lt;button class="btn btn--primary btn--medium" value="next"&gt;Next&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+&lt;/dialog&gt;
+
+&lt;!-- Destructive confirmation --&gt;
+&lt;dialog class="confirm" id="confirm-delete" role="alertdialog"
+        aria-labelledby="cd-title" aria-describedby="cd-desc"&gt;
+  &lt;div class="confirm__text"&gt;
+    &lt;h2 class="confirm__title" id="cd-title"&gt;Delete this message?&lt;/h2&gt;
+    &lt;p class="confirm__description" id="cd-desc"&gt;This change cannot be undone.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;form method="dialog" class="button-flex"&gt;
+    &lt;button class="btn btn--secondary btn--medium" value="cancel" autofocus&gt;Cancel&lt;/button&gt;
+    &lt;button class="btn btn--negative btn--medium" value="delete"&gt;Delete&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/dialog&gt;
+
+&lt;script&gt;
+  const dlg = document.getElementById("confirm-delete");
+  dlg.showModal();
+  dlg.addEventListener("close", () =&gt; {
+    if (dlg.returnValue === "delete") deleteMessage();
+  });
+&lt;/script&gt;</code></pre>
+
+  <h3>Vue</h3>
+<pre><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Modal from "./design-system/components/Modal.vue";
+import ConfirmDialog from "./design-system/components/ConfirmDialog.vue";
+const showCreate = ref(false);
+const askDelete = ref(false);
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Modal v-model:open="showCreate" title="Create group"&gt;
+    …form fields…
+    &lt;template #footer&gt;
+      &lt;button class="btn btn--secondary btn--medium" @click="showCreate = false"&gt;Back&lt;/button&gt;
+      &lt;button class="btn btn--primary btn--medium" @click="next"&gt;Next&lt;/button&gt;
+    &lt;/template&gt;
+  &lt;/Modal&gt;
+
+  &lt;!-- Back=True header with extra actions --&gt;
+  &lt;Modal v-model:open="showSettings" title="Settings" back @back="goBack"&gt;
+    &lt;template #actions&gt;
+      &lt;button class="modal__icon-btn" aria-label="More"&gt;…&lt;/button&gt;
+    &lt;/template&gt;
+  &lt;/Modal&gt;
+
+  &lt;ConfirmDialog
+    v-model:open="askDelete"
+    title="Delete channel"
+    description="The messages will be lost forever and all the subscribers will be removed."
+    icon
+    tone="danger"
+    acknowledge="I am aware that the action cannot be reverted &amp; I agree to proceed"
+    confirm-label="Delete"
+    @confirm="deleteChannel"
+  &gt;
+    &lt;template #aux&gt;&lt;a class="btn btn--link btn--medium" href="/help"&gt;Learn more&lt;/a&gt;&lt;/template&gt;
+  &lt;/ConfirmDialog&gt;
+
+  &lt;ConfirmDialog v-model:open="loggedOut" place="outside" title="You have been logged out"
+                 description="…" confirm-label="Log in" cancel-label="" /&gt;
+&lt;/template&gt;</code></pre>
+
+  <!-- ================================================================ -->
+  <h2>Accessibility</h2>
+  <ul>
+    <li>Use a native <code>&lt;dialog&gt;</code> opened with <code>showModal()</code>. The browser traps focus inside it, makes the rest of the page inert, closes it on Escape, and returns focus to the element that opened it.</li>
+    <li>Name every dialog with <code>aria-labelledby</code> pointing at its title, and point <code>aria-describedby</code> at the description when there is one.</li>
+    <li>Destructive confirmations use <code>role="alertdialog"</code> and put <code>autofocus</code> on Cancel, so pressing Enter straight away doesn't delete anything. <code>ConfirmDialog</code> does both when <code>tone="danger"</code>.</li>
+    <li>When an acknowledgement checkbox is shown, the confirm button stays disabled until it's ticked. This is added in code; Figma shows the button enabled.</li>
+    <li>Header icon buttons have no visible text, so each needs an <code>aria-label</code> ("Close", "Back", "More"). The icon itself is <code>aria-hidden</code>.</li>
+    <li>Focus shows a 2px <code>--color-button-1000</code> outline with a 2px offset on the icon buttons and checkbox. Figma has no focus state.</li>
+    <li>Contrast: Text/Secondary on BG/1 is 5.7:1 in light and 6.8:1 in dark mode. The danger title (Negative/800 #EB5757 on white) is 3.5:1, which passes only because it is 20px bold (large text). The checkbox border (Text/T1) is 3.5:1 on white and 3.8:1 on #2B2B2B, above the 3:1 minimum for controls.</li>
+    <li>The open animation is turned off when <code>prefers-reduced-motion</code> is set.</li>
+  </ul>
+
+  <h2>Guidelines</h2>
+  <div class="dodont">
+    <div class="do">
+      <h4>✓ Do</h4>
+      <ul>
+        <li>Write the title as the question or the outcome: "Delete channel", not "Warning"</li>
+        <li>Label buttons with the action: "Delete", "Use here", "Sign in"</li>
+        <li>Use the negative buttons and the warning icon for actions that can't be undone</li>
+      </ul>
+    </div>
+    <div class="dont">
+      <h4>✗ Don't</h4>
+      <ul>
+        <li>Stack dialogs on top of each other</li>
+        <li>Use a confirmation for actions that are easy to undo. Show an undo toast instead</li>
+        <li>Put more than three buttons in a Button flex</li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+
+<script src="docs.js"></script>
+<script>
+  // Live demos: open, report the result, and gate Delete behind the checkbox.
+  const result = document.getElementById("live-result");
+  document.querySelectorAll("[data-open]").forEach((btn) => {
+    const dlg = document.getElementById(btn.dataset.open);
+    btn.addEventListener("click", () => {
+      dlg.returnValue = "";
+      dlg.querySelectorAll(".confirm__checkbox").forEach((c) => { c.checked = false; });
+      const del = document.getElementById("live-delete");
+      if (dlg.contains(del)) del.disabled = true;
+      dlg.showModal();
+    });
+    dlg.addEventListener("close", () => {
+      result.textContent = `Closed with: ${dlg.returnValue || "Escape / backdrop"}`;
+    });
+    // Backdrop click closes (clicks in the dialog's own box are ignored)
+    dlg.addEventListener("click", (e) => {
+      if (e.target !== dlg) return;
+      const r = dlg.getBoundingClientRect();
+      const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+      if (!inside) dlg.close();
+    });
+  });
+  document.getElementById("live-ack").addEventListener("change", (e) => {
+    document.getElementById("live-delete").disabled = !e.target.checked;
+  });
+</script>
+</body>
+</html>

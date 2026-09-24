@@ -1,0 +1,118 @@
+/* ==========================================================================
+   Check circle (round multi-select checkbox)
+   Figma component set: "multiselect" 2050:3106 (hidden layer in Figma)
+   Variants (Property 1): default · selected · semi select · disabled · Variant5
+   Requires tokens.css
+
+   A round checkbox for picking several items in a list (e.g. selecting
+   messages or contacts). Same behaviour as .checkbox, different shape.
+
+   Markup — a native checkbox:
+     <input type="checkbox" class="check-circle" aria-label="Select message">
+   Semi select = input.indeterminate = true (script only).
+   Variant5 (plain ring when unselected) = add .check-circle--outline.
+
+   Geometry (from Figma): 24 × 24 frame, 18px disc inset 3px. In default
+   and selected the check (10.5 × 8 at 7, 8) is cut out of the disc, so
+   whatever is behind the control shows through the tick.
+
+   Colors: none of the fills in this set are bound to variables. Each hex
+   matches a token's Light value exactly, so that token is used:
+     #ababab → --color-text-t2, #0087ed → --color-button-800,
+     #ffffff → --color-bg-1 (same token the Check-box set binds for its mark)
+   ========================================================================== */
+
+.check-circle {
+  /* Component-level tokens (override these to theme a single instance) */
+  --check-circle-idle: var(--color-text-t2);     /* unbound in Figma: #ababab */
+  --check-circle-fill: var(--color-button-800);  /* unbound in Figma: #0087ed */
+  --check-circle-mark: var(--color-bg-1);        /* unbound in Figma: #ffffff (semi dash) */
+  --check-circle-disc: var(--check-circle-idle);
+
+  appearance: none;
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+/* Disc with the check knocked out (default / selected) */
+.check-circle::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background: var(--check-circle-disc);
+  -webkit-mask:
+    url(assets/icons/checkbox-check.svg) 4px 5px / 11px 8px no-repeat,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    url(assets/icons/checkbox-check.svg) 4px 5px / 11px 8px no-repeat exclude,
+    linear-gradient(#000 0 0);
+  transition: background-color 120ms ease;
+}
+
+/* Semi dash, hidden until indeterminate */
+.check-circle::after {
+  content: "";
+  position: absolute;
+  top: 10.79px;  /* dash 10 × 1.5 at (7.04, 10.79) */
+  left: 7.04px;
+  width: 10px;
+  height: 2px;   /* SVG viewBox 10 × 2 */
+  background: var(--check-circle-mark);
+  -webkit-mask: url(assets/icons/checkbox-semi.svg) center / contain no-repeat;
+  mask: url(assets/icons/checkbox-semi.svg) center / contain no-repeat;
+  opacity: 0;
+}
+
+/* The mask would clip an outline on ::before, so the ring goes on the
+   input: a 26px circle, i.e. 2px outside the 18px disc like the others. */
+.check-circle:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: -1px;
+  border-radius: 50%;
+}
+
+/* selected */
+.check-circle:checked {
+  --check-circle-disc: var(--check-circle-fill);
+}
+
+/* semi select — solid disc (no cut-out) with a dash on top */
+.check-circle:indeterminate {
+  --check-circle-disc: var(--check-circle-fill);
+}
+.check-circle:indeterminate::before {
+  -webkit-mask: none;
+  mask: none;
+}
+.check-circle:indeterminate::after {
+  opacity: 1;
+}
+
+/* Variant5 — unselected state drawn as an 18px ring, 1.5px stroke */
+.check-circle--outline:not(:checked, :indeterminate)::before {
+  -webkit-mask: none;
+  mask: none;
+  background: transparent;
+  border: 1.5px solid var(--check-circle-idle);
+}
+
+/* disabled — the default frame at 50% layer opacity */
+.check-circle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .check-circle::before {
+    transition: none;
+  }
+}

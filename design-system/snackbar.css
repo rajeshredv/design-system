@@ -1,0 +1,75 @@
+/* ==========================================================================
+   Snackbar
+   Figma component set: Snackbar 3167:2198
+   Variants: Button (False | True) × Counter (False)
+     Button=False → icon + message                  ("Posting to Stories…")
+     Button=True  → count + message + action button  ("All messages marked as read" · Undo)
+   Requires tokens.css, icon.css (leading icon), button.css (action)
+
+   Markup — a live region, so screen readers announce it:
+     <div class="snackbar" role="status">
+       <span class="icon snackbar__icon" style="--icon:url(assets/icons/story-line.svg)" aria-hidden="true"></span>
+       <p class="snackbar__message">Posting to Stories…</p>
+     </div>
+     <div class="snackbar" role="status">
+       <span class="snackbar__count" aria-hidden="true">5</span>
+       <p class="snackbar__message">All messages marked as read</p>
+       <button class="btn btn--primary btn--small snackbar__action" type="button">Undo</button>
+     </div>
+   The surface is dark in both themes and its fill isn't bound to a variable
+   in Figma, so it is component-local below. Text uses Label (#FFFFFF, constant).
+   ========================================================================== */
+
+.snackbar {
+  /* Component-level tokens (override these to theme a single instance) */
+  --snackbar-bg: #273742;     /* unbound in Figma: #273742 (matches Button/100 Dark, used in both themes) */
+  --snackbar-fg: var(--color-label);
+  --snackbar-count-bg: rgb(255 255 255 / 0.1); /* unbound in Figma: #FFFFFF at 10% */
+  --snackbar-shadow: 0 2px 4px rgb(0 0 0 / 0.04); /* unbound in Figma: drop shadow #000000 4%, y 2, blur 4 */
+
+  display: flex;
+  align-items: center;
+  gap: var(--space-btn);
+  box-sizing: border-box;
+  width: 376px;               /* fixed width in Figma */
+  max-width: 100%;
+  min-height: 48px;
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  background: var(--snackbar-bg);
+  box-shadow: var(--snackbar-shadow);
+  -webkit-backdrop-filter: blur(9.5px); /* Figma background blur 19 ≈ CSS blur 9.5px */
+  backdrop-filter: blur(9.5px);
+  color: var(--snackbar-fg);
+}
+
+/* 22px leading icon (Story/Style=Line in Figma) */
+.snackbar__icon {
+  --icon-size: 22px;
+}
+
+/* Counter bubble */
+.snackbar__count {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 var(--space-s);
+  box-sizing: border-box;
+  border-radius: 1000px;      /* hardcoded in Figma */
+  background: var(--snackbar-count-bg);
+  font: 14px/16px var(--font-family-semibold); /* no text style in Figma */
+}
+
+.snackbar__message {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font: var(--font-h3);       /* H3 SB */
+  color: inherit;
+}
+
+.snackbar__action {
+  flex-shrink: 0;
+}

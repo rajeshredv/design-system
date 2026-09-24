@@ -3,18 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Button · Primary / Medium — Design System</title>
+  <title>Button — Design System</title>
   <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="icon.css" />
   <link rel="stylesheet" href="button.css" />
   <link rel="stylesheet" href="toggle.css" />
   <link rel="stylesheet" href="docs.css" />
   <style>
+    /* Button grids are wide, so the Light and Dark panels stack instead of sitting side by side */
+    .compare--stack { grid-template-columns: 1fr; }
+    .state-grid { display: grid; grid-template-columns: 120px repeat(5, minmax(0, 1fr)); gap: 20px 16px; align-items: center; padding: 24px 20px; }
+    .state-grid__head { font-size: 12px; color: var(--color-text-secondary); text-align: center; }
+    .state-grid__head code { display: block; font-size: 11px; margin-top: 2px; }
+    .state-grid__row { font-size: 13px; color: var(--color-text-primary); }
+    .state-grid__row small { display: block; font-size: 11px; color: var(--color-text-t1); }
+    .state-grid__cell { display: flex; justify-content: center; }
+    .state-grid__cell--full .btn { min-width: 0; padding-inline: var(--space-l); }
     /* Padding overlay for the anatomy diagram (pink) */
     .pad-box { position: absolute; inset: 0; border-radius: var(--radius-sm); pointer-events: none;
       background:
         linear-gradient(rgba(255,77,148,.35), rgba(255,77,148,.35)) left / var(--space-xl) 100% no-repeat,
         linear-gradient(rgba(255,77,148,.35), rgba(255,77,148,.35)) right / var(--space-xl) 100% no-repeat; }
-    .spec .btn-primary-md { pointer-events: none; }
+    .spec .btn { pointer-events: none; }
+    .pg-full { width: 300px; }
+    @media (max-width: 760px) { .state-grid { grid-template-columns: 80px repeat(5, minmax(90px, 1fr)); overflow-x: auto; } }
   </style>
 </head>
 <body>
@@ -26,57 +38,313 @@
   </div>
 
   <div class="eyebrow">Components · Actions</div>
-  <h1>Button — Primary / Medium</h1>
-  <p class="lead">The main call to action in a view, like Reply, Save, or Send. Use only one primary button per area, and put it on the highest-priority action.</p>
+  <h1>Button</h1>
+  <p class="lead">Buttons trigger an action, like Reply, Save, or Delete. Six variants set the emphasis, three sizes fit the layout, and every variant has the same five states. Use only one primary button per area.</p>
   <div class="meta">
-    <span class="chip">Figma: <code>Buttons-Primary/Medium</code></span>
-    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2145-2682&m=dev" target="_blank" rel="noopener">2145:2682</a></span>
-    <span class="chip">5 variants</span>
-    <span class="chip">Height 36px</span>
+    <span class="chip">Figma: <code>Buttons-*</code> (15 component sets)</span>
+    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2145-2682&m=dev" target="_blank" rel="noopener">2145:2682</a> and siblings</span>
+    <span class="chip">80 variants</span>
+    <span class="chip">Heights 24 / 36 / 44px</span>
     <span class="chip">Light &amp; dark</span>
   </div>
 
   <!-- ================================================================ -->
-  <h2>Variants</h2>
-  <p>The Figma property <code>Property 1</code> has five values. In code, each value maps to a native state or ARIA attribute, not a modifier class. Every variant is shown in both themes.</p>
+  <h2>Class API</h2>
+  <p>One stylesheet, <code>button.css</code>, styles every button. Combine a base class, one variant and one size. States come from native pseudo-classes and ARIA attributes, so there's nothing to toggle by hand except <code>.btn--pressed</code> for buttons that stay selected.</p>
+  <table>
+    <thead><tr><th>Part</th><th>Classes / attributes</th><th>Figma</th></tr></thead>
+    <tbody>
+      <tr><td>Base</td><td><code>.btn</code></td><td>All <code>Buttons-*</code> sets</td></tr>
+      <tr><td>Variant</td><td><code>.btn--primary</code> <code>.btn--secondary</code> <code>.btn--ghost</code> <code>.btn--negative</code> <code>.btn--negative-secondary</code> <code>.btn--link</code></td><td>Set name</td></tr>
+      <tr><td>Size</td><td><code>.btn--small</code> <code>.btn--medium</code> (default) <code>.btn--large</code></td><td>Small / Medium / Large sets</td></tr>
+      <tr><td>Full width</td><td><code>.btn--full</code></td><td><code>Buttons-Primary-Fullwidth</code>, <code>Full-Width=True</code></td></tr>
+      <tr><td>Hover</td><td><code>:hover</code> (<code>.is-hover</code> forces it in static previews)</td><td><code>Hover</code></td></tr>
+      <tr><td>Activated</td><td><code>:active</code>, <code>.btn--pressed</code>, <code>[aria-pressed="true"]</code></td><td><code>Activated</code> / <code>Focus</code> / <code>Focused</code></td></tr>
+      <tr><td>Loading</td><td><code>[aria-busy="true"]</code> or <code>.is-loading</code>, plus <code>.btn__loader</code></td><td><code>Loading</code></td></tr>
+      <tr><td>Disabled</td><td><code>:disabled</code>, <code>[aria-disabled="true"]</code></td><td><code>Disabled</code></td></tr>
+      <tr><td>Parts</td><td><code>.btn__label</code> <code>.btn__icon</code> <code>.btn__loader</code></td><td>Text, icon instance, <code>icons/shapes/loader 1/line</code></td></tr>
+    </tbody>
+  </table>
 
-  <div class="compare">
+  <!-- ================================================================ -->
+  <h2>Primary</h2>
+  <p>The main call to action in a view. Blue <code>Button/*</code> scale at every size. Figma sets: <code>Buttons-Primary/Small</code>, <code>Buttons-Primary/Medium</code>, <code>Buttons-Primary-Large</code>, <code>Buttons-Primary-Fullwidth</code>.</p>
+  <div class="compare compare--stack">
     <section class="compare__panel">
-      <div class="stage">
-        <figure>
-          <button class="btn-primary-md" type="button">Reply</button>
-          <figcaption>Default<code>base</code></figcaption>
-        </figure>
-        <figure>
-          <button class="btn-primary-md is-hover" type="button">Reply</button>
-          <figcaption>Hover<code>:hover</code></figcaption>
-        </figure>
-        <figure>
-          <button class="btn-primary-md" type="button" aria-pressed="true">Reply</button>
-          <figcaption>Activated<code>aria-pressed</code></figcaption>
-        </figure>
-        <figure>
-          <button class="btn-primary-md" type="button" aria-busy="true" aria-label="Reply, loading">
-            <span class="btn-primary-md__spinner" aria-hidden="true"></span>
-          </button>
-          <figcaption>Loading<code>aria-busy</code></figcaption>
-        </figure>
-        <figure>
-          <button class="btn-primary-md" type="button" disabled>Reply</button>
-          <figcaption>Disabled<code>:disabled</code></figcaption>
-        </figure>
+      <div class="state-grid">
+        <span></span><span class="state-grid__head">Default<code>base</code></span><span class="state-grid__head">Hover<code>:hover</code></span><span class="state-grid__head">Activated<code>aria-pressed</code></span><span class="state-grid__head">Loading<code>aria-busy</code></span><span class="state-grid__head">Disabled<code>:disabled</code></span>
+        <span class="state-grid__row">Small<small>2145:2681</small></span>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--small" type="button"><span class="btn__label">Join</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--small is-hover" type="button"><span class="btn__label">Join</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--small btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Join</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--small" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Join</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--small" type="button" disabled><span class="btn__label">Join</span></button></div>
+        <span class="state-grid__row">Medium<small>2145:2682</small></span>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--medium" type="button"><span class="btn__label">Reply</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--medium is-hover" type="button"><span class="btn__label">Reply</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--medium btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Reply</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--medium" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Reply</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--medium" type="button" disabled><span class="btn__label">Reply</span></button></div>
+        <span class="state-grid__row">Large<small>3019:6621*</small></span>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--large" type="button"><span class="btn__label">Agree</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--large is-hover" type="button"><span class="btn__label">Agree</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--large btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Agree</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--large" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Agree</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--primary btn--large" type="button" disabled><span class="btn__label">Agree</span></button></div>
+        <span class="state-grid__row">Full width<small>2145:2679</small></span>
+        <div class="state-grid__cell state-grid__cell--full"><button class="btn btn--primary btn--large btn--full" type="button"><span class="btn__label">Sign Up with Arattai</span></button></div>
+        <div class="state-grid__cell state-grid__cell--full"><button class="btn btn--primary btn--large btn--full is-hover" type="button"><span class="btn__label">Sign Up with Arattai</span></button></div>
+        <div class="state-grid__cell state-grid__cell--full"><button class="btn btn--primary btn--large btn--full btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Sign Up with Arattai</span></button></div>
+        <div class="state-grid__cell state-grid__cell--full"><button class="btn btn--primary btn--large btn--full" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Sign Up with Arattai</span></button></div>
+        <div class="state-grid__cell state-grid__cell--full"><button class="btn btn--primary btn--large btn--full" type="button" disabled><span class="btn__label">Sign Up with Arattai</span></button></div>
       </div>
     </section>
   </div>
+  <p class="muted">* <code>Buttons-Primary-Large</code> ("Agree") uses <code>Text/Primary</code> and <code>Text/T3</code> in Figma. Code keeps Large blue, matching <code>Buttons-Primary-Fullwidth</code>. See <a href="#inconsistencies">Figma inconsistencies</a>.</p>
+
+  <h3>Specs</h3>
+  <table>
+    <thead><tr><th>State</th><th>Fill</th><th>Label / loader</th><th>Stroke (1px inside)</th><th>Opacity</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Default</strong></td><td><code>--color-button-800</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Hover</strong></td><td><code>--color-button-1000</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Activated</strong></td><td><code>--color-button-100</code></td><td><code>--color-button-1000</code> (Large: <code>--color-button-800</code>)</td><td><code>--color-button-1000</code></td><td>1</td></tr>
+      <tr><td><strong>Loading</strong></td><td><code>--color-button-1000</code></td><td>Loader <code>--color-bg-1</code></td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Disabled</strong></td><td><code>--color-button-800</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>0.5</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================ -->
+  <h2>Secondary</h2>
+  <p>A neutral companion to the primary action, like Cancel or Edit. Figma sets: <code>Buttons-Secondary/Small</code>, <code>Buttons-Secondary/Medium</code>, <code>Buttons-Secondary-Large</code> 2145:2678 (a 36px copy of Medium) and <code>Buttons-Secondary-Large</code> 3862:3194 (44px, <code>Full-Width</code> × <code>State</code>, 10 variants).</p>
+  <div class="compare compare--stack">
+    <section class="compare__panel">
+      <div class="state-grid">
+        <span></span><span class="state-grid__head">Default<code>base</code></span><span class="state-grid__head">Hover<code>:hover</code></span><span class="state-grid__head">Activated<code>aria-pressed</code></span><span class="state-grid__head">Loading<code>aria-busy</code></span><span class="state-grid__head">Disabled<code>:disabled</code></span>
+        <span class="state-grid__row">Small<small>2180:2336*</small></span>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--small" type="button"><span class="btn__label">Join</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--small is-hover" type="button"><span class="btn__label">Join</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--small btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Join</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--small" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Join</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--small" type="button" disabled><span class="btn__label">Join</span></button></div>
+        <span class="state-grid__row">Medium<small>3134:2145 · 2145:2678</small></span>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--medium" type="button"><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--medium is-hover" type="button"><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--medium btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--medium" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--medium" type="button" disabled><span class="btn__label">Edit</span></button></div>
+        <span class="state-grid__row">Large<small>3862:3194</small></span>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--large" type="button"><span class="btn__label">Agree</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--large is-hover" type="button"><span class="btn__label">Agree</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--large btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Agree</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--large" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Agree</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--secondary btn--large" type="button" disabled><span class="btn__label">Agree</span></button></div>
+        <span class="state-grid__row">Full width<small>3862:3194</small></span>
+        <div class="state-grid__cell state-grid__cell--full"><button class="btn btn--secondary btn--large btn--full" type="button"><span class="btn__label">Cancel</span></button></div>
+        <div class="state-grid__cell state-grid__cell--full"><button class="btn btn--secondary btn--large btn--full is-hover" type="button"><span class="btn__label">Cancel</span></button></div>
+        <div class="state-grid__cell state-grid__cell--full"><button class="btn btn--secondary btn--large btn--full btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Cancel</span></button></div>
+        <div class="state-grid__cell state-grid__cell--full"><button class="btn btn--secondary btn--large btn--full" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Cancel</span></button></div>
+        <div class="state-grid__cell state-grid__cell--full"><button class="btn btn--secondary btn--large btn--full" type="button" disabled><span class="btn__label">Cancel</span></button></div>
+      </div>
+    </section>
+  </div>
+  <p class="muted">* <code>Buttons-Secondary/Small</code> uses the light-blue <code>Button/100</code> / <code>Button/600</code> scale in Figma. Code keeps Secondary neutral at every size.</p>
+
+  <h3>Specs</h3>
+  <table>
+    <thead><tr><th>State</th><th>Fill</th><th>Label / loader</th><th>Stroke (1px inside)</th><th>Opacity</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Default</strong></td><td><code>--color-bg-2</code></td><td><code>--color-text-t3</code></td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Hover</strong></td><td><code>--color-bg-hover</code></td><td><code>--color-text-t3</code></td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Activated</strong> (Small, Medium)</td><td><code>--color-bg-2</code></td><td><code>--color-text-t3</code></td><td><code>--color-text-t2</code></td><td>1</td></tr>
+      <tr><td><strong>Focus</strong> (Large)</td><td><code>--color-bg-2</code></td><td><code>--color-text-primary</code></td><td><code>--color-text-primary</code></td><td>1</td></tr>
+      <tr><td><strong>Loading</strong></td><td><code>--color-bg-2</code></td><td>Loader <code>--color-text-secondary</code></td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Disabled</strong></td><td><code>--color-bg-2</code></td><td><code>--color-disabled</code></td><td class="none">none</td><td><strong>1</strong> (label is greyed instead)</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================ -->
+  <h2>Ghost</h2>
+  <p>A low-emphasis action with no fill until hover, often in toolbars. Figma sets: <code>Buttons-Ghost/Medium</code> and <code>Buttons-Primary/Icon</code> (a ghost button with a 20px leading icon, 8px gap). Small and Large ghost buttons aren't in Figma; they reuse the Medium colors with the shared size specs.</p>
+  <div class="compare compare--stack">
+    <section class="compare__panel">
+      <div class="state-grid">
+        <span></span><span class="state-grid__head">Default<code>base</code></span><span class="state-grid__head">Hover<code>:hover</code></span><span class="state-grid__head">Activated<code>aria-pressed</code></span><span class="state-grid__head">Loading<code>aria-busy</code></span><span class="state-grid__head">Disabled<code>:disabled</code></span>
+        <span class="state-grid__row">Small<small>code only</small></span>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--small" type="button"><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--small is-hover" type="button"><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--small btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--small" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--small" type="button" disabled><span class="btn__label">Edit</span></button></div>
+        <span class="state-grid__row">Medium<small>2168:2166</small></span>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--medium" type="button"><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--medium is-hover" type="button"><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--medium btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--medium" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--medium" type="button" disabled><span class="btn__label">Edit</span></button></div>
+        <span class="state-grid__row">With icon<small>2145:2677</small></span>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--medium" type="button"><span class="btn__icon icon" style="--icon:url(assets/icons/forward.svg)" aria-hidden="true"></span><span class="btn__label">Forward</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--medium is-hover" type="button"><span class="btn__icon icon" style="--icon:url(assets/icons/forward.svg)" aria-hidden="true"></span><span class="btn__label">Forward</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--medium btn--pressed" type="button" aria-pressed="true"><span class="btn__icon icon" style="--icon:url(assets/icons/forward.svg)" aria-hidden="true"></span><span class="btn__label">Forward</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--medium" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__icon icon" style="--icon:url(assets/icons/forward.svg)" aria-hidden="true"></span><span class="btn__label">Forward</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--medium" type="button" disabled><span class="btn__icon icon" style="--icon:url(assets/icons/forward.svg)" aria-hidden="true"></span><span class="btn__label">Forward</span></button></div>
+        <span class="state-grid__row">Large<small>code only</small></span>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--large" type="button"><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--large is-hover" type="button"><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--large btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--large" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Edit</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--ghost btn--large" type="button" disabled><span class="btn__label">Edit</span></button></div>
+      </div>
+    </section>
+  </div>
+
+  <h3>Specs</h3>
+  <table>
+    <thead><tr><th>State</th><th>Fill</th><th>Label / icon / loader</th><th>Stroke (1px inside)</th><th>Opacity</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Default</strong></td><td class="none">transparent</td><td><code>--color-button-800</code></td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Hover</strong></td><td><code>--color-bg-hover</code></td><td><code>--color-button-800</code></td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Activated</strong></td><td><code>--color-bg-hover</code></td><td><code>--color-button-800</code>; with icon <code>--color-button-1000</code></td><td><code>--color-button-800</code>; with icon <code>--color-button-1000</code></td><td>1</td></tr>
+      <tr><td><strong>Loading</strong></td><td class="none">transparent</td><td>Loader <code>--color-button-800</code>; with icon: fill <code>--color-bg-2</code>, loader <code>--color-button-1000</code></td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Disabled</strong></td><td class="none">transparent</td><td><code>--color-button-800</code></td><td class="none">none</td><td>0.5</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================ -->
+  <h2>Negative</h2>
+  <p>A destructive action the user must commit to, like Delete in a confirmation dialog. Figma set: <code>Buttons-Primary/Negative-medium</code>. Small and Large aren't in Figma; they reuse the Medium colors.</p>
+  <div class="compare compare--stack">
+    <section class="compare__panel">
+      <div class="state-grid">
+        <span></span><span class="state-grid__head">Default<code>base</code></span><span class="state-grid__head">Hover<code>:hover</code></span><span class="state-grid__head">Activated<code>aria-pressed</code></span><span class="state-grid__head">Loading<code>aria-busy</code></span><span class="state-grid__head">Disabled<code>:disabled</code></span>
+        <span class="state-grid__row">Small<small>code only</small></span>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--small" type="button"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--small is-hover" type="button"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--small btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--small" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--small" type="button" disabled><span class="btn__label">Delete</span></button></div>
+        <span class="state-grid__row">Medium<small>2145:2676</small></span>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--medium" type="button"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--medium is-hover" type="button"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--medium btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--medium" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--medium" type="button" disabled><span class="btn__label">Delete</span></button></div>
+        <span class="state-grid__row">Large<small>code only</small></span>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--large" type="button"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--large is-hover" type="button"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--large btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--large" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative btn--large" type="button" disabled><span class="btn__label">Delete</span></button></div>
+      </div>
+    </section>
+  </div>
+
+  <h3>Specs</h3>
+  <table>
+    <thead><tr><th>State</th><th>Fill</th><th>Label / loader</th><th>Stroke (1px inside)</th><th>Opacity</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Default</strong></td><td><code>--color-negative-800</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Hover</strong></td><td><code>--color-negative-1000</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Activated</strong></td><td><code>--color-negative-100</code></td><td><code>--color-negative-800</code></td><td><code>--color-negative-800</code></td><td>1</td></tr>
+      <tr><td><strong>Loading</strong></td><td><code>--color-negative-1000</code></td><td>Loader <code>--color-bg-1</code></td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Disabled</strong></td><td><code>--color-negative-800</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>0.5</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================ -->
+  <h2>Negative secondary</h2>
+  <p>A destructive action with less weight, like Remove in a list. Figma sets: <code>Negative-Secondary</code> (Medium) and <code>Buttons-Primary-Negative-small</code> (Small; despite its name it uses this tinted style, not the filled Negative one).</p>
+  <div class="compare compare--stack">
+    <section class="compare__panel">
+      <div class="state-grid">
+        <span></span><span class="state-grid__head">Default<code>base</code></span><span class="state-grid__head">Hover<code>:hover</code></span><span class="state-grid__head">Activated<code>aria-pressed</code></span><span class="state-grid__head">Loading<code>aria-busy</code></span><span class="state-grid__head">Disabled<code>:disabled</code></span>
+        <span class="state-grid__row">Small<small>2145:2675</small></span>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--small" type="button"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--small is-hover" type="button"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--small btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--small" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--small" type="button" disabled><span class="btn__label">Delete</span></button></div>
+        <span class="state-grid__row">Medium<small>2145:2674</small></span>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--medium" type="button"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--medium is-hover" type="button"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--medium btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--medium" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--medium" type="button" disabled><span class="btn__label">Delete</span></button></div>
+        <span class="state-grid__row">Large<small>code only</small></span>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--large" type="button"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--large is-hover" type="button"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--large btn--pressed" type="button" aria-pressed="true"><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--large" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">Delete</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--negative-secondary btn--large" type="button" disabled><span class="btn__label">Delete</span></button></div>
+      </div>
+    </section>
+  </div>
+
+  <h3>Specs</h3>
+  <table>
+    <thead><tr><th>State</th><th>Fill</th><th>Label / loader</th><th>Stroke (1px inside)</th><th>Opacity</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Default</strong></td><td><code>--color-negative-100</code></td><td><code>--color-negative-800</code></td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Hover</strong></td><td><code>--color-negative-200</code></td><td><code>--color-negative-800</code> (Small: <code>--color-negative-1000</code>)</td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Activated</strong></td><td><code>--color-negative-100</code></td><td><code>--color-negative-800</code> (Small: <code>--color-negative-1000</code>)</td><td><code>--color-negative-800</code></td><td>1</td></tr>
+      <tr><td><strong>Loading</strong></td><td><code>--color-negative-200</code> (Small: <code>--color-bg-1</code>)</td><td>Loader <code>--color-negative-800</code> (Small: <code>--color-negative-1000</code>)</td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Disabled</strong></td><td><code>--color-negative-100</code> (Small: <code>--color-bg-1</code>)</td><td><code>--color-negative-800</code></td><td class="none">none</td><td>0.5</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================ -->
+  <h2>Link</h2>
+  <p>A text-only action, like View all. Figma sets: <code>Buttons-Primary-Link</code> 2145:2680 (Small, the default for <code>.btn--link</code>) and <code>Buttons-Primary-Link</code> 3313:2456 (Medium). Use <code>&lt;a class="btn btn--link"&gt;</code> when it navigates.</p>
+  <div class="compare compare--stack">
+    <section class="compare__panel">
+      <div class="state-grid">
+        <span></span><span class="state-grid__head">Default<code>base</code></span><span class="state-grid__head">Hover<code>:hover</code></span><span class="state-grid__head">Activated<code>aria-pressed</code></span><span class="state-grid__head">Loading<code>aria-busy</code></span><span class="state-grid__head">Disabled<code>:disabled</code></span>
+        <span class="state-grid__row">Small<small>2145:2680</small></span>
+        <div class="state-grid__cell"><button class="btn btn--link btn--small" type="button"><span class="btn__label">View all</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--link btn--small is-hover" type="button"><span class="btn__label">View all</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--link btn--small btn--pressed" type="button" aria-pressed="true"><span class="btn__label">View all</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--link btn--small" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">View all</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--link btn--small" type="button" disabled><span class="btn__label">View all</span></button></div>
+        <span class="state-grid__row">Medium<small>3313:2456</small></span>
+        <div class="state-grid__cell"><button class="btn btn--link btn--medium" type="button"><span class="btn__label">View all</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--link btn--medium is-hover" type="button"><span class="btn__label">View all</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--link btn--medium btn--pressed" type="button" aria-pressed="true"><span class="btn__label">View all</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--link btn--medium" type="button" aria-busy="true"><span class="btn__loader" aria-hidden="true"></span><span class="btn__label">View all</span></button></div>
+        <div class="state-grid__cell"><button class="btn btn--link btn--medium" type="button" disabled><span class="btn__label">View all</span></button></div>
+      </div>
+    </section>
+  </div>
+
+  <h3>Specs</h3>
+  <table>
+    <thead><tr><th>State</th><th>Label / loader</th><th>Decoration</th><th>Stroke</th><th>Opacity</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Default</strong></td><td><code>--color-button-800</code></td><td class="none">none</td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Hover</strong></td><td><code>--color-button-1000</code>. Small switches to BTN Medium (56×20 → 65×24)</td><td>Underline</td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Activated</strong></td><td><code>--color-button-1000</code></td><td class="none">none</td><td>1px <strong>outside</strong> <code>--color-button-1000</code>, radius 2px</td><td>0.5</td></tr>
+      <tr><td><strong>Loading</strong></td><td>20px loader <code>--color-button-1000</code>, min-width 56px (Medium 65px)</td><td class="none">none</td><td class="none">none</td><td>1</td></tr>
+      <tr><td><strong>Disabled</strong></td><td><code>--color-button-800</code></td><td class="none">none</td><td class="none">none</td><td>0.2 (0.5 layer × 0.4 label)</td></tr>
+    </tbody>
+  </table>
 
   <!-- ================================================================ -->
   <h2>Playground</h2>
   <p>Hover, press, and tab to the live button to see the real interaction states. It follows the page theme.</p>
   <div class="playground">
     <div class="preview">
-      <button id="pg-btn" class="btn-primary-md" type="button">Reply</button>
+      <div id="pg-wrap"><button id="pg-btn" class="btn btn--primary btn--medium" type="button"><span class="btn__label">Reply</span></button></div>
     </div>
     <div class="controls">
+      <label>Variant
+        <select id="pg-variant">
+          <option>primary</option><option>secondary</option><option>ghost</option><option>negative</option><option value="negative-secondary">negative-secondary</option><option>link</option>
+        </select>
+      </label>
+      <label>Size
+        <select id="pg-size">
+          <option>small</option><option selected>medium</option><option>large</option>
+        </select>
+      </label>
       <label>State
         <select id="pg-state">
           <option value="default">Default (interactive)</option>
@@ -85,6 +353,8 @@
           <option value="disabled">Disabled</option>
         </select>
       </label>
+      <label class="inline"><input id="pg-full" type="checkbox" /> Full width</label>
+      <label class="inline"><input id="pg-icon" type="checkbox" /> Leading icon</label>
       <label>Label
         <input id="pg-label" type="text" value="Reply" />
       </label>
@@ -92,20 +362,33 @@
   </div>
 
   <!-- ================================================================ -->
-  <h2>Anatomy &amp; spacing</h2>
+  <h2>Anatomy &amp; sizing</h2>
   <div class="anatomy">
     <div class="spec">
-      <button class="btn-primary-md" type="button" tabindex="-1">Reply</button>
+      <button class="btn btn--primary btn--medium" type="button" tabindex="-1" aria-hidden="true">Reply</button>
       <span class="pad-box" aria-hidden="true"></span>
     </div>
     <ol>
-      <li><strong>Container</strong>: auto-layout, horizontal, centered. <code>min-width: 90px</code>, <code>radius: 4px</code></li>
-      <li><strong>Height</strong>: fixed <code>--control-height-md</code> = <strong>36px</strong> in every state</li>
-      <li><strong>Padding</strong> (pink): horizontal <code>--space-xl</code> 12px</li>
-      <li><strong>Label</strong>: <code>BTN Medium</code> text style, 20px line-height</li>
-      <li><strong>Loader</strong> (Loading only): 24px icon, colored with the label color so it switches with the theme</li>
+      <li><strong>Container</strong>: auto-layout, horizontal, centered. Fixed height per size, so the label and loader states are the same height</li>
+      <li><strong>Padding</strong> (pink): horizontal <code>--space-xl</code> 12px (Large <code>--space-3xl</code> 20px)</li>
+      <li><strong>Label</strong>: <code>BTN Small</code> / <code>BTN Medium</code> / <code>Large</code> text style, never wraps</li>
+      <li><strong>Icon</strong> (optional): 20px, 8px gap (<code>--space-l</code>)</li>
+      <li><strong>Loader</strong> (Loading only): the Figma loader, colored with the label color so it switches with the theme</li>
     </ol>
   </div>
+
+  <h3>Size specs</h3>
+  <table>
+    <thead><tr><th>Size</th><th>Height</th><th>Padding x</th><th>Min width</th><th>Radius</th><th>Text style</th><th>Loader</th><th>Icon</th><th>Class</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Small</strong></td><td>24px <code class="muted">--control-height-sm</code></td><td>12px <code class="muted">--space-xl</code></td><td>50px</td><td>4px <code class="muted">--radius-sm</code></td><td>BTN Small 14/16, 0.1px</td><td>20px</td><td>16px (code only)</td><td><code>.btn--small</code></td></tr>
+      <tr><td><strong>Medium</strong></td><td>36px <code class="muted">--control-height-md</code></td><td>12px <code class="muted">--space-xl</code></td><td>90px</td><td>4px <code class="muted">--radius-sm</code></td><td>BTN Medium 16/20, 0.25px</td><td>24px</td><td>20px</td><td><code>.btn--medium</code></td></tr>
+      <tr><td><strong>Large</strong></td><td>44px <code class="muted">--control-height-lg</code></td><td>20px <code class="muted">--space-3xl</code></td><td>100px</td><td>8px <code class="muted">--radius-lg</code></td><td>Large 16/20, 0.25px</td><td>24px</td><td>20px</td><td><code>.btn--large</code></td></tr>
+      <tr><td><strong>Link, small</strong></td><td>20px</td><td>2px <code class="muted">--space-xs</code></td><td class="none">none</td><td>2px</td><td>BTN Small</td><td>20px</td><td class="none">n/a</td><td><code>.btn--link</code></td></tr>
+      <tr><td><strong>Link, medium</strong></td><td>24px</td><td>2px <code class="muted">--space-xs</code></td><td class="none">none</td><td>2px</td><td>BTN Medium</td><td>20px</td><td class="none">n/a</td><td><code>.btn--link.btn--medium</code></td></tr>
+    </tbody>
+  </table>
+  <p class="muted">Figma varies vertical padding per state (Medium: L 8px, M 6px when loading) to keep the height constant. Code uses a fixed height instead. Radii and min widths aren't bound to variables in Figma.</p>
 
   <!-- ================================================================ -->
   <h2>Design tokens</h2>
@@ -118,28 +401,63 @@
       <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
         <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
         <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
-        <td>Default &amp; Disabled fill</td></tr>
+        <td>Primary fill · Ghost &amp; Link label · Ghost Activated stroke</td></tr>
       <tr><td><code>--color-button-1000</code></td><td><code>Button/1000</code></td>
         <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-1000)"></span>#0076CE</td>
         <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-1000)"></span>#479EDF</td>
-        <td>Hover &amp; Loading fill · Activated border &amp; label · focus ring</td></tr>
+        <td>Primary Hover &amp; Loading fill · Activated stroke &amp; label · Link hover · focus ring</td></tr>
       <tr><td><code>--color-button-100</code></td><td><code>Button/100</code></td>
         <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-100)"></span>#E5F3FD</td>
         <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-100)"></span>#273742</td>
-        <td>Activated fill</td></tr>
+        <td>Primary Activated fill</td></tr>
       <tr><td><code>--color-bg-1</code></td><td><code>BG/1</code></td>
         <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
         <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
-        <td>Label &amp; loader on filled states</td></tr>
-    </tbody>
-  </table>
-
-  <h3>Spacing &amp; size</h3>
-  <table>
-    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Value</th><th>Used for</th></tr></thead>
-    <tbody>
-      <tr><td><code>--space-xl</code></td><td><code>XL</code></td><td>12px</td><td>Horizontal padding</td></tr>
-      <tr><td><code>--control-height-md</code></td><td class="none">Derived</td><td>36px</td><td>Fixed height. Replaces Figma's per-state vertical padding (L 8px, M 6px when loading)</td></tr>
+        <td>Label &amp; loader on Primary and Negative · Negative-secondary Small Loading/Disabled fill</td></tr>
+      <tr><td><code>--color-bg-2</code></td><td><code>BG/2</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-2)"></span>#F6F6F6</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-2)"></span>#1D1D1D</td>
+        <td>Secondary fill · Ghost-with-icon Loading fill</td></tr>
+      <tr><td><code>--color-bg-hover</code></td><td><code>BG/Hover</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-hover)"></span>#F1F4F7</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-hover)"></span>#3D3D3D</td>
+        <td>Secondary &amp; Ghost Hover · Ghost Activated fill</td></tr>
+      <tr><td><code>--color-text-t3</code></td><td><code>Text/T3</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t3)"></span>#4D4D4D</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t3)"></span>#B3B3B3</td>
+        <td>Secondary label</td></tr>
+      <tr><td><code>--color-text-t2</code></td><td><code>Text/T2</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t2)"></span>#ABABAB</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t2)"></span>#727272</td>
+        <td>Secondary Activated stroke (Small, Medium)</td></tr>
+      <tr><td><code>--color-text-primary</code></td><td><code>Text/Primary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-primary)"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>#E3E3E3</td>
+        <td>Secondary Large Focus stroke &amp; label</td></tr>
+      <tr><td><code>--color-text-secondary</code></td><td><code>Text/Secondary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-secondary)"></span>#666666</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-secondary)"></span>#B3B3B3</td>
+        <td>Secondary loader</td></tr>
+      <tr><td><code>--color-disabled</code></td><td><code>Disabled</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-disabled)"></span>#C4C4C4</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-disabled)"></span>#464646</td>
+        <td>Secondary Disabled label</td></tr>
+      <tr><td><code>--color-negative-800</code></td><td><code>Negative/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-negative-800)"></span>#EB5757</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-negative-800)"></span>#FF7D7D</td>
+        <td>Negative fill · Negative-secondary label · Activated stroke</td></tr>
+      <tr><td><code>--color-negative-1000</code></td><td><code>Negative/1000</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-negative-1000)"></span>#DD5151</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-negative-1000)"></span>#ED6A6A</td>
+        <td>Negative Hover &amp; Loading fill · Negative-secondary Small hover label</td></tr>
+      <tr><td><code>--color-negative-100</code></td><td><code>Negative/100</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-negative-100)"></span>#FDEEEE</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-negative-100)"></span>#483131</td>
+        <td>Negative Activated fill · Negative-secondary fill</td></tr>
+      <tr><td><code>--color-negative-200</code></td><td><code>Negative/200</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-negative-200)"></span>#FFE5E5</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-negative-200)"></span>#603737</td>
+        <td>Negative-secondary Hover &amp; Loading fill</td></tr>
     </tbody>
   </table>
 
@@ -147,81 +465,122 @@
   <table>
     <thead><tr><th>Text style</th><th>Family</th><th>Size</th><th>Line height</th><th>Letter spacing</th></tr></thead>
     <tbody>
-      <tr>
-        <td><code>BTN Medium</code></td>
-        <td>Zoho Puvi Medium (weight from the font file)<br><code class="muted">--font-family-medium</code></td>
-        <td>16px<br><code class="muted">--font-size-md</code></td>
-        <td>20px<br><code class="muted">--line-height-md</code></td>
-        <td>0.25px<br><code class="muted">--letter-spacing-md</code></td>
-      </tr>
+      <tr><td><code>BTN Small</code></td><td>Zoho Puvi Medium (weight from the font file)<br><code class="muted">--font-family-medium</code></td><td>14px <code class="muted">--font-size-sm</code></td><td>16px <code class="muted">--line-height-sm</code></td><td>0.1px <code class="muted">--letter-spacing-sm</code></td></tr>
+      <tr><td><code>BTN Medium</code>, <code>Large</code></td><td>Zoho Puvi Medium<br><code class="muted">--font-family-medium</code></td><td>16px <code class="muted">--font-size-md</code></td><td>20px <code class="muted">--line-height-md</code></td><td>0.25px <code class="muted">--letter-spacing-md</code></td></tr>
     </tbody>
   </table>
+  <p class="muted">The Figma text styles use the Zoho Puvi Semibold face. Code uses the Medium face by project decision; the weight always comes from the font family, never <code>font-weight</code>.</p>
 
-  <h3>Shape &amp; effects</h3>
-  <table>
-    <thead><tr><th>CSS variable</th><th>Figma source</th><th>Value</th><th>Note</th></tr></thead>
-    <tbody>
-      <tr><td><code>--radius-sm</code></td><td class="none">Hardcoded in Figma</td><td>4px</td><td>Not bound to a variable in Figma. Consider adding one.</td></tr>
-      <tr><td class="none">none</td><td class="none">Layer opacity</td><td>0.5</td><td>Disabled. Applied to the whole component</td></tr>
-      <tr><td class="none">none</td><td>Stroke (Activated)</td><td>1px inside</td><td>Drawn as an inset <code>box-shadow</code> so the button doesn't grow</td></tr>
-    </tbody>
-  </table>
-
-  <!-- ================================================================ -->
-  <h2>Variant specs</h2>
-  <table>
-    <thead><tr><th>Variant</th><th>Fill</th><th>Label / icon</th><th>Border</th><th>Opacity</th><th>Code selector</th></tr></thead>
-    <tbody>
-      <tr><td><strong>Default</strong></td><td><code>--color-button-800</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>1</td><td><code>.btn-primary-md</code></td></tr>
-      <tr><td><strong>Hover</strong></td><td><code>--color-button-1000</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>1</td><td><code>:hover</code></td></tr>
-      <tr><td><strong>Activated</strong></td><td><code>--color-button-100</code></td><td><code>--color-button-1000</code></td><td>1px <code>--color-button-1000</code></td><td>1</td><td><code>:active</code>, <code>[aria-pressed="true"]</code></td></tr>
-      <tr><td><strong>Loading</strong></td><td><code>--color-button-1000</code></td><td>24px loader, <code>--color-bg-1</code></td><td class="none">none</td><td>1</td><td><code>[aria-busy="true"]</code></td></tr>
-      <tr><td><strong>Disabled</strong></td><td><code>--color-button-800</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>0.5</td><td><code>:disabled</code>, <code>[aria-disabled="true"]</code></td></tr>
-    </tbody>
-  </table>
+  <h3>Component variables</h3>
+  <p>Every button reads local variables. Override them on one element instead of editing the global tokens.</p>
+<pre><code>.my-context .btn {
+  --btn-bg: var(--color-button-1000);  /* fill */
+  --btn-fg: var(--color-bg-1);         /* label, icon and loader */
+  --btn-ring: transparent;             /* 1px Activated stroke */
+  /* size: --btn-height --btn-pad-x --btn-min-w --btn-radius
+           --btn-font-size --btn-line-height --btn-letter-spacing
+           --btn-loader-size --btn-icon-size */
+}</code></pre>
 
   <!-- ================================================================ -->
   <h2>Usage</h2>
+  <h3>HTML + CSS</h3>
 <pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
 &lt;link rel="stylesheet" href="button.css"&gt;
+&lt;link rel="stylesheet" href="icon.css"&gt;   &lt;!-- only for icons --&gt;
 
-&lt;!-- Default --&gt;
-&lt;button class="btn-primary-md" type="button"&gt;Reply&lt;/button&gt;
+&lt;button class="btn btn--primary btn--medium" type="button"&gt;Reply&lt;/button&gt;
+&lt;button class="btn btn--secondary btn--large btn--full" type="button"&gt;Cancel&lt;/button&gt;
+&lt;a class="btn btn--link" href="/all"&gt;View all&lt;/a&gt;
 
 &lt;!-- Activated (toggle) --&gt;
-&lt;button class="btn-primary-md" type="button" aria-pressed="true"&gt;Reply&lt;/button&gt;
+&lt;button class="btn btn--ghost btn--medium" type="button" aria-pressed="true"&gt;Edit&lt;/button&gt;
 
-&lt;!-- Loading --&gt;
-&lt;button class="btn-primary-md" type="button" aria-busy="true" aria-label="Reply, loading"&gt;
-  &lt;span class="btn-primary-md__spinner" aria-hidden="true"&gt;&lt;/span&gt;
+&lt;!-- Loading: wrap the label so it stays readable by screen readers --&gt;
+&lt;button class="btn btn--negative btn--medium" type="button" aria-busy="true"&gt;
+  &lt;span class="btn__loader" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;span class="btn__label"&gt;Delete&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Leading icon --&gt;
+&lt;button class="btn btn--ghost btn--medium" type="button"&gt;
+  &lt;span class="btn__icon icon" style="--icon:url(assets/icons/forward.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+  Forward
 &lt;/button&gt;
 
 &lt;!-- Disabled --&gt;
-&lt;button class="btn-primary-md" type="button" disabled&gt;Reply&lt;/button&gt;</code></pre>
+&lt;button class="btn btn--primary btn--medium" type="button" disabled&gt;Reply&lt;/button&gt;</code></pre>
+
+  <h3>Vue</h3>
+  <p><code>Button.vue</code> has no styles of its own. Load <code>tokens.css</code> and <code>button.css</code> once, globally.</p>
+<pre><code>&lt;script setup&gt;
+import Button from "./design-system/components/Button.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Button variant="primary" size="medium"&gt;Reply&lt;/Button&gt;
+  &lt;Button variant="negative" loading&gt;Delete&lt;/Button&gt;
+  &lt;Button variant="secondary" size="large" full-width&gt;Cancel&lt;/Button&gt;
+  &lt;Button variant="ghost" :pressed="isActive"&gt;Edit&lt;/Button&gt;
+  &lt;Button variant="link" href="/all"&gt;View all&lt;/Button&gt;          &lt;!-- small link --&gt;
+  &lt;Button variant="link" size="medium"&gt;View all&lt;/Button&gt;       &lt;!-- medium link --&gt;
+  &lt;Button variant="ghost"&gt;
+    &lt;template #icon&gt;
+      &lt;span class="icon" style="--icon:url(assets/icons/forward.svg)"&gt;&lt;/span&gt;
+    &lt;/template&gt;
+    Forward
+  &lt;/Button&gt;
+&lt;/template&gt;</code></pre>
+  <table>
+    <thead><tr><th>Prop</th><th>Type</th><th>Default</th><th>Maps to</th></tr></thead>
+    <tbody>
+      <tr><td><code>variant</code></td><td>String</td><td><code>"primary"</code></td><td><code>.btn--{variant}</code></td></tr>
+      <tr><td><code>size</code></td><td>String</td><td><code>"medium"</code> (<code>"small"</code> for <code>link</code>)</td><td><code>.btn--{size}</code></td></tr>
+      <tr><td><code>fullWidth</code></td><td>Boolean</td><td><code>false</code></td><td><code>.btn--full</code></td></tr>
+      <tr><td><code>disabled</code></td><td>Boolean</td><td><code>false</code></td><td><code>disabled</code> (links: <code>aria-disabled</code>)</td></tr>
+      <tr><td><code>loading</code></td><td>Boolean</td><td><code>false</code></td><td><code>.is-loading</code>, <code>aria-busy</code>, <code>.btn__loader</code></td></tr>
+      <tr><td><code>pressed</code></td><td>Boolean</td><td><code>false</code></td><td><code>.btn--pressed</code>, <code>aria-pressed="true"</code></td></tr>
+      <tr><td><code>href</code></td><td>String</td><td class="none">none</td><td>Renders <code>&lt;a&gt;</code></td></tr>
+    </tbody>
+  </table>
+  <p>Slots: default (label), <code>icon</code> (leading icon), <code>icon-end</code> (trailing icon, hidden by default in Figma's <code>Buttons-Primary/Icon</code>).</p>
 
   <h3>Light and dark mode</h3>
-  <p>Nothing extra is needed. The button follows the OS setting. To force a theme, set <code>data-theme</code> on <code>&lt;html&gt;</code> or on any container:</p>
+  <p>Nothing extra is needed. Buttons follow the OS setting. To force a theme, set <code>data-theme</code> on <code>&lt;html&gt;</code> or on any container:</p>
 <pre><code>&lt;html data-theme="dark"&gt;          &lt;!-- whole page --&gt;
 &lt;section data-theme="light"&gt;       &lt;!-- one area --&gt;</code></pre>
-
-  <h3>Theming a single instance</h3>
-  <p>The component reads three local variables. Override them on one element instead of editing the global tokens.</p>
-<pre><code>.my-context .btn-primary-md {
-  --btn-bg: var(--color-button-1000);
-  --btn-fg: var(--color-bg-1);
-  --btn-border: transparent;
-}</code></pre>
+  <p>In dark mode <code>BG/1</code> is <code>#2B2B2B</code>, so Primary and Negative buttons get a <strong>dark label on a lighter fill</strong>. That's how Figma defines it, and it passes contrast better than the light theme does.</p>
 
   <!-- ================================================================ -->
   <h2>Accessibility</h2>
   <ul>
-    <li>Use a native <code>&lt;button&gt;</code>. It gives you keyboard support (Enter/Space) and focus for free.</li>
-    <li>Focus shows a 2px <code>--color-button-1000</code> outline with a 2px offset. Don't remove it.</li>
-    <li>Contrast, light: white on <code>#0087ED</code> is about 3.7:1, which only passes WCAG AA for large text. At 16px Medium it counts as normal text, so it falls short of 4.5:1. The hover color <code>#0076CE</code> passes at about 4.7:1.</li>
-    <li>Contrast, dark: in dark mode Figma uses a dark label (<code>#2B2B2B</code>) on a lighter blue. That passes: about 5.8:1 on <code>#4DADF5</code> and 4.9:1 on hover <code>#479EDF</code>.</li>
-    <li>Loading: set <code>aria-busy="true"</code> and keep the label as an <code>aria-label</code>, so screen readers still announce the action.</li>
-    <li>Activated as a toggle: use <code>aria-pressed</code> so assistive tech announces the on/off state.</li>
+    <li>Use a native <code>&lt;button type="button"&gt;</code> for actions and <code>&lt;a href&gt;</code> for navigation. Both give you keyboard support and focus for free.</li>
+    <li>Focus shows a 2px <code>--color-button-1000</code> outline with a 2px offset. Figma has no keyboard-focus state (its "Focus" frames are the Activated look), so this was added in code. Don't remove it.</li>
+    <li>Contrast, light: white on <code>#0087ED</code> is about 3.7:1, which only passes WCAG AA for large text. At 16px Medium it counts as normal text, so it falls short of 4.5:1. The hover color <code>#0076CE</code> passes at about 4.7:1. Negative is lower: white on <code>#EB5757</code> is about 3.5:1 (hover 3.9:1), and Negative-secondary's <code>#EB5757</code> on <code>#FDEEEE</code> is about 3.1:1. Ghost and Link labels (<code>#0087ED</code> on white) are about 3.7:1.</li>
+    <li>Contrast, dark: in dark mode Figma uses a dark label (<code>#2B2B2B</code>) on a lighter fill. That passes: about 5.8:1 on <code>#4DADF5</code>, 4.9:1 on hover <code>#479EDF</code>, and 5.7:1 on Negative <code>#FF7D7D</code>.</li>
+    <li>Secondary label is about 7.8:1 (light) and 8.0:1 (dark). The Secondary Disabled label is about 1.6:1 / 1.8:1, which is allowed for disabled controls but hard to read.</li>
+    <li>Loading: set <code>aria-busy="true"</code> and keep the label in a <code>.btn__label</code>. It's visually hidden, so screen readers still announce the action. <code>Button.vue</code> does this for you.</li>
+    <li>Activated as a toggle: use <code>aria-pressed</code> so assistive tech announces the on/off state. <code>Button.vue</code> only sets it when <code>pressed</code> is true, so ordinary buttons aren't announced as toggles.</li>
     <li>Disabled buttons can't be focused. If users need to learn <em>why</em> an action is unavailable, use <code>aria-disabled="true"</code> with an explanation instead.</li>
+    <li>Icons are decorative (<code>aria-hidden="true"</code>); the visible label names the button. Icon-only buttons are documented on the Icon buttons page.</li>
+    <li>The loader spins slower when the user has <code>prefers-reduced-motion</code> set, and color transitions are turned off.</li>
+  </ul>
+
+  <!-- ================================================================ -->
+  <h2 id="inconsistencies">Figma inconsistencies</h2>
+  <p>Kept as designed unless noted. Worth confirming with design.</p>
+  <ul>
+    <li><code>Buttons-Primary-Large</code> uses <code>Text/Primary</code> / <code>Text/T3</code> instead of the blue scale. <strong>Code keeps Large blue</strong>, like <code>Buttons-Primary-Fullwidth</code>.</li>
+    <li><code>Buttons-Secondary/Small</code> uses the <code>Button/100</code> / <code>Button/600</code> blue scale. <strong>Code keeps Secondary neutral.</strong></li>
+    <li><code>Buttons-Secondary-Large</code> 2145:2678 is 36px, identical to <code>Buttons-Secondary/Medium</code>; the real Large set is 3862:3194.</li>
+    <li>Secondary Activated uses a <code>Text/T2</code> stroke at Medium but a <code>Text/Primary</code> stroke and label at Large.</li>
+    <li>Secondary Disabled has no layer opacity (it greys the label); every other variant uses 0.5 opacity.</li>
+    <li><code>Buttons-Primary-Fullwidth</code> Activated label is <code>Button/800</code>; Primary Medium and Small use <code>Button/1000</code>.</li>
+    <li><code>Buttons-Primary-Negative-small</code> is styled as Negative secondary, and its Loading and Disabled frames sit on <code>BG/1</code> instead of the Negative tint. Its Hover/Activated labels use <code>Negative/1000</code>; Medium uses <code>Negative/800</code>. There is no filled Negative Small in Figma.</li>
+    <li><code>Buttons-Primary/Icon</code> is a ghost button: its Focused state uses <code>Button/1000</code> (Ghost uses <code>Button/800</code>) and its Loading frame has a <code>BG/2</code> fill with no corner radius.</li>
+    <li>The small Link switches from BTN Small to BTN Medium on hover, so it grows from 56×20 to 65×24.</li>
+    <li>Ghost, Negative and Negative secondary have no Small/Large sets (Negative secondary has no Large). Code reuses the Medium colors.</li>
+    <li>Text styles use Zoho Puvi Semibold; code uses Medium by project decision.</li>
   </ul>
 
   <h2>Guidelines</h2>
@@ -230,8 +589,9 @@
       <h4>✓ Do</h4>
       <ul>
         <li>Use one primary button per section, for the main action</li>
-        <li>Write labels as short verbs: “Reply”, “Save”, “Send”</li>
-        <li>Keep the 90px minimum width so buttons line up</li>
+        <li>Pair Primary with Secondary or Ghost for the other actions</li>
+        <li>Write labels as short verbs: “Reply”, “Save”, “Delete”</li>
+        <li>Use Negative only for destructive actions</li>
       </ul>
     </div>
     <div class="dont">
@@ -239,7 +599,8 @@
       <ul>
         <li>Stack several primary buttons next to each other</li>
         <li>Wrap labels onto two lines. The label is <code>nowrap</code></li>
-        <li>Use hex values directly. They won't switch with the theme. Always reference the tokens</li>
+        <li>Use a Link button for an action that changes data</li>
+        <li>Use hex values directly. They won't switch with the theme</li>
       </ul>
     </div>
   </div>
@@ -249,28 +610,24 @@
 <script src="docs.js"></script>
 <script>
   const btn = document.getElementById('pg-btn');
-  const state = document.getElementById('pg-state');
-  const label = document.getElementById('pg-label');
-  const spinner = '<span class="btn-primary-md__spinner" aria-hidden="true"></span>';
+  const ctl = (id) => document.getElementById(id);
+  const icon = '<span class="btn__icon icon" style="--icon:url(assets/icons/forward.svg)" aria-hidden="true"></span>';
 
   function render() {
-    const s = state.value;
-    const text = label.value || 'Button';
+    const s = ctl('pg-state').value;
+    const text = ctl('pg-label').value || 'Button';
+    btn.className = ['btn', 'btn--' + ctl('pg-variant').value, 'btn--' + ctl('pg-size').value,
+      ctl('pg-full').checked ? 'btn--full' : ''].join(' ').trim();
+    ctl('pg-wrap').classList.toggle('pg-full', ctl('pg-full').checked);
     btn.disabled = s === 'disabled';
-    btn.toggleAttribute('aria-pressed', s === 'activated');
-    if (s === 'activated') btn.setAttribute('aria-pressed', 'true');
-    if (s === 'loading') {
-      btn.setAttribute('aria-busy', 'true');
-      btn.setAttribute('aria-label', text + ', loading');
-      btn.innerHTML = spinner;
-    } else {
-      btn.removeAttribute('aria-busy');
-      btn.removeAttribute('aria-label');
-      btn.textContent = text;
-    }
+    if (s === 'activated') btn.setAttribute('aria-pressed', 'true'); else btn.removeAttribute('aria-pressed');
+    if (s === 'loading') btn.setAttribute('aria-busy', 'true'); else btn.removeAttribute('aria-busy');
+    btn.innerHTML = (s === 'loading' ? '<span class="btn__loader" aria-hidden="true"></span>' : '') +
+      (ctl('pg-icon').checked ? icon : '') + '<span class="btn__label"></span>';
+    btn.querySelector('.btn__label').textContent = text;
   }
-  state.addEventListener('change', render);
-  label.addEventListener('input', render);
+  ['pg-variant', 'pg-size', 'pg-state', 'pg-full', 'pg-icon'].forEach((id) => ctl(id).addEventListener('change', render));
+  ctl('pg-label').addEventListener('input', render);
 </script>
 </body>
 </html>

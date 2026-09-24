@@ -1,0 +1,120 @@
+/* ==========================================================================
+   Segmented control
+   Figma component set: "Text & Icon" 3315:2664 (12 variants, all named
+   "Property 1=Frame 11712796xx"). They are 3 layouts × 4 states:
+     Layouts: Icon & text · Icon only · Text only (.segmented--text)
+     States:  Default · Hover · Disabled · Disabled with nothing selected
+   Requires tokens.css and icon.css
+
+   Markup — native radios, so arrow keys, forms and :checked work for free:
+     <div class="segmented" role="radiogroup" aria-label="Platform">
+       <label class="segmented__option">
+         <input type="radio" name="platform" value="android" class="segmented__input" checked>
+         <span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-android.svg)" aria-hidden="true"></span></span>
+         <span class="segmented__label">Android</span>
+       </label>
+       …
+     </div>
+   ========================================================================== */
+
+.segmented {
+  /* Component-level tokens */
+  --segmented-track: var(--color-surface-e5-a50);  /* Surface #E5-a50 */
+  --segmented-fg: var(--color-text-primary);
+  --segmented-icon: var(--color-text-secondary);
+
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-xs);                  /* 2px */
+  border: 0;
+  margin: 0;
+  min-inline-size: 0;                        /* reset when used on <fieldset> */
+  border-radius: 100px;                      /* unbound in Figma: 100px (pill) */
+  background: var(--segmented-track);
+}
+
+/* Text-only layout uses BG/2 for the track instead of Surface #E5-a50 */
+.segmented--text {
+  --segmented-track: var(--color-bg-2);
+}
+
+.segmented__option {
+  --segment-bg: transparent;
+
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-btn);                     /* 10px icon → label */
+  box-sizing: border-box;
+  height: 36px;
+  padding: var(--space-xs);                  /* 2px — icon only */
+  border-radius: 100px;                      /* unbound in Figma: 100px */
+  background: var(--segment-bg);
+  color: var(--segmented-fg);
+  font: var(--font-h3);                      /* H3 SB — 14/20 */
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+
+/* Icon & text: 20px on the right of the label */
+.segmented__option:has(.segmented__label) {
+  padding-right: var(--space-3xl);           /* 20px */
+}
+/* Text only: 20px both sides */
+.segmented__option:not(:has(.segmented__icon)) {
+  padding: var(--space-xs) var(--space-3xl); /* 2px 20px */
+}
+
+/* The radio itself is visually hidden but stays focusable */
+.segmented__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+/* 32px circle that holds the 24px glyph */
+.segmented__icon {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 1000px;                     /* unbound in Figma: 1000px (circle) */
+  color: var(--segmented-icon);
+}
+
+/* Selected — white (BG/1) pill */
+.segmented__option:has(.segmented__input:checked) {
+  --segment-bg: var(--color-bg-1);
+}
+/* In the Icon & text layout the selected glyph also sits on a BG/2 circle */
+.segmented__option:has(.segmented__input:checked):has(.segmented__label) .segmented__icon {
+  background: var(--color-bg-2);
+}
+
+/* Hover — BG/Hover pill (Figma shows it on the selected segment) */
+.segmented__option:hover:not(:has(.segmented__input:disabled)) {
+  --segment-bg: var(--color-bg-hover);
+}
+
+.segmented__option:has(.segmented__input:focus-visible) {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 0;
+}
+
+/* Disabled — label in Disabled, glyph in Text/T2. The selected pill stays
+   white; with nothing selected there is no pill at all. */
+.segmented__option:has(.segmented__input:disabled) {
+  --segmented-fg: var(--color-disabled);
+  --segmented-icon: var(--color-text-t2);
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .segmented__option { transition: none; }
+}

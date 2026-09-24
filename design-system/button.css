@@ -1,75 +1,125 @@
 /* ==========================================================================
-   Buttons-Primary / Medium
-   Figma component set: 2145:2682
-   Variants: Default · Hover · Activated · Loading · Disabled
-   Requires tokens.css
+   Button
+   Requires tokens.css. Single source of button styles: used as plain CSS and
+   by components/Button.vue (which has no styles of its own).
+
+   Class API
+     .btn                         base (renders as Medium when no size is set)
+     .btn--primary | --secondary | --ghost | --negative | --negative-secondary | --link
+     .btn--small | --medium | --large
+     .btn--full                   100% width (Fullwidth / Full-Width=True frames)
+
+   States (Figma "Property 1" / "State" / "States")
+     Default     base
+     Hover       :hover                     (.is-hover forces it for static previews)
+     Activated   :active, .btn--pressed, [aria-pressed="true"]
+                 (called Focus / Focused / "small" in some Figma sets)
+     Loading     .is-loading or [aria-busy="true"] + <span class="btn__loader">
+     Disabled    :disabled, [aria-disabled="true"]
+
+   Markup
+     <button class="btn btn--primary btn--medium" type="button">Reply</button>
+
+     <!-- Loading: keep the label in a .btn__label so it stays readable by
+          screen readers while it is visually hidden -->
+     <button class="btn btn--primary btn--medium" type="button" aria-busy="true">
+       <span class="btn__loader" aria-hidden="true"></span>
+       <span class="btn__label">Reply</span>
+     </button>
+
+     <!-- Leading icon (Buttons-Primary/Icon) -->
+     <button class="btn btn--ghost btn--medium" type="button">
+       <span class="btn__icon icon" style="--icon:url(assets/icons/forward.svg)" aria-hidden="true"></span>
+       Forward
+     </button>
+
+   Figma component sets
+     Buttons-Primary/Small 2145:2681 · Buttons-Primary/Medium 2145:2682
+     Buttons-Primary-Large 3019:6621 · Buttons-Primary-Fullwidth 2145:2679
+     Buttons-Secondary/Small 2180:2336 · Buttons-Secondary/Medium 3134:2145
+     Buttons-Secondary-Large 2145:2678 (36px copy of Secondary/Medium)
+     Buttons-Secondary-Large 3862:3194 (44px, Full-Width × State)
+     Buttons-Ghost/Medium 2168:2166 · Buttons-Primary/Icon 2145:2677
+     Buttons-Primary/Negative-medium 2145:2676
+     Negative-Secondary 2145:2674 · Buttons-Primary-Negative-small 2145:2675
+     Buttons-Primary-Link 2145:2680 (small) · Buttons-Primary-Link 3313:2456 (medium)
    ========================================================================== */
 
-.btn-primary-md {
+.btn {
   /* Component-level tokens (override these to theme a single instance) */
-  --btn-bg: var(--color-button-800);
-  --btn-fg: var(--color-bg-1);
-  --btn-border: transparent;
+  --btn-bg: transparent;
+  --btn-fg: var(--color-button-800);
+  --btn-ring: transparent; /* 1px inside stroke of the Activated state */
 
+  /* Size tokens: Medium by default */
+  --btn-height: var(--control-height-md); /* 36px */
+  --btn-pad-x: var(--space-xl);           /* 12px */
+  --btn-min-w: 90px;                      /* unbound min-width in Figma */
+  --btn-radius: var(--radius-sm);         /* 4px, unbound in Figma */
+  --btn-font-size: var(--font-size-md);   /* BTN Medium */
+  --btn-line-height: var(--line-height-md);
+  --btn-letter-spacing: var(--letter-spacing-md);
+  --btn-loader-size: 24px;
+  --btn-icon-size: 20px;
+
+  box-sizing: border-box;
+  position: relative; /* anchors the visually hidden label while loading */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-btn);
-  min-width: 90px;
-  height: var(--control-height-md); /* fixed height, so label and spinner states match */
-  padding: 0 var(--space-xl);
+  gap: var(--space-l); /* 8px, from Buttons-Primary/Icon (the only set with two children) */
+  height: var(--btn-height); /* fixed, so label and loader states match */
+  min-width: var(--btn-min-w);
+  margin: 0;
+  padding: 0 var(--btn-pad-x);
   border: 0;
-  border-radius: var(--radius-sm);
-  box-shadow: inset 0 0 0 1px var(--btn-border); /* inside stroke, keeps 36px height */
+  border-radius: var(--btn-radius);
+  box-shadow: inset 0 0 0 1px var(--btn-ring); /* inside stroke, keeps the height */
   background: var(--btn-bg);
   color: var(--btn-fg);
 
+  /* The weight comes from the font file: never add font-weight */
   font-family: var(--font-family-medium);
-  font-size: var(--font-size-md);
-  line-height: var(--line-height-md);
-  letter-spacing: var(--letter-spacing-md);
+  font-size: var(--btn-font-size);
+  line-height: var(--btn-line-height);
+  letter-spacing: var(--btn-letter-spacing);
+  text-decoration: none;
   white-space: nowrap;
+  vertical-align: middle;
 
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   transition: background-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
 }
 
-.btn-primary-md:focus-visible {
+.btn:focus-visible {
   outline: 2px solid var(--color-button-1000);
   outline-offset: 2px;
 }
 
-/* Hover — Property 1=Hover */
-.btn-primary-md:hover,
-.btn-primary-md.is-hover {
-  --btn-bg: var(--color-button-1000);
+/* ---- Parts --------------------------------------------------------------- */
+
+.btn__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: var(--btn-icon-size);
+  height: var(--btn-icon-size);
+}
+.btn__icon > :is(svg, img, .icon) {
+  width: 100%;
+  height: 100%;
 }
 
-/* Activated — Property 1=Activated (pressed / toggled on) */
-.btn-primary-md:active,
-.btn-primary-md[aria-pressed="true"],
-.btn-primary-md.is-activated {
-  --btn-bg: var(--color-button-100);
-  --btn-fg: var(--color-button-1000);
-  --btn-border: var(--color-button-1000);
-}
-
-/* Loading — Property 1=Loading */
-.btn-primary-md[aria-busy="true"] {
-  --btn-bg: var(--color-button-1000);
-  --btn-fg: var(--color-bg-1);
-  --btn-border: transparent;
-  cursor: progress;
-}
-
-/* The loader SVG is used as a mask so it takes the label color (BG/1 in
-   Figma), which changes between light and dark mode. */
-.btn-primary-md__spinner {
+/* Loader: the Figma "icons/shapes/loader 1/line" asset used as a mask, so it
+   takes the label color (currentColor) and switches with the theme. */
+.btn__loader {
   display: block;
-  width: 24px;
-  height: 24px;
+  flex-shrink: 0;
+  width: var(--btn-loader-size);
+  height: var(--btn-loader-size);
   background: currentColor;
-  mask: url("assets/loader.svg") center / 24px 24px no-repeat;
+  -webkit-mask: url("assets/loader.svg") center / contain no-repeat;
+  mask: url("assets/loader.svg") center / contain no-repeat;
   animation: btn-spin 800ms linear infinite;
 }
 
@@ -77,16 +127,251 @@
   to { transform: rotate(360deg); }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .btn-primary-md__spinner { animation-duration: 2400ms; }
+/* ---- Sizes --------------------------------------------------------------- */
+
+/* Small: Buttons-Primary/Small, Buttons-Secondary/Small, Primary-Negative-small */
+.btn--small {
+  --btn-height: var(--control-height-sm); /* 24px */
+  --btn-min-w: 50px;
+  --btn-font-size: var(--font-size-sm);   /* BTN Small */
+  --btn-line-height: var(--line-height-sm);
+  --btn-letter-spacing: var(--letter-spacing-sm);
+  --btn-loader-size: 20px;
+  --btn-icon-size: 16px; /* no small icon button in Figma */
 }
 
-/* Disabled — Property 1=Disabled */
-.btn-primary-md:disabled,
-.btn-primary-md[aria-disabled="true"] {
+/* Medium: */
+.btn--medium {
+  --btn-height: var(--control-height-md); /* 36px */
+}
+
+/* Large: Buttons-Primary-Large, Primary-Fullwidth, Secondary-Large 3862:3194.
+   The "Large" text style has the same values as BTN Medium. */
+.btn--large {
+  --btn-height: var(--control-height-lg); /* 44px */
+  --btn-pad-x: var(--space-3xl);          /* 20px */
+  --btn-min-w: 100px;
+  --btn-radius: var(--radius-lg);         /* 8px, unbound in Figma */
+}
+
+.btn--full {
+  width: 100%;
+}
+
+/* ---- States shared by every variant ------------------------------------- */
+
+/* Loading: label visually hidden (still announced), leading icon removed */
+.btn:is(.is-loading, [aria-busy="true"]) {
+  cursor: progress;
+}
+.btn:is(.is-loading, [aria-busy="true"]) .btn__icon {
+  display: none;
+}
+.btn:is(.is-loading, [aria-busy="true"]) .btn__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Disabled: layer opacity 0.5 in Figma (no opacity token exists) */
+.btn:is(:disabled, [aria-disabled="true"]):not(.is-loading, [aria-busy="true"]) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+a.btn[aria-disabled="true"] {
+  pointer-events: none;
+}
+
+/* ---- Primary ------------------------------------------------------------- */
+
+.btn--primary {
   --btn-bg: var(--color-button-800);
   --btn-fg: var(--color-bg-1);
-  --btn-border: transparent;
-  opacity: 0.5; /* layer opacity in Figma; no token for it in tokens.css */
-  cursor: not-allowed;
+}
+.btn--primary:is(:hover, .is-hover):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-button-1000);
+}
+.btn--primary:is(:active, .btn--pressed, [aria-pressed="true"]):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-button-100);
+  --btn-fg: var(--color-button-1000);
+  --btn-ring: var(--color-button-1000);
+}
+/* Buttons-Primary-Fullwidth (the blue Large reference) uses Button/800 for the
+   Activated label, not Button/1000 */
+.btn--primary.btn--large:is(:active, .btn--pressed, [aria-pressed="true"]):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-fg: var(--color-button-800);
+}
+.btn--primary:is(.is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-button-1000);
+  --btn-fg: var(--color-bg-1);
+}
+
+/* ---- Secondary ----------------------------------------------------------- */
+/* Neutral at every size. Buttons-Secondary/Small uses the Button/100 blue
+   scale in Figma; kept neutral on purpose (see README). */
+
+.btn--secondary {
+  --btn-bg: var(--color-bg-2);
+  --btn-fg: var(--color-text-t3);
+}
+.btn--secondary:is(:hover, .is-hover):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-bg-hover);
+}
+/* Medium / small Activated: Text/T2 stroke, label unchanged */
+.btn--secondary:is(:active, .btn--pressed, [aria-pressed="true"]):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-ring: var(--color-text-t2);
+}
+/* Large "Focus" (3862:3194): Text/Primary stroke and label */
+.btn--secondary.btn--large:is(:active, .btn--pressed, [aria-pressed="true"]):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-ring: var(--color-text-primary);
+  --btn-fg: var(--color-text-primary);
+}
+.btn--secondary:is(.is-loading, [aria-busy="true"]) {
+  --btn-fg: var(--color-text-secondary); /* loader color */
+}
+/* Disabled secondary has no layer opacity in Figma: it greys the label */
+.btn--secondary:is(:disabled, [aria-disabled="true"]):not(.is-loading, [aria-busy="true"]) {
+  --btn-fg: var(--color-disabled);
+  opacity: 1;
+}
+
+/* ---- Ghost --------------------------------------------------------------- */
+
+.btn--ghost {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-button-800);
+}
+.btn--ghost:is(:hover, .is-hover):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-bg-hover);
+}
+.btn--ghost:is(:active, .btn--pressed, [aria-pressed="true"]):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-bg-hover);
+  --btn-ring: var(--color-button-800);
+}
+
+/* Ghost with an icon = Buttons-Primary/Icon 2145:2677. Its "Focused" state
+   uses Button/1000 (not Button/800) and its Loading state has a BG/2 fill. */
+.btn--ghost:has(> .btn__icon):is(:active, .btn--pressed, [aria-pressed="true"]):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-fg: var(--color-button-1000);
+  --btn-ring: var(--color-button-1000);
+}
+.btn--ghost:has(> .btn__icon):is(.is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-bg-2);
+  --btn-fg: var(--color-button-1000);
+}
+
+/* ---- Negative (destructive, high emphasis) ------------------------------ */
+
+.btn--negative {
+  --btn-bg: var(--color-negative-800);
+  --btn-fg: var(--color-bg-1);
+}
+.btn--negative:is(:hover, .is-hover):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-negative-1000);
+}
+.btn--negative:is(:active, .btn--pressed, [aria-pressed="true"]):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-negative-100);
+  --btn-fg: var(--color-negative-800);
+  --btn-ring: var(--color-negative-800);
+}
+.btn--negative:is(.is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-negative-1000);
+  --btn-fg: var(--color-bg-1);
+}
+
+/* ---- Negative secondary (destructive, low emphasis) --------------------- */
+
+.btn--negative-secondary {
+  --btn-bg: var(--color-negative-100);
+  --btn-fg: var(--color-negative-800);
+}
+.btn--negative-secondary:is(:hover, .is-hover):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-negative-200);
+}
+.btn--negative-secondary:is(:active, .btn--pressed, [aria-pressed="true"]):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-ring: var(--color-negative-800);
+}
+.btn--negative-secondary:is(.is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-negative-200);
+}
+
+/* Small = Buttons-Primary-Negative-small 2145:2675: Hover and Activated labels
+   darken to Negative/1000; Loading and Disabled sit on BG/1. */
+.btn--negative-secondary.btn--small:is(:hover, .is-hover, :active, .btn--pressed, [aria-pressed="true"]):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-fg: var(--color-negative-1000);
+}
+.btn--negative-secondary.btn--small:is(.is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-bg-1);
+  --btn-fg: var(--color-negative-1000);
+}
+.btn--negative-secondary.btn--small:is(:disabled, [aria-disabled="true"]):not(.is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-bg-1);
+}
+
+/* ---- Link ---------------------------------------------------------------- */
+/* Small (default, 2145:2680): BTN Small, 20px tall.
+   Medium / Large (3313:2456): BTN Medium, 24px tall. */
+
+.btn--link {
+  --btn-bg: transparent;
+  --btn-fg: var(--color-button-800);
+  --btn-height: 20px;
+  --btn-pad-x: var(--space-xs); /* 2px */
+  --btn-min-w: 0;
+  --btn-radius: 2px;            /* unbound in Figma */
+  --btn-font-size: var(--font-size-sm);
+  --btn-line-height: var(--line-height-sm);
+  --btn-letter-spacing: var(--letter-spacing-sm);
+  --btn-loader-size: 20px;
+
+  gap: var(--space-s);
+  box-shadow: 0 0 0 1px var(--btn-ring); /* Activated stroke is OUTSIDE on links */
+}
+.btn--link:is(.btn--medium, .btn--large) {
+  --btn-height: 24px;
+  --btn-font-size: var(--font-size-md);
+  --btn-line-height: var(--line-height-md);
+  --btn-letter-spacing: var(--letter-spacing-md);
+}
+
+/* Hover: Button/1000 + underline. On the small link Figma also switches the
+   text style to BTN Medium (the frame grows from 56×20 to 65×24). */
+.btn--link:is(:hover, .is-hover):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-fg: var(--color-button-1000);
+  --btn-height: 24px;
+  --btn-font-size: var(--font-size-md);
+  --btn-line-height: var(--line-height-md);
+  --btn-letter-spacing: var(--letter-spacing-md);
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  text-underline-position: from-font;
+}
+/* Activated: 50% layer opacity + 1px Button/1000 outside stroke */
+.btn--link:is(:active, .btn--pressed, [aria-pressed="true"]):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-fg: var(--color-button-1000);
+  --btn-ring: var(--color-button-1000);
+  opacity: 0.5;
+}
+.btn--link:is(.is-loading, [aria-busy="true"]) {
+  --btn-fg: var(--color-button-1000);
+  --btn-min-w: 56px; /* Figma Loading frame width */
+  --btn-radius: var(--radius-sm);
+}
+.btn--link:is(.btn--medium, .btn--large):is(.is-loading, [aria-busy="true"]) {
+  --btn-min-w: 65px;
+}
+/* Disabled: 0.5 layer opacity × 0.4 label opacity in Figma */
+.btn--link:is(:disabled, [aria-disabled="true"]):not(.is-loading, [aria-busy="true"]) {
+  opacity: 0.2;
+}
+
+/* ---- Motion -------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
+  /* The spinner is the only progress cue, so slow it down rather than stop it */
+  .btn__loader { animation-duration: 2400ms; }
 }

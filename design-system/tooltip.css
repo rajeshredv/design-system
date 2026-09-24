@@ -1,0 +1,127 @@
+/* ==========================================================================
+   Tooltip
+   Figma component set: Tooltip 3319:4126
+   Variants: List (True | False) × ArrowUp (True | False)
+     ArrowUp=True  → .tooltip--arrow-up    (default; tooltip sits below the trigger)
+     ArrowUp=False → .tooltip--arrow-down  (tooltip sits above the trigger)
+     List=False    → one line of text
+     List=True     → .tooltip__title + .tooltip__line rows (e.g. who reacted)
+   Requires tokens.css
+
+   Markup — the tooltip lives inside .tooltip-anchor next to its trigger and
+   shows on hover AND keyboard focus:
+     <span class="tooltip-anchor">
+       <button class="…" aria-describedby="tip-1">…</button>
+       <span class="tooltip" role="tooltip" id="tip-1">Action name</span>
+     </span>
+   The Figma tooltip is the same dark surface in light and dark mode, and its
+   colors aren't bound to variables, so they are component-local below.
+   ========================================================================== */
+
+.tooltip-anchor {
+  position: relative;
+  display: inline-flex;
+}
+
+.tooltip {
+  /* Component-level tokens (override these to theme a single instance) */
+  --tooltip-bg: #222222;       /* unbound in Figma: #222222 (same in both themes) */
+  --tooltip-fg: #e3e3e3;       /* unbound in Figma: #e3e3e3 */
+  --tooltip-fg-muted: #b3b3b3; /* unbound in Figma: #b3b3b3 (List rows) */
+  --tooltip-arrow-w: 12px;     /* 11.92 × 5.59 triangle in Figma */
+  --tooltip-arrow-h: 6px;
+  --tooltip-offset: 4px;       /* gap between trigger and arrow tip (code only) */
+
+  position: absolute;
+  z-index: 1000;
+  left: 50%;
+  top: calc(100% + var(--tooltip-arrow-h) + var(--tooltip-offset));
+  box-sizing: border-box;
+  width: max-content;
+  max-width: 240px;
+  padding: var(--space-m);
+  border-radius: var(--radius-sm);
+  background: var(--tooltip-bg);
+  color: var(--tooltip-fg);
+  font: var(--font-sub-text);  /* Sub text M */
+  text-align: start;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  pointer-events: none;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-50%);
+  transition: opacity 120ms ease, visibility 0s linear 120ms;
+}
+
+/* Arrow — centred on the tooltip, touching its edge */
+.tooltip::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: var(--tooltip-arrow-w);
+  height: var(--tooltip-arrow-h);
+  background: inherit;
+  transform: translateX(-50%);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+
+/* ArrowUp=False — above the trigger, arrow pointing down */
+.tooltip--arrow-down {
+  top: auto;
+  bottom: calc(100% + var(--tooltip-arrow-h) + var(--tooltip-offset));
+}
+.tooltip--arrow-down::before {
+  bottom: auto;
+  top: 100%;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+}
+
+/* Show on hover and keyboard focus (and .is-open for scripted control) */
+.tooltip-anchor:hover > .tooltip,
+.tooltip-anchor:focus-within > .tooltip,
+.tooltip.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; /* lets the pointer move onto the tooltip (WCAG 1.4.13) */
+  transition-delay: 0s;
+}
+/* Escape dismisses (set by script) until the pointer / focus leaves */
+.tooltip-anchor > .tooltip.is-dismissed {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* List=True */
+.tooltip__title,
+.tooltip__line {
+  display: block;
+}
+.tooltip__line {
+  color: var(--tooltip-fg-muted);
+}
+
+/* Static placement for documentation / previews (no trigger needed) */
+.tooltip--static {
+  position: relative;
+  top: auto;
+  bottom: auto;
+  left: auto;
+  display: inline-block;
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  margin-top: var(--tooltip-arrow-h);
+}
+.tooltip--static.tooltip--arrow-down {
+  margin-top: 0;
+  margin-bottom: var(--tooltip-arrow-h);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tooltip {
+    transition: none;
+  }
+}

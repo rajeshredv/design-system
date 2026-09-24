@@ -1,0 +1,312 @@
+/* ==========================================================================
+   Icon button
+   Requires tokens.css and icon.css. Single source of icon-button styles: used
+   as plain CSS and by components/IconButton.vue (which has no styles of its own).
+
+   Class API
+     .icon-btn                    base (renders as Large Transparent when no modifiers are set)
+     Style   .icon-btn--hard-fill | --soft-fill | --soft-fill-neutral
+             | --transparent | --secondary | --negative | --micro
+     Size    .icon-btn--large (40px, 24px icon) | --small (32px, 20px icon)
+             | --xsmall (24px, 18px icon)
+             (--micro sets its own 20px size and 20px icon, don't add a size class to it)
+     Parts   .icon-btn__badge           count badge, top right  (States=BadgeCount)
+             .icon-btn__badge--dot      6px dot without a number (States=No number)
+             .icon-btn__add             yellow circular "add" glyph (3628:2793)
+     Group   .icon-btn-cluster          row of icon buttons with a 4px gap (Icon btn cluster)
+
+   States (Figma "States")
+     Default     base
+     Hover       :hover                           (.is-hover forces it for static previews)
+     Active      :active, .icon-btn--pressed, [aria-pressed="true"]
+                 (called Activated in Micro, Focus in 3628:2793, States6 in Soft-fill Blue=False)
+     Disabled    :disabled, [aria-disabled="true"]
+
+   Markup: an icon-only button always needs an accessible name
+     <button class="icon-btn icon-btn--transparent icon-btn--large" type="button" aria-label="Add reaction">
+       <span class="icon" style="--icon:url(assets/icons/emoji-smiley.svg)" aria-hidden="true"></span>
+     </button>
+
+   Figma component sets → classes
+     Icon-Primary-Hard-fill 2050:3177   .icon-btn--hard-fill .icon-btn--small
+     Icon-Small-Hard-fill 2148:2727     .icon-btn--hard-fill .icon-btn--xsmall
+     Icon-Large-Transparent 2050:3186   .icon-btn--transparent .icon-btn--large (+ __badge)
+     Icon-Small-Transparent 2148:2688   .icon-btn--transparent .icon-btn--small
+     Icon-Large-Soft-fill 3016:6334     .icon-btn--soft-fill (Blue=True) / --soft-fill-neutral (Blue=False), --large
+     Icon-Large-Secondary 3016:6371     .icon-btn--secondary .icon-btn--large
+     Icon-Large-Secondary 3628:2793     .icon-btn--transparent .icon-btn--large + .icon-btn__add
+     Icon-Small-Negative 2148:2709      .icon-btn--negative .icon-btn--small
+     Micro 2148:2732                    .icon-btn--micro
+     Icon btn cluster 3103:2067         .icon-btn-cluster
+   ========================================================================== */
+
+.icon-btn {
+  /* Component-level tokens (override these to theme a single instance) */
+  --icon-btn-bg: transparent;
+  --icon-btn-fg: var(--color-text-secondary); /* icon color */
+  --icon-btn-ring: transparent;               /* 1px inside stroke of the Active state */
+
+  /* Size tokens: Large by default */
+  --icon-btn-size: 40px;       /* unbound in Figma */
+  --icon-btn-icon-size: 24px;  /* icon instance size in Figma */
+  --icon-btn-radius: 50%;      /* Figma uses 28–100px radii, all ≥ half the size, so every size renders as a circle */
+
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: var(--icon-btn-size);
+  height: var(--icon-btn-size);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--icon-btn-radius);
+  box-shadow: inset 0 0 0 1px var(--icon-btn-ring); /* inside stroke, keeps the size fixed */
+  background: var(--icon-btn-bg);
+  color: var(--icon-btn-fg);
+  font: inherit;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+.icon-btn > .icon {
+  --icon-size: var(--icon-btn-icon-size);
+}
+
+.icon-btn:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+}
+
+/* ---- Sizes -------------------------------------------------------------- */
+
+.icon-btn--large {
+  --icon-btn-size: 40px;
+  --icon-btn-icon-size: 24px;
+}
+
+.icon-btn--small {
+  --icon-btn-size: 32px;
+  --icon-btn-icon-size: 20px;
+}
+
+.icon-btn--xsmall {
+  --icon-btn-size: 24px;
+  --icon-btn-icon-size: 18px;
+}
+
+/* ---- Styles: Default ------------------------------------------------------ */
+
+/* Icon-Primary-Hard-fill 2050:3177 / Icon-Small-Hard-fill 2148:2727 */
+.icon-btn--hard-fill {
+  --icon-btn-bg: var(--color-button-800);
+  /* 2050:3177 icon fill is an unbound #FFFFFF; --color-label is exactly #FFFFFF in both modes */
+  --icon-btn-fg: var(--color-label);
+}
+/* 2148:2727 binds its icon to BG/1 instead (#FFFFFF light, #2B2B2B dark) */
+.icon-btn--hard-fill.icon-btn--xsmall {
+  --icon-btn-fg: var(--color-bg-1);
+}
+
+/* Icon-Large-Transparent 2050:3186 / Icon-Small-Transparent 2148:2688 / 3628:2793 */
+.icon-btn--transparent {
+  --icon-btn-bg: transparent;
+  --icon-btn-fg: var(--color-text-secondary);
+}
+
+/* Icon-Large-Soft-fill 3016:6334, Blue=True */
+.icon-btn--soft-fill {
+  --icon-btn-bg: var(--color-button-100);
+  --icon-btn-fg: var(--color-text-primary);
+}
+
+/* Icon-Large-Soft-fill 3016:6334, Blue=False */
+.icon-btn--soft-fill-neutral {
+  --icon-btn-bg: var(--color-bg-1);
+  --icon-btn-fg: var(--color-text-primary);
+}
+
+/* Icon-Large-Secondary 3016:6371 */
+.icon-btn--secondary {
+  --icon-btn-bg: var(--color-bg-2);
+  --icon-btn-fg: var(--color-text-secondary);
+}
+
+/* Icon-Small-Negative 2148:2709 */
+.icon-btn--negative {
+  --icon-btn-bg: transparent;
+  --icon-btn-fg: var(--color-negative-800);
+}
+
+/* Micro 2148:2732 — 20px square overlay button (e.g. remove an attachment) */
+.icon-btn--micro {
+  --icon-btn-scrim: rgb(0 0 0 / 0.4);       /* unbound in Figma: #000000 at 40% */
+  --icon-btn-scrim-hover: rgb(0 0 0 / 0.6); /* unbound in Figma: #000000 at 60% */
+  --icon-btn-bg: var(--icon-btn-scrim);
+  --icon-btn-fg: var(--color-bg-1);
+  --icon-btn-size: 20px;
+  --icon-btn-icon-size: 20px;
+  --icon-btn-radius: var(--radius-sm); /* 4px, unbound in Figma */
+}
+
+/* ---- Hover ---------------------------------------------------------------- */
+
+.icon-btn--hard-fill:is(:hover, .is-hover) {
+  --icon-btn-bg: var(--color-button-1000);
+}
+
+.icon-btn--transparent:is(:hover, .is-hover) {
+  --icon-btn-bg: var(--color-bg-hover);
+  --icon-btn-fg: var(--color-text-primary);
+}
+
+.icon-btn--soft-fill:is(:hover, .is-hover),
+.icon-btn--soft-fill-neutral:is(:hover, .is-hover) {
+  --icon-btn-bg: var(--color-bg-hover);
+}
+
+.icon-btn--secondary:is(:hover, .is-hover) {
+  --icon-btn-bg: var(--color-bg-1);
+}
+
+.icon-btn--negative:is(:hover, .is-hover) {
+  --icon-btn-bg: var(--color-negative-100);
+}
+
+.icon-btn--micro:is(:hover, .is-hover) {
+  --icon-btn-bg: var(--icon-btn-scrim-hover);
+}
+
+/* ---- Active: no fill, 1px inside stroke, icon takes the stroke color ------- */
+
+.icon-btn:is(:active, .icon-btn--pressed, [aria-pressed="true"]) {
+  --icon-btn-bg: transparent;
+  --icon-btn-fg: var(--color-button-800);
+  --icon-btn-ring: var(--color-button-800);
+}
+
+.icon-btn--negative:is(:active, .icon-btn--pressed, [aria-pressed="true"]) {
+  --icon-btn-fg: var(--color-negative-800);
+  --icon-btn-ring: var(--color-negative-800);
+}
+
+/* Micro "Activated" keeps the 60% scrim and uses a Text/T2 stroke */
+.icon-btn--micro:is(:active, .icon-btn--pressed, [aria-pressed="true"]) {
+  --icon-btn-bg: var(--icon-btn-scrim-hover);
+  --icon-btn-fg: var(--color-bg-1);
+  --icon-btn-ring: var(--color-text-t2);
+}
+
+/* ---- Disabled ------------------------------------------------------------- */
+
+.icon-btn:is(:disabled, [aria-disabled="true"]) {
+  opacity: 0.5; /* layer opacity in Figma; no token for it in tokens.css */
+  cursor: not-allowed;
+}
+
+/* Disabled restores the Default look even while hovered or pressed */
+.icon-btn--hard-fill:is(:disabled, [aria-disabled="true"]) {
+  --icon-btn-bg: var(--color-button-800);
+  --icon-btn-ring: transparent;
+  --icon-btn-fg: var(--color-label);
+}
+.icon-btn--hard-fill.icon-btn--xsmall:is(:disabled, [aria-disabled="true"]) {
+  --icon-btn-fg: var(--color-bg-1);
+}
+.icon-btn--transparent:is(:disabled, [aria-disabled="true"]) {
+  --icon-btn-bg: transparent;
+  --icon-btn-ring: transparent;
+  --icon-btn-fg: var(--color-text-secondary);
+}
+/* Soft-fill Disabled / States5 also switch the icon to Text/Secondary */
+.icon-btn--soft-fill:is(:disabled, [aria-disabled="true"]) {
+  --icon-btn-bg: var(--color-button-100);
+  --icon-btn-ring: transparent;
+  --icon-btn-fg: var(--color-text-secondary);
+}
+.icon-btn--soft-fill-neutral:is(:disabled, [aria-disabled="true"]) {
+  --icon-btn-bg: var(--color-bg-1);
+  --icon-btn-ring: transparent;
+  --icon-btn-fg: var(--color-text-secondary);
+}
+/* Icon-Large-Secondary 3016:6371: the Disabled frame is identical to Default
+   in Figma (no 50% opacity). Kept as designed. */
+.icon-btn--secondary:is(:disabled, [aria-disabled="true"]) {
+  --icon-btn-bg: var(--color-bg-2);
+  --icon-btn-ring: transparent;
+  --icon-btn-fg: var(--color-text-secondary);
+  opacity: 1;
+}
+.icon-btn--negative:is(:disabled, [aria-disabled="true"]) {
+  --icon-btn-bg: transparent;
+  --icon-btn-ring: transparent;
+  --icon-btn-fg: var(--color-negative-800);
+}
+.icon-btn--micro:is(:disabled, [aria-disabled="true"]) {
+  --icon-btn-bg: var(--icon-btn-scrim);
+  --icon-btn-ring: transparent;
+  --icon-btn-fg: var(--color-bg-1);
+}
+
+/* ---- Badge (Icon-Large-Transparent States=BadgeCount / No number) --------- */
+
+.icon-btn__badge {
+  position: absolute;
+  top: 2px;   /* Figma: x 24, y 2 inside the 40px button */
+  right: 0;
+  display: inline-grid;
+  place-items: center;
+  box-sizing: border-box;
+  min-width: 16px;
+  height: 16px;
+  padding: var(--space-xs) 0; /* Figma: 2px 0, min-width 16px */
+  border-radius: 17.6px; /* unbound in Figma, pill */
+  background: var(--color-draft-badge);
+  box-shadow: 0 0 0 1px var(--color-bg-1); /* 1px outside stroke */
+  color: var(--color-label); /* unbound #FFFFFF in Figma; --color-label is exactly #FFFFFF */
+  font: 9.6px/1 var(--font-family-semibold); /* Zoho Puvi Semibold 9.6px, no text style in Figma */
+  pointer-events: none;
+}
+
+.icon-btn__badge--dot {
+  top: 6px;   /* Figma: x 30, y 6 */
+  right: 4px;
+  min-width: 0;
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border-radius: 50%;
+  box-shadow: none;
+}
+
+/* ---- Yellow "add" glyph (Icon-Large-Secondary 3628:2793) ------------------ */
+/* Two-color artwork built from tokens so it follows the theme: a 20px
+   Theme/yellow/1000 circle with a 10px Text/Primary plus. Its colors don't
+   change with the button state. */
+.icon-btn__add {
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-theme-yellow-1000);
+  color: var(--color-text-primary);
+}
+.icon-btn__add > .icon {
+  --icon-size: 10px;
+}
+
+/* ---- Cluster (Icon btn cluster 3103:2067) --------------------------------- */
+
+.icon-btn-cluster {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-s); /* 4px */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-btn {
+    transition: none;
+  }
+}

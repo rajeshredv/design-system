@@ -1,0 +1,107 @@
+/* ==========================================================================
+   Dropdown (trigger)
+   Figma component set: Dropdown 3167:2208
+   Variants (Property 1): Frame 28090 = Default · Frame 57503 = Hover ·
+                          Frame 57504 = Open · Frame 57505 = Disabled
+   Requires tokens.css (and menu.css for the panel it opens)
+
+   Markup — a native button that opens a menu (see menu.css):
+     <div class="dropdown-wrap">
+       <button type="button" class="dropdown" aria-haspopup="menu" aria-expanded="false">
+         Sort by contact
+         <span class="dropdown__chevron" aria-hidden="true"></span>
+       </button>
+       <div class="menu menu--small" role="menu" hidden>…</div>
+     </div>
+   ========================================================================== */
+
+.dropdown {
+  /* Component-level tokens (override these to theme a single instance) */
+  --dropdown-bg: transparent;
+  --dropdown-fg: var(--color-text-t3);
+  --dropdown-chevron: var(--color-text-t1);
+  --dropdown-border: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-m);                     /* 6px */
+  padding: var(--space-m) var(--space-l);  /* 6px 8px */
+  margin: 0;
+  border: 0;
+  border-radius: 39px;                     /* unbound in Figma: 39px (fully rounded at 28px tall) */
+  box-shadow: inset 0 0 0 1px var(--dropdown-border); /* inside stroke, keeps 28px height */
+  background: var(--dropdown-bg);
+  color: var(--dropdown-fg);
+
+  /* Figma: Zoho Puvi Semibold 14/16, not bound to a text style */
+  font: 14px/16px var(--font-family-semibold);
+  white-space: nowrap;
+
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+/* Chevron — exported from the Dropdown set (10 × 6) */
+.dropdown__chevron {
+  flex-shrink: 0;
+  width: 10px;
+  height: 6px;
+  background: var(--dropdown-chevron);
+  -webkit-mask: url("assets/icons/chevron-down.svg") center / contain no-repeat;
+  mask: url("assets/icons/chevron-down.svg") center / contain no-repeat;
+}
+
+.dropdown:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+}
+
+/* Hover — Frame 57503 */
+.dropdown:hover,
+.dropdown.is-hover {
+  --dropdown-bg: var(--color-bg-hover);
+  --dropdown-fg: var(--color-text-primary);
+}
+
+/* Open — Frame 57504: hover fill + 1px Text/T2 stroke, chevron points up */
+.dropdown[aria-expanded="true"],
+.dropdown.is-open {
+  --dropdown-bg: var(--color-bg-hover);
+  --dropdown-fg: var(--color-text-primary);
+  --dropdown-border: var(--color-text-t2);
+}
+.dropdown[aria-expanded="true"] .dropdown__chevron,
+.dropdown.is-open .dropdown__chevron {
+  -webkit-mask-image: url("assets/icons/chevron-up.svg");
+  mask-image: url("assets/icons/chevron-up.svg");
+}
+
+/* Disabled — Frame 57505: the Default frame at 50% opacity */
+.dropdown:disabled,
+.dropdown[aria-disabled="true"] {
+  --dropdown-bg: transparent;
+  --dropdown-fg: var(--color-text-t3);
+  --dropdown-border: transparent;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- Wrapper that anchors the menu under the trigger (code only) ---- */
+.dropdown-wrap {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-wrap > .menu {
+  position: absolute;
+  top: calc(100% + var(--space-s)); /* 4px gap: not specified in Figma */
+  left: 0;
+  z-index: 10;
+}
+.dropdown-wrap--end > .menu {
+  left: auto;
+  right: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dropdown { transition: none; }
+}

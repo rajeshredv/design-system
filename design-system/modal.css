@@ -1,0 +1,413 @@
+/* ==========================================================================
+   Dialogs: Modal, Modal header / footer, Button flex, Confirmation dialog
+   Requires tokens.css, icon.css and button.css. Single source of dialog
+   styles: used as plain CSS and by components/Modal.vue and
+   components/ConfirmDialog.vue (which have no styles of their own).
+
+   Class API
+     .modal                     dialog surface (450px, e.g. "Create group" 3158:2296)
+       .modal__header           Modal- Header 3103:2145, Back=False
+       .modal__header--back     Modal- Header, Back=True (back button, centered title)
+       .modal__title            H1 20 B
+       .modal__actions          Icon btn cluster (4px gap)
+       .modal__icon-btn         40px transparent icon button (header actions)
+       .modal__close            same look, for the close ✕ (can be combined)
+       .modal__body             scrollable content
+       .modal__footer           Modal- Footer 3159:2198
+     .button-flex               Button flex 3139:2395, Property 1=2 | 3
+       .button-flex__aux        Property 1=Aux: left-aligned link area
+       .button-flex--large      Property 1=Large button (centered, 44px buttons)
+       .button-flex--fill       Property 1=Large button-fill (buttons share the width)
+     .confirm                   Confirmation dialog 3139:2366, Place=Inside chat window
+       .confirm--outside        Place=Outside chat window
+       .confirm__text           title + description stack
+       .confirm__heading        Icon=True: warning icon + title row
+       .confirm__icon           38px warning glyph
+       .confirm__title          title (turns Negative/800 inside .confirm__heading)
+       .confirm__description    Subtext=True
+       .confirm__ack            checkbox + label row (Icon=True)
+       .confirm__checkbox       18px checkbox in a 24px box
+
+   Markup: use a native <dialog> and open it with showModal(). That gives a
+   focus trap, Escape to close, inert page content and a ::backdrop for free.
+     <dialog class="modal" aria-labelledby="t1">…</dialog>
+     <dialog class="confirm" aria-labelledby="t2" aria-describedby="d2">…</dialog>
+   ========================================================================== */
+
+/* ---- Shared <dialog> reset ---------------------------------------------- */
+
+.modal,
+.confirm {
+  /* Not in Figma: the file has no scrim / overlay color. Neutral black
+     at 40% so it works on both themes. */
+  --dialog-backdrop: rgb(0 0 0 / 0.4);
+
+  box-sizing: border-box;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  color: var(--color-text-primary);
+  background: var(--color-bg-1);
+}
+
+.modal::backdrop,
+.confirm::backdrop {
+  background: var(--dialog-backdrop);
+}
+
+.modal *,
+.confirm * {
+  box-sizing: border-box;
+}
+
+/* Open / close fade. Only on the modal (top-layer) presentation. */
+.modal:modal,
+.confirm:modal {
+  animation: dialog-in 160ms ease-out;
+}
+.modal:modal::backdrop,
+.confirm:modal::backdrop {
+  animation: dialog-fade 160ms ease-out;
+}
+
+@keyframes dialog-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+}
+@keyframes dialog-fade {
+  from { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal:modal,
+  .confirm:modal,
+  .modal:modal::backdrop,
+  .confirm:modal::backdrop {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
+   Modal
+   Surface from "Create group" (3158:2296): 450px wide, BG/1, 8px radius
+   (unbound, = --radius-lg), "Drop down menu" shadow, 16px vertical gap.
+   ========================================================================== */
+
+.modal {
+  --modal-width: 450px;
+
+  width: var(--modal-width);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-dropdown-menu);
+  overflow: hidden;
+}
+
+/* A dialog that is open is laid out as a column; a closed one stays hidden
+   (don't set display on the bare selector or closed dialogs would show). */
+.modal[open],
+.modal:not(dialog) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl); /* 16px */
+}
+
+/* ---- Header: Modal- Header 3103:2145 ---- */
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-l);                                  /* 8px */
+  padding: var(--space-btn) var(--space-l) var(--space-btn) var(--space-3xl); /* 10 8 10 20 */
+  background: var(--color-bg-1);
+  flex-shrink: 0;
+}
+
+.modal__title {
+  margin: 0;
+  font: var(--font-h1); /* H1 20 B */
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+/* Back=True: 8px left padding, back button, title centered in the space
+   between the back button and the action cluster. */
+.modal__header--back {
+  padding-left: var(--space-l);
+}
+.modal__header--back .modal__title {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+
+/* Icon btn cluster */
+.modal__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-s); /* 4px */
+  flex-shrink: 0;
+}
+
+/* Icon-Large-Transparent 2050:3186, styled locally until .icon-btn is shared.
+   40px, 8px padding, fully round, 24px icon. */
+.modal__icon-btn,
+.modal__close {
+  --modal-icon-btn-fg: var(--color-text-secondary);
+  --modal-icon-btn-bg: transparent;
+  --modal-icon-btn-ring: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: var(--space-l); /* 8px */
+  border: 0;
+  border-radius: 50%; /* 68px in Figma on a 40px box */
+  background: var(--modal-icon-btn-bg);
+  box-shadow: inset 0 0 0 1px var(--modal-icon-btn-ring);
+  color: var(--modal-icon-btn-fg);
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+/* The back arrow is Text/Primary in Figma, the other actions Text/Secondary */
+.modal__icon-btn--back {
+  --modal-icon-btn-fg: var(--color-text-primary);
+}
+
+/* States=Hover */
+.modal__icon-btn:is(:hover, .is-hover):not(:disabled),
+.modal__close:is(:hover, .is-hover):not(:disabled) {
+  --modal-icon-btn-bg: var(--color-bg-hover);
+  --modal-icon-btn-fg: var(--color-text-primary);
+}
+
+/* States=Active: Button/800 inside stroke and icon */
+.modal__icon-btn:is(:active, [aria-pressed="true"], [aria-expanded="true"]):not(:disabled),
+.modal__close:active:not(:disabled) {
+  --modal-icon-btn-bg: transparent;
+  --modal-icon-btn-fg: var(--color-button-800);
+  --modal-icon-btn-ring: var(--color-button-800);
+}
+
+/* States=Disabled: 0.5 layer opacity */
+.modal__icon-btn:disabled,
+.modal__close:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.modal__icon-btn:focus-visible,
+.modal__close:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+}
+
+/* ---- Body ----
+   From "Create group": 0 20px 40px padding, 16px gap between fields. */
+
+.modal__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);                                /* 16px */
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 var(--space-3xl) 40px;                     /* 40px is unbound */
+  font: var(--font-body-3);
+  color: var(--color-text-primary);
+}
+
+/* ---- Footer: Modal- Footer 3159:2198 ---- */
+
+.modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-2xl);                                /* 16px */
+  padding: var(--space-2xl) var(--space-3xl) var(--space-4xl); /* 16 20 24 */
+  background: var(--color-bg-1);
+  flex-shrink: 0;
+}
+.modal__footer > .button-flex {
+  flex: 1;
+}
+
+/* When a footer follows the body, the body's 40px bottom padding is not
+   part of the Figma footer spacing, so drop it. */
+.modal__body:has(+ .modal__footer) {
+  padding-bottom: 0;
+}
+
+/* ==========================================================================
+   Button flex 3139:2395
+   Right-aligned row of medium buttons with a 24px gap.
+   ========================================================================== */
+
+.button-flex {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-4xl); /* 24px */
+  min-height: var(--control-height-md); /* the 2 / 3 / Aux frames are 36px tall */
+}
+
+/* Property 1=Aux: link buttons fill the left side (2px padding, 10px gap) */
+.button-flex__aux {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-btn);  /* 10px */
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-xs); /* 2px */
+}
+
+/* Property 1=Large button: 44px buttons, centered */
+.button-flex--large {
+  justify-content: center;
+}
+
+/* Property 1=Large button-fill: 10px gap, buttons share the width */
+.button-flex--fill {
+  justify-content: center;
+  gap: var(--space-btn); /* 10px */
+}
+.button-flex--fill > .btn {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* ==========================================================================
+   Confirmation dialog 3139:2366
+   ========================================================================== */
+
+/* Place=Inside chat window: 540px, 4px radius, "Drop down menu" shadow,
+   36 36 24 padding, 44px between the text and the buttons (36px when
+   there is a description). */
+.confirm {
+  --confirm-width: 540px;
+  --confirm-gap: 44px; /* unbound in Figma */
+
+  width: var(--confirm-width);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-dropdown-menu);
+  padding: 36px 36px var(--space-4xl); /* 36px is unbound */
+}
+
+.confirm[open],
+.confirm:not(dialog) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--confirm-gap);
+}
+
+.confirm:has(.confirm__description) {
+  --confirm-gap: 36px; /* unbound in Figma */
+}
+
+.confirm__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl); /* 16px */
+  min-width: 0;
+}
+
+.confirm__title {
+  margin: 0;
+  font: var(--font-h1); /* 20/32 Bold: H1 20 B values, style not linked in Figma */
+  color: var(--color-text-primary);
+}
+
+.confirm__description {
+  margin: 0;
+  font: var(--font-body-2); /* Body 2 M */
+  color: var(--color-text-primary);
+}
+
+/* Icon=True: 38px warning glyph + title in Negative/800, 20px gap */
+.confirm__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3xl); /* 20px */
+}
+.confirm__heading .confirm__title {
+  color: var(--color-negative-800);
+}
+.confirm__icon {
+  --icon-size: 38px;
+  color: var(--color-negative-800);
+}
+
+/* Acknowledgement checkbox row */
+.confirm__ack {
+  display: flex;
+  align-items: center;
+  gap: var(--space-l); /* 8px */
+  font: var(--font-sub-text); /* Sub text M */
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+/* 18px box with a 1px Text/T1 border and 2px radius, centered in 24px.
+   Local until the shared checkbox is available. */
+.confirm__checkbox {
+  appearance: none;
+  position: relative;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 3px;
+  border: 1px solid var(--color-text-t1);
+  border-radius: 2px; /* unbound in Figma */
+  background: transparent;
+  cursor: pointer;
+}
+/* Checked: not drawn in this Figma set (the tick layer is hidden), so it
+   uses the Button/800 fill + BG/1 tick of the checkbox component. */
+.confirm__checkbox:checked {
+  border-color: var(--color-button-800);
+  background: var(--color-button-800);
+}
+.confirm__checkbox:checked::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-bg-1);
+  -webkit-mask: url("assets/icons/checkbox-check.svg") center / 10.5px 8px no-repeat;
+  mask: url("assets/icons/checkbox-check.svg") center / 10.5px 8px no-repeat;
+}
+.confirm__checkbox:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+}
+
+/* ---- Place=Outside chat window ----
+   16px radius, soft shadow, 36 36 28 padding, 28px gap, centered text:
+   title H6 20M, description Body 1 R in Text/Secondary. */
+.confirm--outside {
+  /* unbound in Figma: drop shadow 0 4 12 #000000 @ 10% (no token) */
+  --confirm-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+  --confirm-gap: 28px; /* unbound */
+
+  border-radius: 16px; /* unbound */
+  box-shadow: var(--confirm-shadow);
+  padding: 36px 36px 28px; /* unbound */
+  text-align: center;
+}
+.confirm--outside:has(.confirm__description) {
+  --confirm-gap: 28px;
+}
+.confirm--outside .confirm__title {
+  font: var(--font-h6);
+  letter-spacing: var(--ls-h6);
+  color: var(--color-text-primary);
+}
+.confirm--outside .confirm__description {
+  font: var(--font-body-1);
+  color: var(--color-text-secondary);
+}

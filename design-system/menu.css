@@ -1,0 +1,229 @@
+/* ==========================================================================
+   Dropdown menu + Dropdown items
+   Figma component sets:
+     Dropdown menu            3167:2272  Small · Medium · Small-search selection
+     Dropdown items - Small   3167:2219  Icon × Badge × Check-mark (5 variants)
+     Dropdown items - Medium  3167:2251  Icon × Check-mark (3 variants)
+   Requires tokens.css and icon.css (item icons use the shared .icon mask)
+
+   Action menu (role="menu"):
+     <div class="menu menu--medium" role="menu" aria-label="Message actions">
+       <button type="button" class="menu-item" role="menuitem" tabindex="-1">
+         <span class="icon menu-item__icon" style="--icon:url(assets/icons/copy.svg)" aria-hidden="true"></span>
+         <span class="menu-item__label">Copy</span>
+       </button>
+     </div>
+
+   Selection (role="menuitemradio" / "option"): the check-mark is drawn by CSS
+   whenever aria-checked="true" or aria-selected="true" is set on the item.
+   ========================================================================== */
+
+/* ---- Panel ------------------------------------------------------------- */
+.menu {
+  /* Component-level tokens */
+  --menu-bg: var(--color-bg-1);
+  --menu-radius: var(--radius-sm);          /* 4px — Small / Medium */
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: max-content;
+  min-width: 160px;
+  padding: var(--space-s) 0;                /* 4px 0 */
+  margin: 0;
+  border-radius: var(--menu-radius);
+  background: var(--menu-bg);
+  box-shadow: var(--shadow-dropdown-menu);  /* Effect style "Drop down menu" */
+  color: var(--color-text-primary);
+}
+
+.menu[hidden] { display: none; }
+
+/* Property 1=Small — 160px wide, Small items */
+.menu--small { width: 160px; }
+
+/* Property 1=Medium — 180px wide, Medium items */
+.menu--medium { width: 180px; }
+
+/* Property 1=Small-search selection — search field + Small items, 12px radius */
+.menu--search {
+  --menu-radius: 12px;                      /* unbound in Figma: 12px */
+  min-width: 280px;
+}
+
+/* ---- Item (Dropdown items - Small is the default) ----------------------- */
+.menu-item {
+  --menu-item-bg: transparent;
+  --menu-item-fg: var(--color-text-primary);
+  --menu-item-height: 40px;
+  --menu-item-icon: 18px;
+  --menu-item-label-pad: var(--space-s);    /* 4px */
+  --menu-item-trailing-gap: var(--space-l); /* 8px */
+
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: var(--menu-item-height);
+  padding: 0 var(--space-xl);               /* 0 12px */
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: var(--menu-item-bg);
+  color: var(--menu-item-fg);
+  font: var(--font-body-3);                 /* Body 3 R — 14/20 */
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 120ms ease;
+}
+
+/* Dropdown items - Medium — 48px, 20px icon, Body 1 R, 12px trailing gap */
+.menu-item--medium,
+.menu--medium .menu-item {
+  --menu-item-height: 48px;
+  --menu-item-icon: 20px;
+  --menu-item-label-pad: var(--space-l);    /* 8px */
+  --menu-item-trailing-gap: var(--space-xl);/* 12px */
+  font: var(--font-body-1);                 /* Body 1 R — 16/22 */
+}
+
+.icon.menu-item__icon {
+  --icon-size: var(--menu-item-icon);
+  margin-right: var(--space-s);             /* 4px icon → label */
+}
+
+.menu-item__label {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0 var(--menu-item-label-pad);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Badge — mirrors Figma "Badge" (3000:1459 Default, 3000:1469 Muted) */
+.menu-item__badge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 20px;
+  height: 20px;
+  padding: 1px var(--space-s);              /* 1px 4px */
+  margin-left: var(--menu-item-trailing-gap);
+  border-radius: 22px;                      /* unbound in Figma: 22px */
+  background: var(--color-theme-yellow-1000);
+  color: var(--color-text-primary);
+  font: var(--font-badge);                  /* Badge-text 12px */
+}
+.menu-item__badge--muted {
+  background: var(--color-bg-border);
+}
+
+/* Check-mark — 24px tick, Success/800. Shown for the selected item. */
+.menu-item[aria-checked="true"]::after,
+.menu-item[aria-selected="true"]::after {
+  content: "";
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin-left: var(--menu-item-trailing-gap);
+  background: var(--color-success-800);
+  -webkit-mask: url("assets/icons/tick.svg") center / contain no-repeat;
+  mask: url("assets/icons/tick.svg") center / contain no-repeat;
+}
+
+/* Negative (e.g. Delete) — text and icon in Negative/800 */
+.menu-item--negative {
+  --menu-item-fg: var(--color-negative-800);
+}
+
+/* Hover — BG/Hover (as in the Small-search selection frame). Keyboard focus
+   uses the same fill plus the standard focus ring. */
+.menu-item:hover,
+.menu-item.is-hover,
+.menu-item:focus-visible,
+.menu-item.is-active {
+  --menu-item-bg: var(--color-bg-hover);
+}
+.menu-item:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: -2px;
+}
+
+/* Disabled — code only (Figma has no disabled item) */
+.menu-item[aria-disabled="true"],
+.menu-item:disabled {
+  --menu-item-bg: transparent;
+  --menu-item-fg: var(--color-disabled);
+  cursor: not-allowed;
+}
+
+/* Search selection: hovered rows get an 8px radius */
+.menu--search .menu-item {
+  border-radius: var(--radius-lg);          /* 8px */
+}
+
+/* ---- Search header (Small-search selection) ---------------------------- */
+.menu__search {
+  padding: var(--space-s) var(--space-l);   /* 4px 8px */
+}
+
+.menu__search-field {
+  /* unbound in Figma: #000000 (the search glyph is not bound to a variable).
+     Dark mode falls back to Text/Primary so the icon stays visible. */
+  --menu-search-icon: light-dark(#000000, var(--color-text-primary));
+
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);                     /* 12px */
+  padding: var(--space-l);                  /* 8px */
+  border-radius: var(--radius-lg);          /* 8px */
+  background: var(--color-bg-1);
+  box-shadow: inset 0 0 0 1px var(--color-bg-border);   /* Search / Default */
+  transition: box-shadow 120ms ease;
+}
+.menu__search-field:focus-within {
+  box-shadow: inset 0 0 0 1px var(--color-button-800);  /* Search / Focus state */
+}
+.menu__search-field > .icon {
+  color: var(--menu-search-icon);
+}
+
+.menu__search-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--color-text-primary);
+  font: var(--font-body-1);                 /* Body 1 R — 16/22 */
+}
+.menu__search-input::placeholder {
+  color: var(--color-text-t1);
+  opacity: 1;
+}
+
+/* Option list under the search field (role="listbox") */
+.menu__list {
+  display: flex;
+  flex-direction: column;
+  max-height: var(--menu-list-max-height, none);
+  overflow-y: auto;
+}
+
+.menu__empty {
+  padding: var(--space-btn) var(--space-xl);
+  color: var(--color-text-t1);
+  font: var(--font-body-3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-item,
+  .menu__search-field { transition: none; }
+}

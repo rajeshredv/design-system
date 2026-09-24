@@ -1,0 +1,70 @@
+/* ==========================================================================
+   Badge
+   Figma component set: Badge 3319:2348
+   Variants (Property 1): Default · Transparent · Muted · No number · Rail badge
+   Requires tokens.css
+
+   Markup — a plain inline element; give the count context for screen readers
+   (see feedback.html → Accessibility):
+     <span class="badge">2</span>
+     <span class="badge badge--muted">2</span>
+     <span class="badge badge--transparent">2</span>
+     <span class="badge badge--rail">12</span>
+     <span class="badge badge--dot" role="img" aria-label="Unsent draft"></span>
+   ========================================================================== */
+
+.badge {
+  /* Component-level tokens (override these to theme a single instance) */
+  --badge-bg: var(--color-theme-yellow-1000);
+  --badge-fg: var(--color-text-primary);
+  --badge-ring: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  min-width: 20px;          /* 20 × 20 in Figma for a single digit; grows with the count */
+  height: 20px;
+  padding: 1px var(--space-s);
+  border-radius: 22px;      /* hardcoded in Figma; fully rounded */
+  background: var(--badge-bg);
+  box-shadow: 0 0 0 1px var(--badge-ring); /* 1px OUTSIDE stroke in Figma, so it doesn't change the size */
+  color: var(--badge-fg);
+  font: var(--font-badge);  /* Badge-text 12px */
+  white-space: nowrap;
+}
+
+/* Property 1=Muted — neutral count, e.g. inside a chip */
+.badge--muted {
+  --badge-bg: var(--color-bg-border);
+}
+
+/* Property 1=Transparent — number only, no fill */
+.badge--transparent {
+  --badge-bg: transparent;
+  --badge-fg: var(--color-text-t3);
+}
+
+/* Property 1=Rail badge — small red count on navigation-rail icons */
+.badge--rail {
+  --badge-bg: var(--color-draft-badge);
+  --badge-fg: var(--color-bg-1);
+  --badge-ring: var(--color-bg-1);
+  min-width: 16px;
+  height: 16px;
+  padding: var(--space-xs) var(--space-s);
+  border-radius: 17.6px;    /* hardcoded in Figma */
+  font: 9.6px/12px var(--font-family-semibold); /* Zoho Puvi Semibold 9.6px, no text style in Figma */
+}
+
+/* Property 1=No number — 8px dot */
+.badge--dot {
+  --badge-bg: var(--color-draft-badge);
+  --badge-ring: var(--color-bg-1);
+  min-width: 0;
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border-radius: 50%;
+}

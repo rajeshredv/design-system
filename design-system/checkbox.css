@@ -1,0 +1,116 @@
+/* ==========================================================================
+   Checkbox
+   Figma component set: Check-box 2050:3150
+   Variants (States): Uncheck · Checked · Semi · Disabled · Check disabled
+   Requires tokens.css
+
+   Markup — a native checkbox, so keyboard, forms, :checked and
+   :indeterminate work for free:
+     <input type="checkbox" class="checkbox" aria-label="…">
+
+   Semi (indeterminate) can only be set from script:
+     input.indeterminate = true;
+
+   Geometry (from Figma): 24 × 24 frame, 18 × 18 box inset 3px, radius 2px.
+   The input itself is the 24px frame so the hit target matches the Figma
+   footprint; the box and the mark are drawn with ::before / ::after.
+   ========================================================================== */
+
+.checkbox {
+  /* Component-level tokens (override these to theme a single instance) */
+  --checkbox-border: var(--color-text-t2);   /* Uncheck ring: Text/T2 */
+  --checkbox-fill: var(--color-button-800);  /* Checked / Semi box: Button/800 */
+  --checkbox-mark: var(--color-bg-1);        /* Check / dash: BG/1 */
+
+  appearance: none;
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+/* Box: 18px, radius 2px (unbound in Figma). Uncheck is a 1.5px ring. */
+.checkbox::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  box-sizing: border-box;
+  border: 1.5px solid var(--checkbox-border);
+  border-radius: 2px;
+  background: transparent;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+
+/* Mark: hidden until checked / indeterminate. Drawn as a mask so it takes
+   --checkbox-mark and themes with light / dark mode. */
+.checkbox::after {
+  content: "";
+  position: absolute;
+  background: var(--checkbox-mark);
+  -webkit-mask: var(--checkbox-icon) center / contain no-repeat;
+  mask: var(--checkbox-icon) center / contain no-repeat;
+  opacity: 0;
+}
+
+.checkbox:focus-visible {
+  outline: none;
+}
+.checkbox:focus-visible::before {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+}
+
+/* Checked — States=Checked. Check vector 10.5 × 8 at (7.25, 8.25). */
+.checkbox:checked::before,
+.checkbox:indeterminate::before {
+  border-color: var(--checkbox-fill);
+  background: var(--checkbox-fill);
+}
+.checkbox:checked::after {
+  --checkbox-icon: url(assets/icons/checkbox-check.svg);
+  top: 8.25px;
+  left: 7.25px;
+  width: 11px;   /* SVG viewBox 11 × 8 */
+  height: 8px;
+  opacity: 1;
+}
+
+/* Semi — States=Semi. Dash 10 × 1.5 at (7, 11.23). Wins over :checked. */
+.checkbox:indeterminate::after {
+  --checkbox-icon: url(assets/icons/checkbox-semi.svg);
+  top: 11.23px;
+  left: 7px;
+  width: 10px;   /* SVG viewBox 10 × 2 */
+  height: 2px;
+  opacity: 1;
+}
+
+/* Disabled / Check disabled — the enabled frame at 50% layer opacity */
+.checkbox:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Optional label wrapper (code only; Figma has no label) */
+.checkbox-field {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-s);
+  font: var(--font-body-3);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+.checkbox-field:has(.checkbox:disabled) {
+  color: var(--color-text-t2);
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkbox::before {
+    transition: none;
+  }
+}
