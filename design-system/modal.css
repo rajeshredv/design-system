@@ -126,6 +126,8 @@
 
 .modal__title {
   margin: 0;
+  padding: 0;
+  border: 0;
   font: var(--font-h1); /* H1 20 B */
   color: var(--color-text-primary);
   overflow-wrap: anywhere;
@@ -238,12 +240,6 @@
   flex: 1;
 }
 
-/* When a footer follows the body, the body's 40px bottom padding is not
-   part of the Figma footer spacing, so drop it. */
-.modal__body:has(+ .modal__footer) {
-  padding-bottom: 0;
-}
-
 /* ==========================================================================
    Button flex 3139:2395
    Right-aligned row of medium buttons with a 24px gap.
@@ -319,12 +315,15 @@
 
 .confirm__title {
   margin: 0;
+  padding: 0;
+  border: 0;
   font: var(--font-h1); /* 20/32 Bold: H1 20 B values, style not linked in Figma */
   color: var(--color-text-primary);
 }
 
 .confirm__description {
   margin: 0;
+  padding: 0;
   font: var(--font-body-2); /* Body 2 M */
   color: var(--color-text-primary);
 }
