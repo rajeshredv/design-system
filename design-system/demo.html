@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Button — design system gallery</title>
+    <title>Button &amp; Toggle — design system gallery</title>
     <link rel="stylesheet" href="./tokens.css" />
     <style>
       body {
@@ -35,6 +35,12 @@
         text-align: left;
         vertical-align: middle;
       }
+      .topbar {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+      }
       th {
         color: var(--color-text-t3);
         font-size: 13px;
@@ -54,7 +60,7 @@
       }
     </script>
     <script type="module">
-      import { createApp, h } from "vue";
+      import { createApp, h, ref } from "vue";
       import { loadModule } from "https://unpkg.com/vue3-sfc-loader@0.9/dist/vue3-sfc-loader.esm.js";
 
       const options = {
@@ -71,6 +77,23 @@
       };
 
       const Button = await loadModule("./components/Button.vue", options);
+      const Toggle = await loadModule("./components/Toggle.vue", options);
+
+      // Follows the OS until the switch is flipped; see tokens.css for how data-theme works.
+      const root = document.documentElement;
+      const dark = ref(window.matchMedia("(prefers-color-scheme: dark)").matches);
+      const setDark = (value) => {
+        dark.value = value;
+        root.dataset.theme = value ? "dark" : "light";
+      };
+
+      const TOGGLE_STATES = [
+        { label: "Off", props: { modelValue: false } },
+        { label: "On", props: { modelValue: true } },
+        { label: "Off disabled", props: { modelValue: false, disabled: true } },
+        { label: "On disabled", props: { modelValue: true, disabled: true } },
+      ];
+      const toggles = TOGGLE_STATES.map((s) => ref(s.props.modelValue));
 
       const VARIANTS = ["primary", "secondary", "ghost", "negative", "negative-secondary"];
       const STATES = [
@@ -84,8 +107,35 @@
       const App = {
         render() {
           return h("div", [
-            h("h1", "Button — design system"),
-            h("p", { class: "subtitle" }, "Every variant × size × state, driven by tokens.css"),
+            h("div", { class: "topbar" }, [
+              h("div", [
+                h("h1", "Button & Toggle — design system"),
+                h("p", { class: "subtitle" }, "Every variant × size × state, driven by tokens.css"),
+              ]),
+              h(Toggle, { modelValue: dark.value, "onUpdate:modelValue": setDark }, () => "Dark mode"),
+            ]),
+
+            h("table", [
+              h("caption", "Toggle"),
+              h("thead", h("tr", TOGGLE_STATES.map((s) => h("th", s.label)))),
+              h(
+                "tbody",
+                h(
+                  "tr",
+                  TOGGLE_STATES.map((s, i) =>
+                    h(
+                      "td",
+                      h(Toggle, {
+                        modelValue: toggles[i].value,
+                        "onUpdate:modelValue": (v) => (toggles[i].value = v),
+                        disabled: s.props.disabled,
+                        label: s.label,
+                      })
+                    )
+                  )
+                )
+              ),
+            ]),
 
             ...["small", "medium", "large"].map((size) =>
               h("table", { key: size }, [

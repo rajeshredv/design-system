@@ -6,89 +6,27 @@
   <title>Button · Primary / Medium — Design System</title>
   <link rel="stylesheet" href="tokens.css" />
   <link rel="stylesheet" href="button.css" />
+  <link rel="stylesheet" href="toggle.css" />
+  <link rel="stylesheet" href="docs.css" />
   <style>
-    /* Documentation page chrome only — not part of the component */
-    :root {
-      --doc-ink: #1b1f24;
-      --doc-muted: #5f6b7a;
-      --doc-line: #e6e9ee;
-      --doc-surface: #f7f8fa;
-      --doc-code: #0f172a;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: var(--font-family-base);
-      color: var(--doc-ink);
-      background: #fff;
-      line-height: 1.5;
-    }
-    .doc { max-width: 1040px; margin: 0 auto; padding: 48px 32px 96px; }
-    .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--color-button-800); }
-    h1 { font-size: 36px; line-height: 44px; margin: 8px 0 12px; }
-    h2 { font-size: 22px; margin: 56px 0 8px; padding-top: 24px; border-top: 1px solid var(--doc-line); }
-    h3 { font-size: 16px; margin: 28px 0 8px; }
-    p.lead { font-size: 17px; color: var(--doc-muted); max-width: 680px; margin: 0; }
-    p, li { color: var(--doc-muted); }
-    .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
-    .chip { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: var(--doc-surface); border: 1px solid var(--doc-line); color: var(--doc-muted); }
-    .chip a { color: inherit; }
-
-    .stage {
-      display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px;
-      padding: 32px; background: var(--doc-surface); border: 1px solid var(--doc-line); border-radius: 12px;
-    }
-    .stage figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-    .stage figcaption { font-size: 13px; color: var(--doc-muted); text-align: center; }
-    .stage figcaption code { display: block; font-size: 11px; margin-top: 2px; }
-
-    table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 12px; }
-    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--doc-line); vertical-align: middle; }
-    th { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--doc-muted); background: var(--doc-surface); }
-    td { color: var(--doc-ink); }
-    code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; background: var(--doc-surface); padding: 2px 6px; border-radius: 4px; color: var(--doc-code); }
-    .swatch { display: inline-block; width: 28px; height: 28px; border-radius: 6px; border: 1px solid rgba(0,0,0,.08); vertical-align: middle; }
-    .muted { color: var(--doc-muted); }
-    .none { color: #b0b7c3; }
-
-    .playground { display: grid; grid-template-columns: 1fr 280px; border: 1px solid var(--doc-line); border-radius: 12px; overflow: hidden; }
-    .playground .preview { display: grid; place-items: center; min-height: 200px; background: var(--doc-surface); }
-    .playground .controls { padding: 20px; border-left: 1px solid var(--doc-line); display: flex; flex-direction: column; gap: 14px; }
-    .controls label { font-size: 13px; color: var(--doc-ink); display: flex; flex-direction: column; gap: 6px; }
-    .controls select, .controls input[type=text] { font: inherit; font-size: 14px; padding: 6px 8px; border: 1px solid var(--doc-line); border-radius: 6px; }
-
-    pre { background: var(--doc-code); color: #e2e8f0; padding: 20px; border-radius: 10px; overflow-x: auto; font-size: 13px; line-height: 1.6; }
-    pre code { background: none; color: inherit; padding: 0; }
-
-    .anatomy { display: flex; gap: 48px; align-items: center; padding: 40px; background: var(--doc-surface); border: 1px solid var(--doc-line); border-radius: 12px; }
-    .spec { position: relative; display: inline-block; }
-    .spec .btn-primary-md { pointer-events: none; }
+    /* Padding overlay for the anatomy diagram (pink) */
     .pad-box { position: absolute; inset: 0; border-radius: var(--radius-sm); pointer-events: none;
       background:
-        linear-gradient(rgba(255,77,148,.35), rgba(255,77,148,.35)) top / 100% var(--space-l) no-repeat,
-        linear-gradient(rgba(255,77,148,.35), rgba(255,77,148,.35)) bottom / 100% var(--space-l) no-repeat,
         linear-gradient(rgba(255,77,148,.35), rgba(255,77,148,.35)) left / var(--space-xl) 100% no-repeat,
         linear-gradient(rgba(255,77,148,.35), rgba(255,77,148,.35)) right / var(--space-xl) 100% no-repeat; }
-    .anatomy ol { margin: 0; padding-left: 20px; font-size: 14px; }
-    .anatomy li { margin-bottom: 6px; }
-
-    .dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .dodont > div { border: 1px solid var(--doc-line); border-radius: 12px; padding: 20px; }
-    .dodont h4 { margin: 0 0 8px; font-size: 14px; }
-    .do h4 { color: #0f8a4a; }
-    .dont h4 { color: #c62828; }
-    .dodont ul { margin: 0; padding-left: 18px; font-size: 14px; }
-
-    @media (max-width: 760px) {
-      .stage { grid-template-columns: repeat(2, 1fr); }
-      .playground { grid-template-columns: 1fr; }
-      .playground .controls { border-left: 0; border-top: 1px solid var(--doc-line); }
-      .anatomy, .dodont { grid-template-columns: 1fr; flex-direction: column; }
-    }
+    .spec .btn-primary-md { pointer-events: none; }
   </style>
 </head>
 <body>
 <main class="doc">
+
+  <div class="doc-bar">
+    <nav>
+      <a href="button.html" aria-current="page">Button</a>
+      <a href="toggle.html">Toggle</a>
+    </nav>
+    <label class="theme-switch">Dark mode <input type="checkbox" role="switch" class="toggle" data-theme-switch /></label>
+  </div>
 
   <div class="eyebrow">Components · Actions</div>
   <h1>Button — Primary / Medium</h1>
@@ -98,40 +36,45 @@
     <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2145-2682&m=dev" target="_blank" rel="noopener">2145:2682</a></span>
     <span class="chip">5 variants</span>
     <span class="chip">Height 36px</span>
+    <span class="chip">Light &amp; dark</span>
   </div>
 
   <!-- ================================================================ -->
   <h2>Variants</h2>
-  <p>The Figma property <code>Property 1</code> has five values. In code, each value maps to a native state or ARIA attribute, not a modifier class.</p>
+  <p>The Figma property <code>Property 1</code> has five values. In code, each value maps to a native state or ARIA attribute, not a modifier class. Every variant is shown in both themes.</p>
 
-  <div class="stage">
-    <figure>
-      <button class="btn-primary-md" type="button">Reply</button>
-      <figcaption>Default<code>base</code></figcaption>
-    </figure>
-    <figure>
-      <button class="btn-primary-md is-hover" type="button">Reply</button>
-      <figcaption>Hover<code>:hover</code></figcaption>
-    </figure>
-    <figure>
-      <button class="btn-primary-md" type="button" aria-pressed="true">Reply</button>
-      <figcaption>Activated<code>:active · aria-pressed</code></figcaption>
-    </figure>
-    <figure>
-      <button class="btn-primary-md" type="button" aria-busy="true" aria-label="Reply, loading">
-        <img class="btn-primary-md__spinner" src="assets/loader.svg" width="24" height="24" alt="" />
-      </button>
-      <figcaption>Loading<code>aria-busy="true"</code></figcaption>
-    </figure>
-    <figure>
-      <button class="btn-primary-md" type="button" disabled>Reply</button>
-      <figcaption>Disabled<code>:disabled</code></figcaption>
-    </figure>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <button class="btn-primary-md" type="button">Reply</button>
+          <figcaption>Default<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <button class="btn-primary-md is-hover" type="button">Reply</button>
+          <figcaption>Hover<code>:hover</code></figcaption>
+        </figure>
+        <figure>
+          <button class="btn-primary-md" type="button" aria-pressed="true">Reply</button>
+          <figcaption>Activated<code>aria-pressed</code></figcaption>
+        </figure>
+        <figure>
+          <button class="btn-primary-md" type="button" aria-busy="true" aria-label="Reply, loading">
+            <span class="btn-primary-md__spinner" aria-hidden="true"></span>
+          </button>
+          <figcaption>Loading<code>aria-busy</code></figcaption>
+        </figure>
+        <figure>
+          <button class="btn-primary-md" type="button" disabled>Reply</button>
+          <figcaption>Disabled<code>:disabled</code></figcaption>
+        </figure>
+      </div>
+    </section>
   </div>
 
   <!-- ================================================================ -->
   <h2>Playground</h2>
-  <p>Hover, press, and tab to the live button to see the real interaction states.</p>
+  <p>Hover, press, and tab to the live button to see the real interaction states. It follows the page theme.</p>
   <div class="playground">
     <div class="preview">
       <button id="pg-btn" class="btn-primary-md" type="button">Reply</button>
@@ -160,9 +103,10 @@
     </div>
     <ol>
       <li><strong>Container</strong>: auto-layout, horizontal, centered. <code>min-width: 90px</code>, <code>radius: 4px</code></li>
-      <li><strong>Padding</strong> (pink): vertical <code>--space-l</code> 8px · horizontal <code>--space-xl</code> 12px</li>
-      <li><strong>Label</strong>: <code>BTN Medium</code> text style, 20px line-height. fixed height <code>--control-height-md</code> = <strong>36px</strong></li>
-      <li><strong>Loader</strong> (Loading only): 24px icon. The fixed height keeps it at 36px, the same as the label states</li>
+      <li><strong>Height</strong>: fixed <code>--control-height-md</code> = <strong>36px</strong> in every state</li>
+      <li><strong>Padding</strong> (pink): horizontal <code>--space-xl</code> 12px</li>
+      <li><strong>Label</strong>: <code>BTN Medium</code> text style, 20px line-height</li>
+      <li><strong>Loader</strong> (Loading only): 24px icon, colored with the label color so it switches with the theme</li>
     </ol>
   </div>
 
@@ -170,32 +114,45 @@
   <h2>Design tokens</h2>
 
   <h3>Color</h3>
+  <p>Each color comes from the Figma <code>Colors</code> collection, which has a Light and a Dark mode.</p>
   <table>
-    <thead><tr><th></th><th>CSS variable</th><th>Figma variable</th><th>Value</th><th>Used for</th></tr></thead>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
     <tbody>
-      <tr><td><span class="swatch" style="background:var(--color-button-800)"></span></td><td><code>--color-button-800</code></td><td><code>Button/800</code></td><td>#0087ED</td><td>Default &amp; Disabled fill</td></tr>
-      <tr><td><span class="swatch" style="background:var(--color-button-1000)"></span></td><td><code>--color-button-1000</code></td><td><code>Button/1000</code></td><td>#0076CE</td><td>Hover &amp; Loading fill · Activated border &amp; label</td></tr>
-      <tr><td><span class="swatch" style="background:var(--color-button-100)"></span></td><td><code>--color-button-100</code></td><td><code>Button/100</code></td><td>#E5F3FD</td><td>Activated fill</td></tr>
-      <tr><td><span class="swatch" style="background:var(--color-bg-1)"></span></td><td><code>--color-bg-1</code></td><td><code>BG/1</code></td><td>#FFFFFF</td><td>Label &amp; loader on filled states</td></tr>
+      <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>Default &amp; Disabled fill</td></tr>
+      <tr><td><code>--color-button-1000</code></td><td><code>Button/1000</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-1000)"></span>#0076CE</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-1000)"></span>#479EDF</td>
+        <td>Hover &amp; Loading fill · Activated border &amp; label · focus ring</td></tr>
+      <tr><td><code>--color-button-100</code></td><td><code>Button/100</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-100)"></span>#E5F3FD</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-100)"></span>#273742</td>
+        <td>Activated fill</td></tr>
+      <tr><td><code>--color-bg-1</code></td><td><code>BG/1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>Label &amp; loader on filled states</td></tr>
     </tbody>
   </table>
 
-  <h3>Spacing</h3>
+  <h3>Spacing &amp; size</h3>
   <table>
     <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Value</th><th>Used for</th></tr></thead>
     <tbody>
-      <tr><td><code>--space-m</code></td><td><code>M</code></td><td>6px</td><td>Not used (Figma Loading padding, replaced by fixed height)</td></tr>
-      <tr><td><code>--space-l</code></td><td><code>L</code></td><td>8px</td><td>Not used (Figma vertical padding, replaced by fixed height)</td></tr>
       <tr><td><code>--space-xl</code></td><td><code>XL</code></td><td>12px</td><td>Horizontal padding</td></tr>
+      <tr><td><code>--control-height-md</code></td><td class="none">Derived</td><td>36px</td><td>Fixed height. Replaces Figma's per-state vertical padding (L 8px, M 6px when loading)</td></tr>
     </tbody>
   </table>
 
   <h3>Typography</h3>
   <table>
-    <thead><tr><th>Text style</th><th>Family</th><th>Weight</th><th>Size</th><th>Line height</th><th>Letter spacing</th></tr></thead>
+    <thead><tr><th>Text style</th><th>Family</th><th>Size</th><th>Line height</th><th>Letter spacing</th></tr></thead>
     <tbody>
       <tr>
-        <td><code>BTN Medium</code></td><td>Zoho Puvi Medium</td><td>Medium face (weight from the font file)<br><code class="muted">--font-family-medium</code></td>
+        <td><code>BTN Medium</code></td>
+        <td>Zoho Puvi Medium (weight from the font file)<br><code class="muted">--font-family-medium</code></td>
         <td>16px<br><code class="muted">--font-size-md</code></td>
         <td>20px<br><code class="muted">--line-height-md</code></td>
         <td>0.25px<br><code class="muted">--letter-spacing-md</code></td>
@@ -208,7 +165,7 @@
     <thead><tr><th>CSS variable</th><th>Figma source</th><th>Value</th><th>Note</th></tr></thead>
     <tbody>
       <tr><td><code>--radius-sm</code></td><td class="none">Hardcoded in Figma</td><td>4px</td><td>Not bound to a variable in Figma. Consider adding one.</td></tr>
-      <tr><td class="none">none</td><td class="none">Layer opacity</td><td>0.5</td><td>Applied to the whole component</td></tr>
+      <tr><td class="none">none</td><td class="none">Layer opacity</td><td>0.5</td><td>Disabled. Applied to the whole component</td></tr>
       <tr><td class="none">none</td><td>Stroke (Activated)</td><td>1px inside</td><td>Drawn as an inset <code>box-shadow</code> so the button doesn't grow</td></tr>
     </tbody>
   </table>
@@ -216,13 +173,13 @@
   <!-- ================================================================ -->
   <h2>Variant specs</h2>
   <table>
-    <thead><tr><th>Variant</th><th>Fill</th><th>Label / icon</th><th>Border</th><th>Height · H padding</th><th>Opacity</th><th>Code selector</th></tr></thead>
+    <thead><tr><th>Variant</th><th>Fill</th><th>Label / icon</th><th>Border</th><th>Opacity</th><th>Code selector</th></tr></thead>
     <tbody>
-      <tr><td><strong>Default</strong></td><td><code>--color-button-800</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>36px · XL</td><td>1</td><td><code>.btn-primary-md</code></td></tr>
-      <tr><td><strong>Hover</strong></td><td><code>--color-button-1000</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>36px · XL</td><td>1</td><td><code>:hover</code></td></tr>
-      <tr><td><strong>Activated</strong></td><td><code>--color-button-100</code></td><td><code>--color-button-1000</code></td><td>1px <code>--color-button-1000</code></td><td>36px · XL</td><td>1</td><td><code>:active</code>, <code>[aria-pressed="true"]</code></td></tr>
-      <tr><td><strong>Loading</strong></td><td><code>--color-button-1000</code></td><td>24px loader, <code>--color-bg-1</code></td><td class="none">none</td><td>36px · XL</td><td>1</td><td><code>[aria-busy="true"]</code></td></tr>
-      <tr><td><strong>Disabled</strong></td><td><code>--color-button-800</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>36px · XL</td><td>0.5</td><td><code>:disabled</code>, <code>[aria-disabled="true"]</code></td></tr>
+      <tr><td><strong>Default</strong></td><td><code>--color-button-800</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>1</td><td><code>.btn-primary-md</code></td></tr>
+      <tr><td><strong>Hover</strong></td><td><code>--color-button-1000</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>1</td><td><code>:hover</code></td></tr>
+      <tr><td><strong>Activated</strong></td><td><code>--color-button-100</code></td><td><code>--color-button-1000</code></td><td>1px <code>--color-button-1000</code></td><td>1</td><td><code>:active</code>, <code>[aria-pressed="true"]</code></td></tr>
+      <tr><td><strong>Loading</strong></td><td><code>--color-button-1000</code></td><td>24px loader, <code>--color-bg-1</code></td><td class="none">none</td><td>1</td><td><code>[aria-busy="true"]</code></td></tr>
+      <tr><td><strong>Disabled</strong></td><td><code>--color-button-800</code></td><td><code>--color-bg-1</code></td><td class="none">none</td><td>0.5</td><td><code>:disabled</code>, <code>[aria-disabled="true"]</code></td></tr>
     </tbody>
   </table>
 
@@ -239,11 +196,16 @@
 
 &lt;!-- Loading --&gt;
 &lt;button class="btn-primary-md" type="button" aria-busy="true" aria-label="Reply, loading"&gt;
-  &lt;img class="btn-primary-md__spinner" src="assets/loader.svg" width="24" height="24" alt=""&gt;
+  &lt;span class="btn-primary-md__spinner" aria-hidden="true"&gt;&lt;/span&gt;
 &lt;/button&gt;
 
 &lt;!-- Disabled --&gt;
 &lt;button class="btn-primary-md" type="button" disabled&gt;Reply&lt;/button&gt;</code></pre>
+
+  <h3>Light and dark mode</h3>
+  <p>Nothing extra is needed. The button follows the OS setting. To force a theme, set <code>data-theme</code> on <code>&lt;html&gt;</code> or on any container:</p>
+<pre><code>&lt;html data-theme="dark"&gt;          &lt;!-- whole page --&gt;
+&lt;section data-theme="light"&gt;       &lt;!-- one area --&gt;</code></pre>
 
   <h3>Theming a single instance</h3>
   <p>The component reads three local variables. Override them on one element instead of editing the global tokens.</p>
@@ -258,7 +220,8 @@
   <ul>
     <li>Use a native <code>&lt;button&gt;</code>. It gives you keyboard support (Enter/Space) and focus for free.</li>
     <li>Focus shows a 2px <code>--color-button-1000</code> outline with a 2px offset. Don't remove it.</li>
-    <li>Contrast: white on <code>#0087ED</code> is about 3.7:1, which only passes WCAG AA for large text. At 16px Medium it counts as normal text, so it falls short of 4.5:1. <code>--color-button-1000</code> (#0076CE) passes at about 4.7:1.</li>
+    <li>Contrast, light: white on <code>#0087ED</code> is about 3.7:1, which only passes WCAG AA for large text. At 16px Medium it counts as normal text, so it falls short of 4.5:1. The hover color <code>#0076CE</code> passes at about 4.7:1.</li>
+    <li>Contrast, dark: in dark mode Figma uses a dark label (<code>#2B2B2B</code>) on a lighter blue. That passes: about 5.8:1 on <code>#4DADF5</code> and 4.9:1 on hover <code>#479EDF</code>.</li>
     <li>Loading: set <code>aria-busy="true"</code> and keep the label as an <code>aria-label</code>, so screen readers still announce the action.</li>
     <li>Activated as a toggle: use <code>aria-pressed</code> so assistive tech announces the on/off state.</li>
     <li>Disabled buttons can't be focused. If users need to learn <em>why</em> an action is unavailable, use <code>aria-disabled="true"</code> with an explanation instead.</li>
@@ -279,18 +242,19 @@
       <ul>
         <li>Stack several primary buttons next to each other</li>
         <li>Wrap labels onto two lines. The label is <code>nowrap</code></li>
-        <li>Use hex values directly. Always reference the tokens</li>
+        <li>Use hex values directly. They won't switch with the theme. Always reference the tokens</li>
       </ul>
     </div>
   </div>
 
 </main>
 
+<script src="docs.js"></script>
 <script>
   const btn = document.getElementById('pg-btn');
   const state = document.getElementById('pg-state');
   const label = document.getElementById('pg-label');
-  const spinner = '<img class="btn-primary-md__spinner" src="assets/loader.svg" width="24" height="24" alt="">';
+  const spinner = '<span class="btn-primary-md__spinner" aria-hidden="true"></span>';
 
   function render() {
     const s = state.value;

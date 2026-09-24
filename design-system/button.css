@@ -62,8 +62,14 @@
   cursor: progress;
 }
 
+/* The loader SVG is used as a mask so it takes the label color (BG/1 in
+   Figma), which changes between light and dark mode. */
 .btn-primary-md__spinner {
   display: block;
+  width: 24px;
+  height: 24px;
+  background: currentColor;
+  mask: url("assets/loader.svg") center / 24px 24px no-repeat;
   animation: btn-spin 800ms linear infinite;
 }
 

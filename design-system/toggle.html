@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Toggle — Design System</title>
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="toggle.css" />
+  <link rel="stylesheet" href="docs.css" />
+  <style>
+    /* Anatomy diagram: toggle shown at 4x with measurement labels */
+    .toggle-zoom { transform: scale(4); transform-origin: left center; margin-right: 96px; pointer-events: none; }
+    .stage figure { min-width: 72px; }
+    .field { display: inline-flex; align-items: center; gap: var(--space-l); font-size: var(--font-size-sm); line-height: var(--line-height-sm); color: var(--doc-ink); cursor: pointer; }
+  </style>
+</head>
+<body>
+<main class="doc">
+
+  <div class="doc-bar">
+    <nav>
+      <a href="button.html">Button</a>
+      <a href="toggle.html" aria-current="page">Toggle</a>
+    </nav>
+    <label class="theme-switch">Dark mode <input type="checkbox" role="switch" class="toggle" data-theme-switch /></label>
+  </div>
+
+  <div class="eyebrow">Components · Selection</div>
+  <h1>Toggle</h1>
+  <p class="lead">A switch that turns a single setting on or off and takes effect immediately, like enabling notifications. For choices that apply only after the user presses Save, use a checkbox instead.</p>
+  <div class="meta">
+    <span class="chip">Figma: <code>Toggle</code></span>
+    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=2050-3135&m=dev" target="_blank" rel="noopener">2050:3135</a></span>
+    <span class="chip">4 variants</span>
+    <span class="chip">32 × 18px</span>
+    <span class="chip">Light &amp; dark</span>
+  </div>
+
+  <!-- ================================================================ -->
+  <h2>Variants</h2>
+  <p>The Figma property <code>States</code> has four values. In code they come from the native checkbox's <code>:checked</code> and <code>:disabled</code> states, so there are no modifier classes to manage.</p>
+
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <input type="checkbox" role="switch" class="toggle" aria-label="Off" />
+          <figcaption>Off<code>base</code></figcaption>
+        </figure>
+        <figure>
+          <input type="checkbox" role="switch" class="toggle" aria-label="On" checked />
+          <figcaption>On<code>:checked</code></figcaption>
+        </figure>
+        <figure>
+          <input type="checkbox" role="switch" class="toggle" aria-label="Off disabled" disabled />
+          <figcaption>Off disabled<code>:disabled</code></figcaption>
+        </figure>
+        <figure>
+          <input type="checkbox" role="switch" class="toggle" aria-label="On disabled" checked disabled />
+          <figcaption>On disabled<code>:checked:disabled</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================================================================ -->
+  <h2>Playground</h2>
+  <p>Click the switch, or tab to it and press Space.</p>
+  <div class="playground">
+    <div class="preview">
+      <label class="field"><input id="pg-toggle" type="checkbox" role="switch" class="toggle" /> <span id="pg-text">Email notifications</span></label>
+    </div>
+    <div class="controls">
+      <label class="inline"><input id="pg-disabled" type="checkbox" /> Disabled</label>
+      <label>Label
+        <input id="pg-label" type="text" value="Email notifications" />
+      </label>
+      <p id="pg-status" class="muted" style="margin:0;font-size:13px">State: Off</p>
+    </div>
+  </div>
+
+  <!-- ================================================================ -->
+  <h2>Anatomy &amp; sizing</h2>
+  <div class="anatomy">
+    <div class="spec"><input type="checkbox" role="switch" class="toggle toggle-zoom" checked tabindex="-1" aria-hidden="true" /></div>
+    <ol>
+      <li><strong>Track</strong>: 32 × 18px, radius <code>--radius-pill</code> (28px, fully rounded)</li>
+      <li><strong>Knob</strong>: 16 × 16px, inset 1px from the track edge</li>
+      <li><strong>Travel</strong>: the knob moves from x = 1px (Off) to x = 15px (On), a 14px slide animated over 150ms</li>
+      <li><strong>Label</strong> (optional, code only): 8px gap (<code>--space-l</code>), 14px text</li>
+    </ol>
+  </div>
+
+  <!-- ================================================================ -->
+  <h2>Design tokens</h2>
+
+  <h3>Color</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-disabled</code></td><td><code>Disabled</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-disabled)"></span>#C4C4C4</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-disabled)"></span>#464646</td>
+        <td>Off track</td></tr>
+      <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>On track</td></tr>
+      <tr><td><code>--color-bg-border</code></td><td><code>BG/Border</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-border)"></span>#E6E6E6</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-border)"></span>#3D3D3D</td>
+        <td>Off disabled track</td></tr>
+      <tr><td><code>--color-button-100</code></td><td><code>Button/100</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-100)"></span>#E5F3FD</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-100)"></span>#273742</td>
+        <td>On disabled track</td></tr>
+      <tr><td><code>--color-bg-1</code></td><td><code>BG/1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>Knob (all states)</td></tr>
+      <tr><td><code>--color-button-1000</code></td><td><code>Button/1000</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-1000)"></span>#0076CE</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-1000)"></span>#479EDF</td>
+        <td>Focus ring (code only)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Shape</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma source</th><th>Value</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td><code>--radius-pill</code></td><td class="none">Hardcoded in Figma</td><td>28px</td><td>Track and knob. Larger than half the height, so both render fully rounded</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================ -->
+  <h2>Variant specs</h2>
+  <table>
+    <thead><tr><th>Variant</th><th>Track</th><th>Knob</th><th>Knob position</th><th>Code selector</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Off</strong></td><td><code>--color-disabled</code></td><td><code>--color-bg-1</code></td><td>Left (x 1px)</td><td><code>.toggle</code></td></tr>
+      <tr><td><strong>On</strong></td><td><code>--color-button-800</code></td><td><code>--color-bg-1</code></td><td>Right (x 15px)</td><td><code>:checked</code></td></tr>
+      <tr><td><strong>Off disabled</strong></td><td><code>--color-bg-border</code></td><td><code>--color-bg-1</code></td><td>Left</td><td><code>:disabled</code></td></tr>
+      <tr><td><strong>On disabled</strong></td><td><code>--color-button-100</code></td><td><code>--color-bg-1</code></td><td>Right</td><td><code>:checked:disabled</code></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ================================================================ -->
+  <h2>Usage</h2>
+  <h3>HTML + CSS</h3>
+<pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
+&lt;link rel="stylesheet" href="toggle.css"&gt;
+
+&lt;!-- With a visible label (preferred) --&gt;
+&lt;label&gt;
+  &lt;input type="checkbox" role="switch" class="toggle"&gt;
+  Email notifications
+&lt;/label&gt;
+
+&lt;!-- Without a visible label --&gt;
+&lt;input type="checkbox" role="switch" class="toggle" aria-label="Email notifications"&gt;
+
+&lt;!-- On / disabled --&gt;
+&lt;input type="checkbox" role="switch" class="toggle" checked&gt;
+&lt;input type="checkbox" role="switch" class="toggle" disabled&gt;</code></pre>
+
+  <h3>Vue</h3>
+<pre><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Toggle from "./design-system/components/Toggle.vue";
+const notify = ref(true);
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Toggle v-model="notify"&gt;Email notifications&lt;/Toggle&gt;
+  &lt;Toggle v-model="notify" label="Email notifications" /&gt;  &lt;!-- no visible label --&gt;
+  &lt;Toggle :model-value="true" disabled&gt;Sync&lt;/Toggle&gt;
+&lt;/template&gt;</code></pre>
+
+  <h3>Light and dark mode</h3>
+  <p>The toggle follows the OS setting. To force a theme, set <code>data-theme="light"</code> or <code>data-theme="dark"</code> on <code>&lt;html&gt;</code> or on any container.</p>
+
+  <!-- ================================================================ -->
+  <h2>Accessibility</h2>
+  <ul>
+    <li>Use <code>&lt;input type="checkbox" role="switch"&gt;</code>. Screen readers announce it as a switch that is "on" or "off", and Space toggles it.</li>
+    <li>Always give it a name: a wrapping <code>&lt;label&gt;</code>, or <code>aria-label</code> when there's no visible text.</li>
+    <li>Focus shows a 2px <code>--color-button-1000</code> outline with a 2px offset. Figma has no focus state, so this was added in code.</li>
+    <li>Contrast: the Off track is faint against the page in both themes. It's about 1.7:1 on white in light mode and 1.5:1 on <code>#2B2B2B</code> in dark mode, below the WCAG 3:1 minimum for controls. In dark mode the knob (<code>#2B2B2B</code>) is also only about 1.5:1 against the Off track. The On state passes in both themes. Pair the toggle with a visible label so its purpose doesn't rely on seeing the track.</li>
+    <li>The knob slide is disabled when the user has <code>prefers-reduced-motion</code> set.</li>
+  </ul>
+
+  <h2>Guidelines</h2>
+  <div class="dodont">
+    <div class="do">
+      <h4>✓ Do</h4>
+      <ul>
+        <li>Use it for settings that take effect right away</li>
+        <li>Put the label next to the switch, describing what "on" means</li>
+        <li>Keep labels the same in both states: "Email notifications", not "On" / "Off"</li>
+      </ul>
+    </div>
+    <div class="dont">
+      <h4>✗ Don't</h4>
+      <ul>
+        <li>Use it inside a form that needs a Save button. Use a checkbox</li>
+        <li>Use it to pick between two different options, like "List" / "Grid"</li>
+        <li>Resize or recolor it with hex values. Use the tokens</li>
+      </ul>
+    </div>
+  </div>
+
+</main>
+
+<script src="docs.js"></script>
+<script>
+  const toggle = document.getElementById('pg-toggle');
+  const disabled = document.getElementById('pg-disabled');
+  const label = document.getElementById('pg-label');
+  const text = document.getElementById('pg-text');
+  const status = document.getElementById('pg-status');
+
+  function render() {
+    toggle.disabled = disabled.checked;
+    text.textContent = label.value || 'Setting';
+    status.textContent = 'State: ' + (toggle.checked ? 'On' : 'Off') + (toggle.disabled ? ' disabled' : '');
+  }
+  [toggle, disabled].forEach((el) => el.addEventListener('change', render));
+  label.addEventListener('input', render);
+</script>
+</body>
+</html>

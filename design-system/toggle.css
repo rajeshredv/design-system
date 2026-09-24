@@ -1,0 +1,70 @@
+/* ==========================================================================
+   Toggle
+   Figma component set: 2050:3135
+   Variants (States): Off · On · Off disabled · On disabled
+   Requires tokens.css
+
+   Markup — a native checkbox, so keyboard, forms and :checked work for free:
+     <input type="checkbox" role="switch" class="toggle" aria-label="…">
+   ========================================================================== */
+
+.toggle {
+  /* Component-level tokens (override these to theme a single instance) */
+  --toggle-track: var(--color-disabled);
+  --toggle-knob: var(--color-bg-1);
+
+  appearance: none;
+  position: relative;
+  flex-shrink: 0;
+  width: 32px;
+  height: 18px;
+  margin: 0;
+  border-radius: var(--radius-pill);
+  background: var(--toggle-track);
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+/* Knob: 16px, inset 1px from the track edge */
+.toggle::before {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-pill);
+  background: var(--toggle-knob);
+  transition: transform 150ms ease;
+}
+
+.toggle:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+}
+
+/* On — States=On (knob moves from x=1 to x=15) */
+.toggle:checked {
+  --toggle-track: var(--color-button-800);
+}
+.toggle:checked::before {
+  transform: translateX(14px);
+}
+
+/* Off disabled — States=Off disabled */
+.toggle:disabled {
+  --toggle-track: var(--color-bg-border);
+  cursor: not-allowed;
+}
+
+/* On disabled — States=On disabled */
+.toggle:checked:disabled {
+  --toggle-track: var(--color-button-100);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle,
+  .toggle::before {
+    transition: none;
+  }
+}

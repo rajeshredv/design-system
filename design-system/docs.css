@@ -1,0 +1,98 @@
+/* ==========================================================================
+   Documentation page chrome — shared by button.html and toggle.html.
+   Not part of any component. Built on tokens.css so it follows the theme.
+   ========================================================================== */
+
+:root {
+  --doc-ink: var(--color-text-primary);
+  --doc-muted: var(--color-text-secondary);
+  --doc-faint: var(--color-text-t2);
+  --doc-line: var(--color-bg-border);
+  --doc-surface: var(--color-bg-2);
+  --doc-page: var(--color-bg-1);
+  --doc-pre-bg: light-dark(#0f172a, #161616);
+  --doc-do: light-dark(#0f8a4a, #43d988);
+  --doc-dont: light-dark(#c62828, #ff7d7d);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  color: var(--doc-ink);
+  background: var(--doc-page);
+  line-height: 1.5;
+}
+.doc { max-width: 1040px; margin: 0 auto; padding: 48px 32px 96px; }
+
+/* ---- Top bar: page nav + theme switch ---- */
+.doc-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 32px; font-size: 14px; }
+.doc-bar nav { display: flex; gap: 16px; }
+.doc-bar nav a { color: var(--doc-muted); text-decoration: none; }
+.doc-bar nav a[aria-current="page"] { color: var(--doc-ink); font-family: var(--font-family-medium); }
+.theme-switch { display: inline-flex; align-items: center; gap: 8px; color: var(--doc-muted); cursor: pointer; }
+
+.eyebrow { font-size: 12px; font-family: var(--font-family-medium); letter-spacing: .08em; text-transform: uppercase; color: var(--color-button-800); }
+h1 { font-size: 36px; line-height: 44px; margin: 8px 0 12px; }
+h2 { font-size: 22px; margin: 56px 0 8px; padding-top: 24px; border-top: 1px solid var(--doc-line); }
+h3 { font-size: 16px; margin: 28px 0 8px; }
+p.lead { font-size: 17px; color: var(--doc-muted); max-width: 680px; margin: 0; }
+p, li { color: var(--doc-muted); }
+strong { color: var(--doc-ink); }
+a { color: var(--color-button-800); }
+.meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+.chip { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: var(--doc-surface); border: 1px solid var(--doc-line); color: var(--doc-muted); }
+.chip a { color: inherit; }
+
+/* ---- Light / dark comparison ----
+   Each panel sets data-theme, which scopes color-scheme to that subtree. */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.compare__panel { border: 1px solid var(--doc-line); border-radius: 12px; overflow: hidden; background: var(--color-bg-1); color: var(--color-text-primary); }
+.compare__title { font-size: 12px; font-family: var(--font-family-medium); letter-spacing: .06em; text-transform: uppercase; padding: 10px 16px; color: var(--color-text-secondary); border-bottom: 1px solid var(--color-bg-border); }
+
+.stage { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px 20px; padding: 28px 20px; }
+.stage figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 90px; }
+.stage figcaption { font-size: 12px; color: var(--color-text-secondary); text-align: center; }
+.stage figcaption code { display: block; font-size: 11px; margin-top: 2px; }
+
+/* ---- Tables ---- */
+table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 12px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--doc-line); vertical-align: middle; }
+th { font-size: 12px; font-family: var(--font-family-medium); text-transform: uppercase; letter-spacing: .04em; color: var(--doc-muted); background: var(--doc-surface); }
+td { color: var(--doc-ink); }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12.5px; background: var(--doc-surface); padding: 2px 6px; border-radius: 4px; color: var(--doc-ink); }
+.swatch-cell { white-space: nowrap; }
+.swatch { display: inline-block; width: 24px; height: 24px; border-radius: 6px; border: 1px solid rgba(128,128,128,.3); vertical-align: middle; margin-right: 8px; }
+.muted { color: var(--doc-muted); }
+.none { color: var(--doc-faint); }
+
+/* ---- Playground ---- */
+.playground { display: grid; grid-template-columns: 1fr 280px; border: 1px solid var(--doc-line); border-radius: 12px; overflow: hidden; }
+.playground .preview { display: grid; place-items: center; min-height: 200px; background: var(--doc-surface); }
+.playground .controls { padding: 20px; border-left: 1px solid var(--doc-line); display: flex; flex-direction: column; gap: 14px; }
+.controls label { font-size: 13px; color: var(--doc-ink); display: flex; flex-direction: column; gap: 6px; }
+.controls label.inline { flex-direction: row; align-items: center; gap: 8px; cursor: pointer; }
+.controls select, .controls input[type=text] { font: inherit; font-size: 14px; padding: 6px 8px; border: 1px solid var(--doc-line); border-radius: 6px; background: var(--doc-page); color: var(--doc-ink); }
+
+pre { background: var(--doc-pre-bg); color: #e2e8f0; padding: 20px; border-radius: 10px; overflow-x: auto; font-size: 13px; line-height: 1.6; }
+pre code { background: none; color: inherit; padding: 0; }
+
+/* ---- Anatomy ---- */
+.anatomy { display: flex; gap: 48px; align-items: center; padding: 40px; background: var(--doc-surface); border: 1px solid var(--doc-line); border-radius: 12px; }
+.spec { position: relative; display: inline-block; flex-shrink: 0; }
+.anatomy ol { margin: 0; padding-left: 20px; font-size: 14px; }
+.anatomy li { margin-bottom: 6px; }
+
+/* ---- Do / Don't ---- */
+.dodont { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.dodont > div { border: 1px solid var(--doc-line); border-radius: 12px; padding: 20px; }
+.dodont h4 { margin: 0 0 8px; font-size: 14px; }
+.do h4 { color: var(--doc-do); }
+.dont h4 { color: var(--doc-dont); }
+.dodont ul { margin: 0; padding-left: 18px; font-size: 14px; }
+
+@media (max-width: 760px) {
+  .compare, .playground, .dodont { grid-template-columns: 1fr; }
+  .playground .controls { border-left: 0; border-top: 1px solid var(--doc-line); }
+  .anatomy { flex-direction: column; }
+}

@@ -1,33 +1,64 @@
 /**
  * Design tokens extracted from Figma
- * Source: Style library — Components (fPrKkOBCh1zkIKQqgRSQrF), Button component set
+ * Source: Style library — Components (fPrKkOBCh1zkIKQqgRSQrF)
  * Token names mirror the Figma variable names 1:1 so this file can be regenerated
  * by re-running `get_variable_defs` against the same file.
+ *
+ * Theming
+ * -------
+ * Colors come from the Figma "Colors" collection, which has Light and Dark
+ * modes. Each token is written as light-dark(<Light>, <Dark>) and resolves
+ * against the `color-scheme` of the element that uses it:
+ *
+ *   - default            follows the OS setting (prefers-color-scheme)
+ *   - data-theme="light" forces light on that element and its subtree
+ *   - data-theme="dark"  forces dark on that element and its subtree
+ *
+ * data-theme works on any element, not just <html>, so light and dark
+ * previews can sit side by side on one page.
  */
 :root {
-  /* ---- Color / Button ---- */
-  --color-button-100: #e5f3fd;
-  --color-button-600: #66b7f4;
-  --color-button-800: #0087ed; /* primary default */
-  --color-button-1000: #0076ce; /* primary hover / activated border */
+  color-scheme: light dark;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+:root {
+  /* ---- Color / Button ----                         Light     Dark    */
+  --color-button-100: light-dark(#e5f3fd, #273742);
+  --color-button-600: light-dark(#66b7f4, #3b75a0);
+  --color-button-800: light-dark(#0087ed, #4dadf5); /* primary default */
+  --color-button-1000: light-dark(#0076ce, #479edf); /* primary hover / activated border */
 
   /* ---- Color / Negative ---- */
-  --color-negative-100: #fdeeee;
-  --color-negative-200: #ffe5e5;
-  --color-negative-800: #eb5757; /* negative default */
-  --color-negative-1000: #dd5151; /* negative hover / activated border */
+  --color-negative-100: light-dark(#fdeeee, #483131);
+  --color-negative-200: light-dark(#ffe5e5, #603737);
+  --color-negative-800: light-dark(#eb5757, #ff7d7d); /* negative default */
+  --color-negative-1000: light-dark(#dd5151, #ed6a6a); /* negative hover / activated border */
 
   /* ---- Color / Background ---- */
-  --color-bg-1: #ffffff;
-  --color-bg-2: #f6f6f6; /* secondary default */
-  --color-bg-hover: #f1f4f7;
+  --color-bg-1: light-dark(#ffffff, #2b2b2b);
+  --color-bg-2: light-dark(#f6f6f6, #1d1d1d); /* secondary default */
+  --color-bg-3: light-dark(#fafafa, #202020);
+  --color-bg-hover: light-dark(#f1f4f7, #3d3d3d);
+  --color-bg-border: light-dark(#e6e6e6, #3d3d3d);
 
   /* ---- Color / Text ---- */
-  --color-text-primary: #222222;
-  --color-text-secondary: #666666;
-  --color-text-t2: #ababab;
-  --color-text-t3: #4d4d4d;
-  --color-text-disabled: #c4c4c4;
+  --color-text-primary: light-dark(#222222, #e3e3e3);
+  --color-text-secondary: light-dark(#666666, #b3b3b3);
+  --color-text-t1: light-dark(#888888, #848484);
+  --color-text-t2: light-dark(#ababab, #727272);
+  --color-text-t3: light-dark(#4d4d4d, #b3b3b3);
+
+  /* ---- Color / Disabled ---- */
+  --color-disabled: light-dark(#c4c4c4, #464646); /* Figma: Disabled */
+  --color-text-disabled: var(--color-disabled);
 
   /* ---- Spacing ---- */
   --space-xs: 2px;
@@ -41,6 +72,7 @@
   /* ---- Radius ---- */
   --radius-sm: 4px;
   --radius-lg: 8px;
+  --radius-pill: 28px; /* Toggle track and knob */
 
   /* ---- Typography ---- */
   --font-family-base: "Zoho Puvi", -apple-system, BlinkMacSystemFont, sans-serif;
