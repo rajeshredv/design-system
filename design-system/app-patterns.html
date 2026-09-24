@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>App patterns — Design System</title>
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="icon.css" />
+  <link rel="stylesheet" href="button.css" />
+  <link rel="stylesheet" href="toggle.css" />
+  <link rel="stylesheet" href="notice-message.css" />
+  <link rel="stylesheet" href="lhs-banner.css" />
+  <link rel="stylesheet" href="chat-action-bar.css" />
+  <link rel="stylesheet" href="create-group-dialog.css" />
+  <link rel="stylesheet" href="docs.css" />
+  <style>
+    /* Page-only layout helpers */
+    .stage--column { flex-direction: column; align-items: stretch; flex-wrap: nowrap; }
+    .stage--column figure { align-items: stretch; }
+    .sidebar-mock { width: 100%; max-width: 400px; margin: 0 auto; background: var(--color-bg-1); }
+    .notice-mock { padding: 24px 12px; }
+    .notice-mock .notice-message { margin: 0 auto; }
+    .dialog-stage { padding: 24px 12px; justify-content: center; }
+    .dialog-stage .create-group { max-width: 100%; }
+    .compare--stack { grid-template-columns: 1fr; }
+  </style>
+</head>
+<body>
+<main class="doc">
+
+  <div class="doc-bar">
+    <nav data-doc-nav></nav>
+    <label class="theme-switch">Dark mode <input type="checkbox" role="switch" class="toggle" data-theme-switch /></label>
+  </div>
+
+  <div class="eyebrow">Components · App patterns</div>
+  <h1>App patterns</h1>
+  <p class="lead">Product pieces of the Arattai chat app: the banner at the top of the left-hand chat list, the strip under the chat header, the centered message of a full-window notice and the Create group dialog. They're built from the shared tokens and buttons, and their product content (names, photos, copy) comes in through props and slots.</p>
+  <div class="meta">
+    <span class="chip">Figma: <code>LHS banner</code>, <code>Chat window action bar</code>, <code>Component 7</code>, <code>Frame 1171279598</code></span>
+    <span class="chip">Section <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=5408-3176&m=dev" target="_blank" rel="noopener">5408:3176</a></span>
+    <span class="chip">4 components · 7 variants</span>
+    <span class="chip">Light &amp; dark</span>
+  </div>
+
+  <!-- ================================================================== -->
+  <!-- LHS banner                                                         -->
+  <!-- ================================================================== -->
+  <h2 id="lhs-banner">LHS banner</h2>
+  <p>A notice at the top of the left-hand chat list: an icon, a title, supporting text and one link action. <code>Close=True</code> adds a dismiss button. <code>Close=False</code> is for notices the user has to act on, like an app update.</p>
+  <div class="meta">
+    <span class="chip">Figma: <code>LHS banner</code></span>
+    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3313-2509&m=dev" target="_blank" rel="noopener">3313:2509</a></span>
+    <span class="chip">2 variants</span>
+    <span class="chip">400px wide (368px card)</span>
+    <span class="chip">Light &amp; dark</span>
+  </div>
+
+  <h3>Variants</h3>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage stage--column">
+        <figure>
+          <div class="sidebar-mock">
+            <section class="lhs-banner" aria-labelledby="lb-1">
+              <div class="lhs-banner__info">
+                <span class="lhs-banner__icon icon" style="--icon:url(assets/icons/bell-notification-sl.svg)" aria-hidden="true"></span>
+                <div class="lhs-banner__content">
+                  <p class="lhs-banner__title" id="lb-1">Message notifications are off</p>
+                  <p class="lhs-banner__text">Turn on push notifications to receive alerts for new messages.</p>
+                  <div class="lhs-banner__actions"><button type="button" class="btn btn--link">Turn on</button></div>
+                </div>
+                <button type="button" class="lhs-banner__close" aria-label="Dismiss">
+                  <span class="icon icon--20" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span>
+                </button>
+              </div>
+            </section>
+          </div>
+          <figcaption>Close=True<code>.lhs-banner + .lhs-banner__close</code></figcaption>
+        </figure>
+        <figure>
+          <div class="sidebar-mock">
+            <section class="lhs-banner" aria-labelledby="lb-2">
+              <div class="lhs-banner__info">
+                <span class="lhs-banner__icon icon" style="--icon:url(assets/icons/go-back.svg)" aria-hidden="true"></span>
+                <div class="lhs-banner__content">
+                  <p class="lhs-banner__title" id="lb-2">Update available</p>
+                  <p class="lhs-banner__text">A new version of Arattai is available.</p>
+                  <div class="lhs-banner__actions"><button type="button" class="btn btn--link">Refresh</button></div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <figcaption>Close=False<code>.lhs-banner</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color tokens</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-bg-hover</code></td><td><code>BG/Hover</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-hover)"></span>#F1F4F7</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-hover)"></span>#3D3D3D</td>
+        <td>Card fill; close button hover fill</td></tr>
+      <tr><td><code>--color-text-primary</code></td><td><code>Text/Primary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-primary)"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>#E3E3E3</td>
+        <td>Leading icon, title; close icon on hover</td></tr>
+      <tr><td><code>--lhs-banner-text</code> <span class="muted">(local)</span></td><td><code>Font/Tertiary</code> <span class="muted">remote library, not in tokens.css</span></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:light-dark(#747474, #ffffff)"></span>#747474</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:light-dark(#747474, #ffffff)"></span>#FFFFFF</td>
+        <td>Sub text</td></tr>
+      <tr><td><code>--color-text-secondary</code></td><td><code>Text/Secondary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-secondary)"></span>#666666</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-secondary)"></span>#B3B3B3</td>
+        <td>Close icon</td></tr>
+      <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>Link action (<code>.btn--link</code>); close Active icon + ring</td></tr>
+      <tr><td><code>--color-button-1000</code></td><td><code>Button/1000</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-1000)"></span>#0076CE</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-1000)"></span>#479EDF</td>
+        <td>Link hover; focus ring (code only)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Variant</th><th>Leading icon</th><th>Content</th><th>Close</th><th>Code</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Close=True</strong></td><td>24px <code>bell-notification-sl</code></td><td>Title Body 2 M · Sub Body 3 R · link (BTN Small)</td><td>32px round button, 20px icon, in a 16px slot</td><td><code>.lhs-banner</code> with <code>.lhs-banner__close</code></td></tr>
+      <tr><td><strong>Close=False</strong></td><td>24px <code>go-back</code></td><td>Same stack</td><td>None</td><td><code>.lhs-banner</code></td></tr>
+      <tr><td colspan="5" class="muted">Both: 16px side and 8px bottom margin, card padding 12px, 6px icon gap, 4px content gap, radius 8px. Close states: Default <code>Text/Secondary</code>, Hover <code>BG/Hover</code> fill + <code>Text/Primary</code>, Active <code>Button/800</code> icon + 1px ring.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Usage</h3>
+<pre><code>&lt;section class="lhs-banner" aria-labelledby="notif-title"&gt;
+  &lt;div class="lhs-banner__info"&gt;
+    &lt;span class="lhs-banner__icon icon" style="--icon:url(assets/icons/bell-notification-sl.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;div class="lhs-banner__content"&gt;
+      &lt;p class="lhs-banner__title" id="notif-title"&gt;Message notifications are off&lt;/p&gt;
+      &lt;p class="lhs-banner__text"&gt;Turn on push notifications to receive alerts for new messages.&lt;/p&gt;
+      &lt;div class="lhs-banner__actions"&gt;&lt;button type="button" class="btn btn--link"&gt;Turn on&lt;/button&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;!-- Close=True only --&gt;
+    &lt;button type="button" class="lhs-banner__close" aria-label="Dismiss"&gt;
+      &lt;span class="icon icon--20" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+<pre><code>&lt;script setup&gt;
+import LhsBanner from "./design-system/components/LhsBanner.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;LhsBanner icon="assets/icons/bell-notification-sl.svg"
+             title="Message notifications are off"
+             text="Turn on push notifications to receive alerts for new messages."
+             action-label="Turn on" closable
+             @action="enablePush" @close="hideBanner" /&gt;
+
+  &lt;LhsBanner icon="assets/icons/go-back.svg" title="Update available"
+             text="A new version of Arattai is available."
+             action-label="Refresh" @action="reload" /&gt;
+&lt;/template&gt;</code></pre>
+
+  <h3>Accessibility</h3>
+  <ul>
+    <li>The banner is a <code>&lt;section&gt;</code> named by its title (<code>aria-labelledby</code>), so screen reader users can find it as a region.</li>
+    <li>The action is a real <code>&lt;button&gt;</code>. Use a label that makes sense on its own ("Turn on", "Refresh").</li>
+    <li>The close button has <code>aria-label="Dismiss"</code>. When it removes the banner, move focus to the next element in the list so focus isn't lost.</li>
+    <li>The icons are decorative (<code>aria-hidden</code>). The title carries the meaning.</li>
+    <li>Contrast: the dark-mode sub text is <code>#FFFFFF</code> on <code>#3D3D3D</code> (high). In light mode, <code>#747474</code> on <code>#F1F4F7</code> is about 4.3:1, just below the 4.5:1 AA minimum for 14px text.</li>
+  </ul>
+
+  <!-- ================================================================== -->
+  <!-- Chat action bar                                                    -->
+  <!-- ================================================================== -->
+  <h2 id="chat-action-bar">Chat action bar</h2>
+  <p>A strip under the chat window header with a 1px bottom border. It comes in two versions: the <strong>pinned message</strong> strip (Figma <code>Plain text message</code>) and the <strong>join requests</strong> strip (Figma <code>Video</code>, even though it has nothing to do with video).</p>
+  <div class="meta">
+    <span class="chip">Figma: <code>Chat window action bar</code></span>
+    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3315-2471&m=dev" target="_blank" rel="noopener">3315:2471</a></span>
+    <span class="chip">2 variants</span>
+    <span class="chip">Full width · 44px / 48px tall</span>
+    <span class="chip">Light &amp; dark</span>
+  </div>
+
+  <h3>Variants</h3>
+  <div class="compare compare--stack">
+    <section class="compare__panel">
+      <div class="stage stage--column">
+        <figure>
+          <div class="chat-action-bar chat-action-bar--pinned" role="region" aria-label="Pinned message">
+            <span class="chat-action-bar__pin icon" style="--icon:url(assets/icons/pin-2-line.svg)" aria-hidden="true"></span>
+            <button type="button" class="chat-action-bar__message">
+              <span class="chat-action-bar__sender">Abishek:</span>
+              <span class="chat-action-bar__media icon icon--16" style="--icon:url(assets/icons/image-gallery-line.svg)" role="img" aria-label="Photo"></span>
+              <span class="chat-action-bar__text">This is the spot we are currently planning, Every day.</span>
+            </button>
+          </div>
+          <figcaption>Property 1=Plain text message<code>.chat-action-bar--pinned</code></figcaption>
+        </figure>
+        <figure>
+          <div class="chat-action-bar chat-action-bar--requests" role="region" aria-label="Join requests">
+            <div class="chat-action-bar__main">
+              <div class="chat-action-bar__summary">
+                <span class="chat-action-bar__avatars">
+                  <img class="chat-action-bar__avatar" src="assets/images/avatar-1.png" alt="" />
+                  <img class="chat-action-bar__avatar" src="assets/images/avatar-2.png" alt="" />
+                  <img class="chat-action-bar__avatar" src="assets/images/avatar-3.png" alt="" />
+                </span>
+                <span class="chat-action-bar__label">3 new join requests</span>
+              </div>
+              <button type="button" class="btn btn--secondary btn--small chat-action-bar__action">View</button>
+            </div>
+            <button type="button" class="chat-action-bar__close" aria-label="Dismiss">
+              <span class="icon" style="--icon:url(assets/icons/close.svg)" aria-hidden="true"></span>
+            </button>
+          </div>
+          <figcaption>Property 1=Video (join requests)<code>.chat-action-bar--requests</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color tokens</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-bg-1</code></td><td class="none">Unbound <code>#FFFFFF</code> (= BG/1)</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>Bar fill; avatar ring</td></tr>
+      <tr><td><code>--color-bg-border</code></td><td class="none">Unbound <code>#E6E6E6</code> (= BG/Border)</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-border)"></span>#E6E6E6</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-border)"></span>#3D3D3D</td>
+        <td>1px bottom border</td></tr>
+      <tr><td><code>--color-text-primary</code></td><td><code>Text/Primary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-primary)"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>#E3E3E3</td>
+        <td>Sender, message, photo icon, "3 new join requests" (unbound #222222), View label</td></tr>
+      <tr><td><code>--color-text-t1</code></td><td><code>Text/T1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t1)"></span>#888888</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t1)"></span>#848484</td>
+        <td>Pin icon</td></tr>
+      <tr><td><code>--color-text-secondary</code></td><td class="none">Unbound <code>#666666</code> (= Text/Secondary)</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-secondary)"></span>#666666</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-secondary)"></span>#B3B3B3</td>
+        <td>Close icon</td></tr>
+      <tr><td><code>--color-button-100</code></td><td><code>Button/100</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-100)"></span>#E5F3FD</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-100)"></span>#273742</td>
+        <td>View button fill</td></tr>
+      <tr><td><code>--color-button-600</code></td><td><code>Button/600</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-600)"></span>#66B7F4</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-600)"></span>#3B75A0</td>
+        <td>View button hover</td></tr>
+      <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>View button pressed ring</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Variant</th><th>Height · padding</th><th>Content</th><th>Text</th><th>Code</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Plain text message</strong></td><td>44px · 6px 12px · 12px gap</td><td>24px pin · sender · 16px photo icon · message (4px gaps, ellipsis)</td><td>Sub text M 14/20</td><td><code>.chat-action-bar--pinned</code></td></tr>
+      <tr><td><strong>Video</strong> (join requests)</td><td>48px · 8px 12px</td><td>3 × 32px avatars (−5.33px overlap) · label · 28px View button · 24px close</td><td>H3 SB 14/20</td><td><code>.chat-action-bar--requests</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Usage</h3>
+<pre><code>&lt;div class="chat-action-bar chat-action-bar--pinned" role="region" aria-label="Pinned message"&gt;
+  &lt;span class="chat-action-bar__pin icon" style="--icon:url(assets/icons/pin-2-line.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;button type="button" class="chat-action-bar__message"&gt;
+    &lt;span class="chat-action-bar__sender"&gt;Abishek:&lt;/span&gt;
+    &lt;span class="chat-action-bar__media icon icon--16" style="--icon:url(assets/icons/image-gallery-line.svg)" role="img" aria-label="Photo"&gt;&lt;/span&gt;
+    &lt;span class="chat-action-bar__text"&gt;This is the spot we are currently planning, Every day.&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/div&gt;
+
+&lt;div class="chat-action-bar chat-action-bar--requests" role="region" aria-label="Join requests"&gt;
+  &lt;div class="chat-action-bar__main"&gt;
+    &lt;div class="chat-action-bar__summary"&gt;
+      &lt;span class="chat-action-bar__avatars"&gt;
+        &lt;img class="chat-action-bar__avatar" src="…" alt=""&gt; …
+      &lt;/span&gt;
+      &lt;span class="chat-action-bar__label"&gt;3 new join requests&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;button type="button" class="btn btn--secondary btn--small chat-action-bar__action"&gt;View&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;button type="button" class="chat-action-bar__close" aria-label="Dismiss"&gt;
+    &lt;span class="icon" style="--icon:url(assets/icons/close.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+<pre><code>&lt;script setup&gt;
+import ChatActionBar from "./design-system/components/ChatActionBar.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;ChatActionBar variant="pinned" sender="Abishek:" media="photo"
+                 text="This is the spot we are currently planning, Every day."
+                 @open="scrollToPinned" /&gt;
+
+  &lt;ChatActionBar variant="requests"
+                 :avatars="requesters.map(u =&gt; ({ src: u.photo }))"
+                 :label="`${requesters.length} new join requests`"
+                 action-label="View" @action="openRequests" @close="dismiss" /&gt;
+&lt;/template&gt;</code></pre>
+
+  <h3>Accessibility</h3>
+  <ul>
+    <li>Each strip is a named region (<code>role="region"</code> + <code>aria-label</code>), so screen reader users can jump to it.</li>
+    <li>The pinned message row is one <code>&lt;button&gt;</code> that jumps to the message. The photo icon has <code>role="img"</code> and <code>aria-label="Photo"</code>, so it reads as "Abishek: Photo This is the spot…".</li>
+    <li>Avatars are decorative (<code>alt=""</code>). The label already says how many requests there are.</li>
+    <li>The close icon, which is a plain icon in Figma, is a 24px <code>&lt;button&gt;</code> with <code>aria-label="Dismiss"</code>. It's smaller than the 44px touch target guideline, so give it more padding on touch layouts.</li>
+    <li>All buttons show the 2px <code>--color-button-1000</code> focus ring.</li>
+  </ul>
+
+  <!-- ================================================================== -->
+  <!-- Notice message                                                     -->
+  <!-- ================================================================== -->
+  <h2 id="notice-message">Notice message</h2>
+  <p>The centered title and text block of a full-window notice, used by Confirmation dialog <code>Place=Outside chat window</code> for messages like "You have been logged out". Unnamed in Figma (<code>Component 7</code>).</p>
+  <div class="meta">
+    <span class="chip">Figma: <code>Component 7</code></span>
+    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3311-2594&m=dev" target="_blank" rel="noopener">3311:2594</a></span>
+    <span class="chip">2 variants</span>
+    <span class="chip">468px max width</span>
+    <span class="chip">Light &amp; dark</span>
+  </div>
+
+  <h3>Variants</h3>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage stage--column">
+        <figure>
+          <div class="notice-mock">
+            <div class="notice-message">
+              <h3 class="notice-message__title">You have been logged out</h3>
+              <p class="notice-message__text">Your SIM is no longer active on your primary device.<br><br>For your security and as per Department of Telecommunications (DoT) guidelines, please verify your number on your primary device and then log in on secondary devices to continue using Arattai on this device.</p>
+            </div>
+          </div>
+          <figcaption>Property 1=With sub<code>.notice-message</code></figcaption>
+        </figure>
+        <figure>
+          <div class="notice-mock">
+            <div class="notice-message">
+              <h3 class="notice-message__title">Arattai is active in another window. Using it here will close the session in the other window.</h3>
+            </div>
+          </div>
+          <figcaption>Property 1=No sub<code>title only</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color tokens</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-text-primary</code></td><td><code>Text/Primary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-primary)"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>#E3E3E3</td>
+        <td>Title</td></tr>
+      <tr><td><code>--color-text-secondary</code></td><td><code>Text/Secondary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-secondary)"></span>#666666</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-secondary)"></span>#B3B3B3</td>
+        <td>Sub text</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Variant</th><th>Title</th><th>Sub text</th><th>Gap</th><th>Code</th></tr></thead>
+    <tbody>
+      <tr><td><strong>With sub</strong></td><td>Medium 20/32, +1% (= <code>--font-h6</code>, not linked to a style in Figma)</td><td>Body 1 R 16/22, centered</td><td>16px</td><td><code>.notice-message</code></td></tr>
+      <tr><td><strong>No sub</strong></td><td>Same</td><td>None</td><td>n/a</td><td>omit <code>.notice-message__text</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Usage</h3>
+<pre><code>&lt;div class="notice-message"&gt;
+  &lt;h2 class="notice-message__title"&gt;You have been logged out&lt;/h2&gt;
+  &lt;p class="notice-message__text"&gt;Your SIM is no longer active on your primary device.&lt;br&gt;&lt;br&gt;For your security …&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<pre><code>&lt;script setup&gt;
+import NoticeMessage from "./design-system/components/NoticeMessage.vue";
+const text = "Your SIM is no longer active on your primary device.\n\nFor your security …";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;NoticeMessage title="You have been logged out" :text="text" /&gt;
+  &lt;NoticeMessage title="Arattai is active in another window. …" /&gt;  &lt;!-- No sub --&gt;
+&lt;/template&gt;</code></pre>
+
+  <h3>Accessibility</h3>
+  <ul>
+    <li>The title is a heading (<code>titleTag</code> in Vue, <code>h2</code> by default). Inside a dialog, point <code>aria-labelledby</code> at the title and <code>aria-describedby</code> at the text.</li>
+    <li>Line breaks in the copy are kept with <code>white-space: pre-line</code>, so Vue callers can pass <code>\n</code>.</li>
+    <li>Contrast passes AA in both themes (<code>#666666</code> on white is 5.7:1; <code>#B3B3B3</code> on <code>#2B2B2B</code> is 7:1).</li>
+  </ul>
+
+  <!-- ================================================================== -->
+  <!-- Create group dialog                                                -->
+  <!-- ================================================================== -->
+  <h2 id="create-group">Create group dialog</h2>
+  <p>The first step of creating a group: pick a photo, name the group, add a description and open group settings. Unnamed in Figma (<code>Frame 1171279598</code>). It's built from Modal header and footer, two outlined text fields and a settings row.</p>
+  <div class="meta">
+    <span class="chip">Figma: <code>Frame 1171279598</code></span>
+    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3158-2296&m=dev" target="_blank" rel="noopener">3158:2296</a></span>
+    <span class="chip">1 variant</span>
+    <span class="chip">450 × 748px</span>
+    <span class="chip">Light &amp; dark</span>
+  </div>
+
+  <h3>Variants</h3>
+  <p>Shown inline below. In the app it's a <code>&lt;dialog&gt;</code> opened with <code>showModal()</code>. Type in the fields to see the Default (empty, <code>BG/Border</code>) and Composed (<code>Button/800</code>) borders.</p>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage dialog-stage">
+        <div class="create-group" role="dialog" aria-labelledby="cg-title">
+          <form method="dialog" class="create-group__form" onsubmit="return false">
+            <div class="create-group__main">
+              <header class="create-group__header">
+                <h3 class="create-group__title" id="cg-title">Create group</h3>
+                <button type="button" class="create-group__icon-btn" aria-label="Close">
+                  <span class="icon" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span>
+                </button>
+              </header>
+              <div class="create-group__body">
+                <div class="create-group__photo-picker">
+                  <button type="button" class="create-group__photo" aria-label="Change group icon">
+                    <img src="assets/images/group-photo.jpg" alt="" />
+                  </button>
+                  <p class="create-group__photo-hint">
+                    <span class="icon" style="--icon:url(assets/icons/info-line.svg)" aria-hidden="true"></span>
+                    Set Group Icon (optional)
+                  </p>
+                </div>
+                <div class="create-group__field">
+                  <div class="create-group__field-box">
+                    <label class="create-group__control">
+                      <span class="create-group__label">Group name <span class="create-group__required" aria-hidden="true">*</span></span>
+                      <input class="create-group__input" type="text" placeholder=" " required value="College group" />
+                    </label>
+                    <button type="button" class="create-group__icon-btn" aria-label="Insert emoji">
+                      <span class="icon" style="--icon:url(assets/icons/emoji-smiley.svg)" aria-hidden="true"></span>
+                    </button>
+                  </div>
+                </div>
+                <div class="create-group__field create-group__field--large">
+                  <div class="create-group__field-box">
+                    <label class="create-group__control">
+                      <span class="create-group__label">Description</span>
+                      <textarea class="create-group__input" placeholder=" ">Welcome to our college chat group! Our group was created for students who want to connect</textarea>
+                    </label>
+                  </div>
+                </div>
+                <button type="button" class="create-group__settings">
+                  <span class="create-group__settings-label">
+                    <span class="icon" style="--icon:url(assets/icons/filter-settings-line.svg)" aria-hidden="true"></span>
+                    Group settings
+                  </span>
+                  <span class="create-group__chevron icon" style="--icon:url(assets/icons/arrow-right-line.svg)" aria-hidden="true"></span>
+                </button>
+              </div>
+            </div>
+            <footer class="create-group__footer">
+              <button type="button" class="btn btn--secondary btn--medium">Back</button>
+              <button type="submit" class="btn btn--primary btn--medium">Next</button>
+            </footer>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color tokens</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-bg-1</code></td><td><code>BG/1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>Dialog, header, footer; field label backing; Next label</td></tr>
+      <tr><td><code>--color-bg-2</code></td><td><code>BG/2</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-2)"></span>#F6F6F6</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-2)"></span>#1D1D1D</td>
+        <td>Group settings row; Back button</td></tr>
+      <tr><td><code>--color-bg-hover</code></td><td><code>BG/Hover</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-hover)"></span>#F1F4F7</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-hover)"></span>#3D3D3D</td>
+        <td>Icon button hover; settings row hover (code only)</td></tr>
+      <tr><td><code>--color-bg-border</code></td><td><code>BG/Border</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-border)"></span>#E6E6E6</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-border)"></span>#3D3D3D</td>
+        <td>Empty field border (State=Default)</td></tr>
+      <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>Focused / filled field border; Next button</td></tr>
+      <tr><td><code>--color-text-primary</code></td><td><code>Text/Primary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-primary)"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>#E3E3E3</td>
+        <td>Title, field values, "Group settings"</td></tr>
+      <tr><td><code>--color-text-secondary</code></td><td><code>Text/Secondary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-secondary)"></span>#666666</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-secondary)"></span>#B3B3B3</td>
+        <td>Field labels, close + emoji icons, chevron</td></tr>
+      <tr><td><code>--color-text-t1</code></td><td><code>Text/T1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t1)"></span>#888888</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t1)"></span>#848484</td>
+        <td>"Set Group Icon (optional)" + info icon</td></tr>
+      <tr><td><code>--color-draft-badge</code></td><td><code>Draft-badge</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-draft-badge)"></span>#F63B00</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-draft-badge)"></span>#F06C66</td>
+        <td>Required asterisk</td></tr>
+      <tr><td><code>--color-chip-icon</code></td><td><code>Chip-icon</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-chip-icon)"></span>#627282</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-chip-icon)"></span>#666666</td>
+        <td>Group settings icon</td></tr>
+      <tr><td><code>--color-text-t3</code></td><td><code>Text/T3</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t3)"></span>#4D4D4D</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t3)"></span>#B3B3B3</td>
+        <td>Back label (from <code>.btn--secondary</code>)</td></tr>
+    </tbody>
+  </table>
+  <p class="muted">Dialog shadow: <code>--shadow-dropdown-menu</code> (0 0 12px rgba(0,0,0,.25)). Radius 8px throughout.</p>
+
+  <h3>Part specs</h3>
+  <table>
+    <thead><tr><th>Part</th><th>Figma source</th><th>Spec</th><th>Code</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Header</strong></td><td>Modal- Header, Back=False</td><td>Padding 10 8 10 20 · H1 20 B title · 40px close</td><td><code>.create-group__header</code></td></tr>
+      <tr><td><strong>Icon button</strong></td><td>Icon-Large-Transparent</td><td>40px circle, 24px icon. Hover <code>BG/Hover</code> + <code>Text/Primary</code>; Active <code>Button/800</code> + ring</td><td><code>.create-group__icon-btn</code></td></tr>
+      <tr><td><strong>Photo picker</strong></td><td>Frame 27019</td><td>128px circle photo · 8px · 20px info icon + 14/16 caption, 4px gap</td><td><code>.create-group__photo-picker</code></td></tr>
+      <tr><td><strong>Text field</strong></td><td>Multi line input, With icon</td><td>44px box, 1px border, 12px left / 2px right padding, floating Body 3 R label, Body 2 M value, 40px emoji button</td><td><code>.create-group__field</code></td></tr>
+      <tr><td><strong>Text area</strong></td><td>Multi line input, Large</td><td>112px box, padding 14 12 8</td><td><code>.create-group__field--large</code></td></tr>
+      <tr><td><strong>Settings row</strong></td><td>Frame 26699</td><td>48px, <code>BG/2</code>, padding 0 12 0 20, 24px icon, 12px gap, Medium 16/20, 20px chevron</td><td><code>.create-group__settings</code></td></tr>
+      <tr><td><strong>Footer</strong></td><td>Modal- Footer + Button flex (2)</td><td>Padding 16 20 24, right-aligned, 24px gap, Secondary + Primary Medium</td><td><code>.create-group__footer</code> + <code>.btn</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Usage</h3>
+<pre><code>&lt;dialog class="create-group" id="create-group" aria-labelledby="cg-title"&gt;
+  &lt;form method="dialog" class="create-group__form"&gt;
+    &lt;div class="create-group__main"&gt;
+      &lt;header class="create-group__header"&gt;
+        &lt;h2 class="create-group__title" id="cg-title"&gt;Create group&lt;/h2&gt;
+        &lt;button class="create-group__icon-btn" value="close" aria-label="Close"&gt;
+          &lt;span class="icon" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+        &lt;/button&gt;
+      &lt;/header&gt;
+      &lt;div class="create-group__body"&gt;
+        …photo picker, fields, settings row (see the example above)…
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;footer class="create-group__footer"&gt;
+      &lt;button type="button" class="btn btn--secondary btn--medium"&gt;Back&lt;/button&gt;
+      &lt;button type="submit" class="btn btn--primary btn--medium"&gt;Next&lt;/button&gt;
+    &lt;/footer&gt;
+  &lt;/form&gt;
+&lt;/dialog&gt;
+
+&lt;script&gt;document.getElementById("create-group").showModal();&lt;/script&gt;</code></pre>
+<pre><code>&lt;script setup&gt;
+import { ref } from "vue";
+import CreateGroupDialog from "./design-system/components/CreateGroupDialog.vue";
+const show = ref(false);
+const name = ref("");
+const about = ref("");
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;CreateGroupDialog v-model:open="show" v-model:name="name" v-model:description="about"
+                     :photo="photoUrl" @change-photo="pickPhoto" @settings="openSettings"
+                     @back="show = false" @next="createGroup" /&gt;
+&lt;/template&gt;</code></pre>
+
+  <h3>Accessibility</h3>
+  <ul>
+    <li>Use a native <code>&lt;dialog&gt;</code> with <code>showModal()</code>. That gives you a focus trap, Escape to close and an inert page behind it. It's named by its title through <code>aria-labelledby</code>.</li>
+    <li>Each field is a real <code>&lt;input&gt;</code> or <code>&lt;textarea&gt;</code> wrapped in a <code>&lt;label&gt;</code>, so the floating text is its accessible name. "Group name" is <code>required</code>. The red asterisk is <code>aria-hidden</code> because the required state is announced.</li>
+    <li>Fields show a 2px <code>--color-button-1000</code> focus ring on the box. It's added in code because the Figma "Composed" (filled) and "Focus" borders are both <code>Button/800</code>, so the border alone doesn't show focus.</li>
+    <li>The photo is a button named "Change group icon" and described by the "Set Group Icon (optional)" hint.</li>
+    <li>The close and emoji buttons are icon-only and have <code>aria-label</code>s. Group settings is a button whose visible text is its name.</li>
+    <li>Transitions are turned off when <code>prefers-reduced-motion</code> is set.</li>
+  </ul>
+
+</main>
+
+<script src="docs.js"></script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+/* ==========================================================================
+   Chat action bar
+   Figma component set: "Chat window action bar" 3315:2471
+   Variants (Property 1):
+     Plain text message  → .chat-action-bar--pinned    pinned message strip
+     Video               → .chat-action-bar--requests  join-requests strip
+   (The Figma value "Video" is a leftover name: the frame shows avatars,
+   "3 new join requests", a View button and a close icon.)
+   Requires tokens.css, icon.css and button.css (View is a .btn)
+
+   A 1px-bottom-bordered strip under the chat window header.
+
+   Markup — pinned
+     <div class="chat-action-bar chat-action-bar--pinned" role="region" aria-label="Pinned message">
+       <span class="chat-action-bar__pin icon" style="--icon:url(assets/icons/pin-2-line.svg)" aria-hidden="true"></span>
+       <button type="button" class="chat-action-bar__message">
+         <span class="chat-action-bar__sender">Abishek:</span>
+         <span class="chat-action-bar__media icon icon--16" style="--icon:url(assets/icons/image-gallery-line.svg)" role="img" aria-label="Photo"></span>
+         <span class="chat-action-bar__text">This is the spot we are currently planning, Every day.</span>
+       </button>
+     </div>
+
+   Markup — requests
+     <div class="chat-action-bar chat-action-bar--requests" role="region" aria-label="Join requests">
+       <div class="chat-action-bar__main">
+         <div class="chat-action-bar__summary">
+           <span class="chat-action-bar__avatars">
+             <img class="chat-action-bar__avatar" src="…" alt="">  (×3)
+           </span>
+           <span class="chat-action-bar__label">3 new join requests</span>
+         </div>
+         <button type="button" class="btn btn--secondary btn--small chat-action-bar__action">View</button>
+       </div>
+       <button type="button" class="chat-action-bar__close" aria-label="Dismiss">
+         <span class="icon" style="--icon:url(assets/icons/close.svg)" aria-hidden="true"></span>
+       </button>
+     </div>
+   ========================================================================== */
+
+.chat-action-bar {
+  /* Component-level tokens.
+     Fill and stroke are unbound in Figma (#FFFFFF / #E6E6E6); they match
+     BG/1 and BG/Border exactly, so those tokens are used to get dark mode. */
+  --chat-action-bar-bg: var(--color-bg-1);
+  --chat-action-bar-border: var(--color-bg-border);
+  --chat-action-bar-fg: var(--color-text-primary);
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 var(--space-xl); /* 12px */
+  /* 1px bottom stroke, INSIDE in Figma: drawn as an inset shadow so it
+     doesn't add to the 44px / 48px height */
+  box-shadow: inset 0 -1px 0 var(--chat-action-bar-border);
+  background: var(--chat-action-bar-bg);
+  color: var(--chat-action-bar-fg);
+  overflow: hidden;
+}
+
+/* ---- Property 1=Plain text message (pinned) ------------------------------ */
+
+.chat-action-bar--pinned {
+  gap: var(--space-xl);               /* 12px */
+  height: 44px;                       /* fixed in Figma */
+  padding-block: var(--space-m);      /* 6px */
+}
+
+.chat-action-bar__pin {
+  --icon-size: 24px;
+  color: var(--color-text-t1);
+}
+
+/* The whole message row is one button (jump to the pinned message). */
+.chat-action-bar__message {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-s); /* 4px */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: inherit;
+  font: var(--font-sub-text); /* Sub text M, 14/20 */
+  text-align: left;
+  cursor: pointer;
+}
+
+.chat-action-bar__message:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+}
+
+.chat-action-bar__sender {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.chat-action-bar__media {
+  --icon-size: 16px;
+  color: var(--color-text-primary);
+}
+
+.chat-action-bar__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- Property 1=Video (join requests) ------------------------------------ */
+
+.chat-action-bar--requests {
+  justify-content: space-between; /* main fills, so the close sits flush right */
+  padding-block: var(--space-l); /* 8px → 48px tall */
+}
+
+.chat-action-bar__main {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-l); /* 8px */
+}
+
+.chat-action-bar__summary {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-l);            /* 8px */
+  padding-right: var(--space-xl); /* 12px */
+}
+
+.chat-action-bar__avatars {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+/* 32px circles overlapping by 5.33px (negative gap in Figma). */
+.chat-action-bar__avatar {
+  display: block;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.chat-action-bar__avatar + .chat-action-bar__avatar {
+  margin-left: -5.333px;
+  /* Figma: white centre stroke, 1.33px on the 2nd avatar and 2px on the 3rd.
+     Unified to a 1px ring in the bar colour so it themes. */
+  box-shadow: 0 0 0 1px var(--chat-action-bar-bg);
+}
+
+.chat-action-bar__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: var(--font-h3); /* H3 SB, 14/20. Fill is unbound #222222 = Text/Primary */
+  color: var(--color-text-primary);
+}
+
+/* View — an instance of Buttons-Secondary/Small with overrides: Button/100
+   fill, Text/Primary label in H3 SB (14/20), 4px × 12px padding → 28px tall.
+   button.css keeps .btn--secondary neutral, so the instance values are
+   restored here. */
+.chat-action-bar .chat-action-bar__action {
+  --btn-bg: var(--color-button-100);
+  --btn-fg: var(--color-text-primary);
+  --btn-height: 28px;
+  --btn-font-size: 14px;
+  --btn-line-height: 20px;
+  --btn-letter-spacing: 0;
+  flex-shrink: 0;
+}
+/* Property 1=Hover */
+.chat-action-bar .chat-action-bar__action:is(:hover, .is-hover):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-bg: var(--color-button-600);
+}
+/* Property 1=small (the pressed frame) */
+.chat-action-bar .chat-action-bar__action:is(:active, .btn--pressed, [aria-pressed="true"]):not(:disabled, [aria-disabled="true"], .is-loading, [aria-busy="true"]) {
+  --btn-ring: var(--color-button-800);
+}
+
+/* Close — a plain 24px icon in Figma (fill unbound #666666 = Text/Secondary).
+   Made a button here; hover darkens it (code only). */
+.chat-action-bar__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: color 120ms ease;
+}
+.chat-action-bar__close:hover {
+  color: var(--color-text-primary);
+}
+.chat-action-bar__close:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chat-action-bar__close { transition: none; }
+}

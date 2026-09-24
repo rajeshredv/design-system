@@ -1,0 +1,130 @@
+/* ==========================================================================
+   LHS banner
+   Figma component set: "LHS banner" 3313:2509
+   Variants (Close): True · False
+   Requires tokens.css, icon.css and button.css (the action is a .btn--link)
+
+   A notice pinned at the top of the left-hand chat list, e.g. "Message
+   notifications are off" (Close=True, dismissible) or "Update available"
+   (Close=False).
+
+   Markup
+     <section class="lhs-banner" aria-labelledby="b-title">
+       <div class="lhs-banner__info">
+         <span class="lhs-banner__icon icon" style="--icon:url(assets/icons/bell-notification-sl.svg)" aria-hidden="true"></span>
+         <div class="lhs-banner__content">
+           <p class="lhs-banner__title" id="b-title">Message notifications are off</p>
+           <p class="lhs-banner__text">Turn on push notifications…</p>
+           <div class="lhs-banner__actions">
+             <button type="button" class="btn btn--link">Turn on</button>
+           </div>
+         </div>
+         <button type="button" class="lhs-banner__close" aria-label="Dismiss">
+           <span class="icon icon--20" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span>
+         </button>
+       </div>
+     </section>
+   ========================================================================== */
+
+.lhs-banner {
+  /* Component-level tokens */
+  --lhs-banner-bg: var(--color-bg-hover);
+  --lhs-banner-title: var(--color-text-primary);
+  --lhs-banner-icon: var(--color-text-primary);
+  /* Sub text is bound to "Font/Tertiary", a remote Colour Lib variable that
+     is not in tokens.css: #747474 (Light) / #FFFFFF (Dark). */
+  --lhs-banner-text: light-dark(#747474, #ffffff);
+
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 var(--space-2xl) var(--space-l); /* 16px sides (368 of 400), 8px bottom */
+}
+
+.lhs-banner__info {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-m);          /* 6px */
+  padding: var(--space-xl);     /* 12px */
+  border-radius: var(--radius-lg); /* 8px, unbound in Figma */
+  background: var(--lhs-banner-bg);
+  overflow: hidden;
+}
+
+.lhs-banner__icon {
+  --icon-size: 24px;
+  color: var(--lhs-banner-icon);
+}
+
+.lhs-banner__content {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--space-s); /* 4px */
+}
+
+.lhs-banner__title {
+  margin: 0;
+  font: var(--font-body-2); /* Body 2 M, 16/24 */
+  color: var(--lhs-banner-title);
+}
+
+.lhs-banner__text {
+  margin: 0;
+  font: var(--font-body-3); /* Body 3 R, 14/20 */
+  color: var(--lhs-banner-text);
+}
+
+.lhs-banner__actions {
+  display: flex;
+  gap: var(--space-l); /* 8px */
+}
+
+/* Close — Icon-Small-Transparent (2148:2688), local until .icon-btn lands.
+   32px hit area inside a 16px slot: the -8px margin keeps the layout of the
+   Figma frame (16 × 16 slot, button offset -8,-8). */
+.lhs-banner__close {
+  --lhs-banner-close-fg: var(--color-text-secondary);
+  --lhs-banner-close-bg: transparent;
+  --lhs-banner-close-ring: transparent;
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  margin: -8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%; /* 42px in Figma, larger than half the size */
+  background: var(--lhs-banner-close-bg);
+  box-shadow: inset 0 0 0 1px var(--lhs-banner-close-ring);
+  color: var(--lhs-banner-close-fg);
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+/* States=Hover */
+.lhs-banner__close:hover {
+  --lhs-banner-close-fg: var(--color-text-primary);
+  --lhs-banner-close-bg: var(--color-bg-hover);
+}
+/* The banner itself is BG/Hover, so the hover fill only shows as the icon
+   darkening. Kept as designed. */
+
+/* States=Active */
+.lhs-banner__close:active {
+  --lhs-banner-close-fg: var(--color-button-800);
+  --lhs-banner-close-ring: var(--color-button-800);
+}
+
+.lhs-banner__close:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lhs-banner__close { transition: none; }
+}

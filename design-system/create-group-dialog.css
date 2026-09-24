@@ -1,0 +1,354 @@
+/* ==========================================================================
+   Create group dialog
+   Figma component: "Frame 1171279598" 3158:2296 (unnamed in Figma; named
+   here after its content). Single component, no variants.
+   Requires tokens.css, icon.css and button.css (footer buttons are .btn)
+
+   Composition in Figma: Modal- Header (Back=False) · group icon picker ·
+   Multi line input (With icon, Composed) · Multi line input (Large,
+   Composed) · Group settings row · Modal- Footer (Button flex, 2 buttons).
+   Header, footer and inputs are styled locally so this file stands alone;
+   see the report for unifying with modal.css / a shared text field.
+
+   Markup (open with dialog.showModal()):
+     <dialog class="create-group" aria-labelledby="cg-title">
+       <form method="dialog" class="create-group__form">
+        <div class="create-group__main">
+         <header class="create-group__header">
+           <h2 class="create-group__title" id="cg-title">Create group</h2>
+           <button class="create-group__icon-btn" value="close" aria-label="Close">…</button>
+         </header>
+         <div class="create-group__body">
+           <div class="create-group__photo-picker">…</div>
+           <div class="create-group__field">…</div>          (single line)
+           <div class="create-group__field create-group__field--large">…</div>
+           <button type="button" class="create-group__settings">…</button>
+         </div>
+        </div>
+         <footer class="create-group__footer">
+           <button class="btn btn--secondary btn--medium">Back</button>
+           <button class="btn btn--primary btn--medium">Next</button>
+         </footer>
+       </form>
+     </dialog>
+   ========================================================================== */
+
+.create-group {
+  /* Component-level tokens */
+  --create-group-bg: var(--color-bg-1);
+  --create-group-field-border: var(--color-bg-border);
+  --create-group-field-border-active: var(--color-button-800);
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 450px;              /* unbound in Figma */
+  max-width: 100%;
+  height: 748px;             /* fixed height (and max-height) in Figma */
+  max-height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-lg); /* 8px */
+  background: var(--create-group-bg);
+  box-shadow: var(--shadow-dropdown-menu); /* 0 0 12px rgba(0,0,0,.25) */
+  color: var(--color-text-primary);
+  overflow: hidden;
+}
+
+/* A closed <dialog> must stay hidden */
+dialog.create-group:not([open]) {
+  display: none;
+}
+
+dialog.create-group {
+  margin: auto;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 32px);
+}
+
+dialog.create-group::backdrop {
+  background: rgb(0 0 0 / 0.4); /* no scrim color in Figma */
+}
+
+.create-group *,
+.create-group *::before,
+.create-group *::after {
+  box-sizing: border-box;
+}
+
+/* Header and body on top, footer pinned to the bottom (space-between) */
+.create-group__form {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0;
+}
+
+/* Header + body stack (Figma "Frame 1171279600") */
+.create-group__main {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  flex-direction: column;
+}
+
+/* ---- Header (Modal- Header, Back=False) -------------------------------- */
+
+.create-group__header {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-l);
+  padding: var(--space-btn) var(--space-l) var(--space-btn) var(--space-3xl); /* 10 8 10 20 */
+  background: var(--create-group-bg);
+}
+
+.create-group__title {
+  margin: 0;
+  font: var(--font-h1); /* H1 20 B, 20/32 */
+  color: var(--color-text-primary);
+}
+
+/* ---- 40px transparent icon button (Icon-Large-Transparent 2050:3186) ----
+   Used for the header close and the emoji button. Local until .icon-btn
+   lands. */
+.create-group__icon-btn {
+  --create-group-icon-btn-fg: var(--color-text-secondary);
+  --create-group-icon-btn-bg: transparent;
+  --create-group-icon-btn-ring: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: var(--space-l); /* 8px */
+  border: 0;
+  border-radius: 50%;      /* 68px in Figma */
+  background: var(--create-group-icon-btn-bg);
+  box-shadow: inset 0 0 0 1px var(--create-group-icon-btn-ring);
+  color: var(--create-group-icon-btn-fg);
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+.create-group__icon-btn:hover {
+  --create-group-icon-btn-fg: var(--color-text-primary);
+  --create-group-icon-btn-bg: var(--color-bg-hover);
+}
+.create-group__icon-btn:active {
+  --create-group-icon-btn-fg: var(--color-button-800);
+  --create-group-icon-btn-ring: var(--color-button-800);
+}
+
+/* ---- Body ----------------------------------------------------------------- */
+
+.create-group__body {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  flex-direction: column;
+  gap: var(--space-2xl);  /* 16px */
+  margin-top: var(--space-2xl); /* 16px between header and body */
+  padding: 0 var(--space-3xl) 40px; /* 0 20 40 (40px unbound) */
+  overflow-y: auto;
+}
+
+/* Group icon picker: 128px photo, 8px, caption row. 156px tall. */
+.create-group__photo-picker {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-l); /* 8px */
+}
+
+.create-group__photo {
+  display: block;
+  width: 128px;
+  height: 128px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%; /* 193px in Figma */
+  background: var(--color-bg-2);
+  overflow: hidden;
+  cursor: pointer;
+}
+.create-group__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.create-group__photo-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-s); /* 4px */
+  margin: 0;
+  /* "Body - 14px Reg" (14/16 Regular); same values as the Last message token */
+  font: var(--font-last-message);
+  color: var(--color-text-t1);
+}
+.create-group__photo-hint .icon {
+  --icon-size: 20px;
+}
+
+/* ---- Outlined text field (Multi line input 2149:2808) -------------------
+   The label always sits on the top border. Border is BG/Border when empty
+   (State=Default) and Button/800 when focused or filled (Focus / Composed).
+   Needs placeholder=" " on the control so :placeholder-shown works. */
+.create-group__field {
+  flex-shrink: 0;
+  padding-top: var(--space-l); /* 8px room for the floating label */
+}
+
+.create-group__field-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-s);                 /* 4px */
+  height: 44px;                        /* fixed in Figma */
+  padding: 0 var(--space-xs) 0 var(--space-xl); /* 2px right, 12px left */
+  border: 1px solid var(--create-group-field-border);
+  border-radius: var(--radius-lg);     /* 8px */
+  transition: border-color 120ms ease;
+}
+
+.create-group__field-box:has(.create-group__input:focus, .create-group__input:not(:placeholder-shown)) {
+  --create-group-field-border: var(--create-group-field-border-active);
+}
+
+.create-group__field-box:has(.create-group__input:focus-visible) {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+}
+
+/* The <label> wraps the floating text and the control */
+.create-group__control {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  align-self: stretch;
+  align-items: center;
+  padding: 0 var(--space-m); /* 6px */
+  cursor: text;
+}
+
+.create-group__label {
+  position: absolute;
+  top: -9px;   /* Figma: label frame at y -8 on a 1px inside stroke */
+  left: 11px;
+  padding: 0 var(--space-m);  /* 6px, masks the border */
+  background: var(--create-group-bg);
+  font: var(--font-body-3);   /* Body 3 R */
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.create-group__required {
+  color: var(--color-draft-badge);
+}
+
+.create-group__input {
+  width: 100%;
+  min-width: 0;
+  height: 20px; /* 20px clip frame in Figma; the 24px line box is centered */
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  font: var(--font-body-2); /* Body 2 M, 16/24 */
+  color: var(--color-text-primary);
+  text-overflow: ellipsis;
+}
+
+/* Property 1=Large: 112px box, text starts top-left */
+.create-group__field--large .create-group__field-box {
+  align-items: flex-start;
+  height: 112px;
+  padding: 14px var(--space-xl) var(--space-l); /* 14 12 8 (14px unbound) */
+}
+.create-group__field--large .create-group__control {
+  align-items: flex-start;
+}
+.create-group__field--large .create-group__input {
+  height: 100%;
+  resize: none;
+  overflow: auto;
+}
+
+/* ---- Group settings row --------------------------------------------------- */
+
+.create-group__settings {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 48px;
+  margin: 0;
+  padding: 0 var(--space-xl) 0 var(--space-3xl); /* 12px right, 20px left */
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-2);
+  color: var(--color-text-primary);
+  font: 16px/20px var(--font-family-medium); /* Medium 16/20, no text style in Figma */
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+}
+/* Hover is not in Figma */
+.create-group__settings:hover {
+  background: var(--color-bg-hover);
+}
+
+.create-group__settings-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xl); /* 12px */
+}
+.create-group__settings-label .icon {
+  --icon-size: 24px;
+  color: var(--color-chip-icon);
+}
+
+.create-group__chevron {
+  --icon-size: 20px;
+  color: var(--color-text-secondary);
+}
+
+/* ---- Footer (Modal- Footer + Button flex, Property 1=2) ------------------ */
+
+.create-group__footer {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-4xl); /* 24px (Button flex gap) */
+  padding: var(--space-2xl) var(--space-3xl) var(--space-4xl); /* 16 20 24 */
+  background: var(--create-group-bg);
+}
+
+/* ---- Focus + motion ------------------------------------------------------- */
+
+.create-group__icon-btn:focus-visible,
+.create-group__photo:focus-visible,
+.create-group__settings:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .create-group__icon-btn,
+  .create-group__field-box,
+  .create-group__settings { transition: none; }
+}

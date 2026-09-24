@@ -1,0 +1,51 @@
+/* ==========================================================================
+   Notice message
+   Figma component set: "Component 7" 3311:2594 (unnamed in Figma; named here
+   after what it is: the centered message block of a full-window notice)
+   Variants (Property 1): With sub · No sub
+   Requires tokens.css
+
+   Used inside Confirmation dialog, Place=Outside chat window (3139:2366):
+   "You have been logged out", "Arattai is active in another window…".
+
+   Markup
+     <div class="notice-message">
+       <h2 class="notice-message__title">You have been logged out</h2>
+       <p class="notice-message__text">Your SIM is no longer active…</p>
+     </div>
+
+   No sub = leave out .notice-message__text. The title then uses the same
+   text style; only the stack height changes.
+   ========================================================================== */
+
+.notice-message {
+  /* Component-level tokens */
+  --notice-message-title: var(--color-text-primary);
+  --notice-message-text: var(--color-text-secondary);
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl); /* 16px */
+  width: 100%;
+  max-width: 468px;      /* component width in Figma (unbound) */
+  text-align: center;
+}
+
+/* Medium 20/32, 1% letter spacing. Not linked to a text style in Figma, but
+   the values are exactly "H6 20M". */
+.notice-message__title {
+  margin: 0;
+  font: var(--font-h6);
+  letter-spacing: var(--ls-h6);
+  color: var(--notice-message-title);
+}
+
+/* Body 1 R. Line breaks in the copy are kept (Figma uses line separators
+   to put a blank line between the two sentences). */
+.notice-message__text {
+  margin: 0;
+  font: var(--font-body-1);
+  color: var(--notice-message-text);
+  white-space: pre-line;
+}
