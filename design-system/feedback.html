@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Badges, tags &amp; chips — Design System</title>
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="icon.css" />
+  <link rel="stylesheet" href="button.css" />
+  <link rel="stylesheet" href="toggle.css" />
+  <link rel="stylesheet" href="docs.css" />
+  <!-- Component CSS after docs.css: docs.css also has a .chip rule (the meta
+       pills below), so chip.css must come later to win. -->
+  <link rel="stylesheet" href="badge.css" />
+  <link rel="stylesheet" href="tag.css" />
+  <link rel="stylesheet" href="chip.css" />
+  <link rel="stylesheet" href="tooltip.css" />
+  <link rel="stylesheet" href="snackbar.css" />
+  <link rel="stylesheet" href="alert.css" />
+  <style>
+    /* Restore the docs meta pills, which share the .chip class name */
+    .meta .chip { height: auto; padding: 4px 10px; font: 12px/1.5 var(--font-family-base); --chip-bg: var(--doc-surface); --chip-fg: var(--doc-muted); --chip-border: var(--doc-line); cursor: default; }
+    .stage--rows { flex-direction: column; align-items: stretch; gap: 0; padding: 0; }
+    .stage__row { display: flex; flex-wrap: wrap; gap: 20px 16px; align-items: flex-start; padding: 20px; border-top: 1px solid var(--color-bg-border); }
+    .stage__row:first-child { border-top: 0; }
+    .stage__label { width: 100%; font-size: 12px; color: var(--color-text-secondary); margin: 0; }
+    .stage figure { min-width: 0; }
+    .stage--rows figure { align-items: flex-start; }
+    .stage--rows figcaption { text-align: left; }
+    .stage--col { flex-direction: column; align-items: flex-start; }
+    .stage--col figure { align-items: flex-start; }
+    .stage--col figcaption { text-align: left; }
+    .demo-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .rail-demo { position: relative; display: inline-flex; color: var(--color-text-secondary); }
+    .rail-demo .badge { position: absolute; top: -4px; right: -8px; }
+    .toc { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 20px; font-size: 14px; }
+    .alert, .snackbar { width: auto; }
+    .snackbar { width: 376px; }
+  </style>
+</head>
+<body>
+<main class="doc">
+
+  <div class="doc-bar">
+    <nav data-doc-nav></nav>
+    <label class="theme-switch">Dark mode <input type="checkbox" role="switch" class="toggle" data-theme-switch /></label>
+  </div>
+
+  <div class="eyebrow">Components · Feedback &amp; labels</div>
+  <h1>Badges, tags &amp; chips</h1>
+  <p class="lead">Small labels and short-lived messages: count badges, static tags, selectable chips, tooltips, snackbars and inline alerts. Everything here is built on the shared tokens, so it switches between light and dark mode on its own.</p>
+  <div class="meta">
+    <span class="chip">Figma: <code>Badge</code> · <code>Tags</code> · <code>Chips</code> · <code>Tooltip</code> · <code>Snackbar</code> · <code>Component 6</code></span>
+    <span class="chip">Nodes <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3319-2348&m=dev" target="_blank" rel="noopener">3319:2348</a> · <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3319-2359&m=dev" target="_blank" rel="noopener">3319:2359</a> · <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3290-2336&m=dev" target="_blank" rel="noopener">3290:2336</a> · <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3319-4126&m=dev" target="_blank" rel="noopener">3319:4126</a> · <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3167-2198&m=dev" target="_blank" rel="noopener">3167:2198</a> · <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3160-2323&m=dev" target="_blank" rel="noopener">3160:2323</a></span>
+    <span class="chip">45 variants</span>
+    <span class="chip">Light &amp; dark</span>
+  </div>
+  <nav class="toc" aria-label="On this page">
+    <a href="#badge">Badge</a><a href="#tag">Tag</a><a href="#chip">Chip</a><a href="#tooltip">Tooltip</a><a href="#snackbar">Snackbar</a><a href="#alert">Alert</a>
+  </nav>
+
+  <!-- ================================================================ -->
+  <h2 id="badge">Badge</h2>
+  <p>Figma <code>Badge</code> (<a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3319-2348&m=dev" target="_blank" rel="noopener">3319:2348</a>), property <code>Property 1</code>, 5 variants. A count or status dot. Use <code>badge.css</code> and <code>components/Badge.vue</code>.</p>
+
+  <h3>Variants</h3>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure><span class="badge">2</span><figcaption>Default<code>.badge</code></figcaption></figure>
+        <figure><span class="badge badge--transparent">2</span><figcaption>Transparent<code>--transparent</code></figcaption></figure>
+        <figure><span class="badge badge--muted">2</span><figcaption>Muted<code>--muted</code></figcaption></figure>
+        <figure><span class="badge badge--dot" role="img" aria-label="Unsent draft"></span><figcaption>No number<code>--dot</code></figcaption></figure>
+        <figure><span class="badge badge--rail">12</span><figcaption>Rail badge<code>--rail</code></figcaption></figure>
+        <figure>
+          <span class="rail-demo"><span class="icon icon--24" style="--icon:url(assets/icons/story-line.svg)" aria-hidden="true"></span><span class="badge badge--rail">12</span></span>
+          <figcaption>Rail badge on an icon<code>example</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-theme-yellow-1000</code></td><td><code>Theme/yellow/1000</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-theme-yellow-1000)"></span>#F3CD00</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-theme-yellow-1000)"></span>#E4C100</td>
+        <td>Default fill</td></tr>
+      <tr><td><code>--color-text-primary</code></td><td><code>Text/Primary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-primary)"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>#E3E3E3</td>
+        <td>Default and Muted number</td></tr>
+      <tr><td><code>--color-bg-border</code></td><td><code>BG/Border</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-border)"></span>#E6E6E6</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-border)"></span>#3D3D3D</td>
+        <td>Muted fill</td></tr>
+      <tr><td><code>--color-text-t3</code></td><td><code>Text/T3</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t3)"></span>#4D4D4D</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t3)"></span>#B3B3B3</td>
+        <td>Transparent number</td></tr>
+      <tr><td><code>--color-draft-badge</code></td><td><code>Draft-badge</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-draft-badge)"></span>#F63B00</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-draft-badge)"></span>#F06C66</td>
+        <td>Dot and Rail badge fill</td></tr>
+      <tr><td><code>--color-bg-1</code></td><td><code>BG/1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>Rail badge number, 1px outer ring on Dot and Rail badge</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Variant</th><th>Size</th><th>Padding</th><th>Radius</th><th>Text</th><th>Code</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Default</strong></td><td>min 20 × 20px</td><td>1px 4px</td><td>22px</td><td><code>--font-badge</code> 12px Regular</td><td><code>.badge</code></td></tr>
+      <tr><td><strong>Transparent</strong></td><td>min 20 × 20px</td><td>1px 4px</td><td>n/a</td><td>12px, <code>Text/T3</code></td><td><code>.badge--transparent</code></td></tr>
+      <tr><td><strong>Muted</strong></td><td>min 20 × 20px</td><td>1px 4px</td><td>22px</td><td>12px Regular</td><td><code>.badge--muted</code></td></tr>
+      <tr><td><strong>No number</strong></td><td>8 × 8px + 1px outer ring</td><td>none</td><td>circle</td><td>n/a</td><td><code>.badge--dot</code></td></tr>
+      <tr><td><strong>Rail badge</strong></td><td>min 16 × 16px + 1px outer ring</td><td>2px 4px</td><td>17.6px</td><td>9.6px Semibold (no Figma text style)</td><td><code>.badge--rail</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Usage</h3>
+<pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
+&lt;link rel="stylesheet" href="badge.css"&gt;
+
+&lt;span class="badge"&gt;2&lt;/span&gt;
+&lt;span class="badge badge--muted"&gt;2&lt;/span&gt;
+&lt;span class="badge badge--transparent"&gt;2&lt;/span&gt;
+&lt;span class="badge badge--rail"&gt;12&lt;/span&gt;
+&lt;span class="badge badge--dot" role="img" aria-label="Unsent draft"&gt;&lt;/span&gt;
+
+&lt;!-- Give a bare number context --&gt;
+&lt;a href="/chats"&gt;Chats &lt;span class="badge"&gt;&lt;span aria-hidden="true"&gt;3&lt;/span&gt;&lt;span class="badge__sr"&gt;3 unread&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;</code></pre>
+<pre><code>&lt;script setup&gt;
+import Badge from "./design-system/components/Badge.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Badge :count="2" /&gt;
+  &lt;Badge variant="muted" :count="2" /&gt;
+  &lt;Badge variant="rail" :count="120" :max="99" label="120 unread" /&gt;  &lt;!-- shows 99+ --&gt;
+  &lt;Badge variant="dot" label="Unsent draft" /&gt;
+&lt;/template&gt;</code></pre>
+
+  <h3>Accessibility</h3>
+  <ul>
+    <li>A number on its own means nothing to a screen reader. Add hidden text with <code>.badge__sr</code> (for example "3 unread") and hide the bare number with <code>aria-hidden</code>, or put the context in visible text next to it. Don't rely on <code>aria-label</code> on a plain <code>&lt;span&gt;</code>, because many screen readers ignore it there.</li>
+    <li>The dot has no text, so give it <code>role="img"</code> and an <code>aria-label</code>, or hide it with <code>aria-hidden="true"</code> if the state is announced elsewhere.</li>
+    <li>If the count changes live, announce the change from a separate <code>role="status"</code> region. Don't make the badge itself a live region.</li>
+    <li>Contrast: the Rail badge uses <code>BG/1</code> text on <code>Draft-badge</code>. That's about 3.8:1 in light mode (white on #F63B00) and about 4.8:1 in dark mode (#2B2B2B on #F06C66). The 9.6px text is small, so use the Rail badge only for short counts next to an icon.</li>
+    <li><strong>Dark mode issue in Figma:</strong> the Default badge puts <code>Text/Primary</code> on <code>Theme/yellow/1000</code>. That's about 10:1 in light mode but only about 1.4:1 in dark mode (#E3E3E3 on #E4C100), so the number is hard to read. This is kept as designed and flagged for the design team. Until it's fixed, use the Muted badge on dark surfaces.</li>
+  </ul>
+
+  <!-- ================================================================ -->
+  <h2 id="tag">Tag</h2>
+  <p>Figma <code>Tags</code> (<a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3319-2359&m=dev" target="_blank" rel="noopener">3319:2359</a>), property <code>Property 1</code>, 2 variants (named <code>Frame 28075</code> and <code>Frame 28074</code> in Figma). A tag is a static label and doesn't respond to clicks. For something the user can click or select, use a chip. Use <code>tag.css</code> and <code>components/Tag.vue</code>.</p>
+
+  <h3>Variants</h3>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <span class="tag"><span class="icon tag__icon" style="--icon:url(assets/icons/video-line.svg)" aria-hidden="true"></span>Video</span>
+          <figcaption>Frame 28075 (neutral)<code>.tag</code></figcaption>
+        </figure>
+        <figure>
+          <span class="tag">Audio</span>
+          <figcaption>Neutral, no icon<code>.tag</code></figcaption>
+        </figure>
+        <figure>
+          <span class="tag tag--highlight">Daily 11:00 - 11:30 pm, Never ends</span>
+          <figcaption>Frame 28074 (highlight)<code>.tag--highlight</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-bg-2</code></td><td><code>BG/2</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-2)"></span>#F6F6F6</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-2)"></span>#1D1D1D</td>
+        <td>Neutral fill</td></tr>
+      <tr><td><code>--color-text-secondary</code></td><td><code>Text/Secondary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-secondary)"></span>#666666</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-secondary)"></span>#B3B3B3</td>
+        <td>Text (both variants)</td></tr>
+      <tr><td><code>--color-chip-icon</code></td><td><code>Chip-icon</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-chip-icon)"></span>#627282</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-chip-icon)"></span>#666666</td>
+        <td>Neutral icon</td></tr>
+      <tr><td><code>--tag-highlight-bg</code></td><td class="none">Unbound in Figma</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:light-dark(#fef5d4, var(--color-theme-yellow-100))"></span>#FEF5D4</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:light-dark(#fef5d4, var(--color-theme-yellow-100))"></span>#38331C*</td>
+        <td>Highlight fill. *Figma has no dark value. Code falls back to <code>Theme/yellow/100</code> so the tag stays readable</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Variant</th><th>Height</th><th>Padding</th><th>Gap</th><th>Radius</th><th>Text</th><th>Code</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Frame 28075</strong> (neutral)</td><td>24px</td><td>2px 8px (6px start with an icon)</td><td>6px</td><td>4px (<code>--radius-sm</code>)</td><td><code>--font-sub-text</code> 14/20 Medium. 20px icon</td><td><code>.tag</code></td></tr>
+      <tr><td><strong>Frame 28074</strong> (highlight)</td><td>24px</td><td>2px 8px</td><td>4px</td><td>4px</td><td><code>--font-body-3</code> 14/20 Regular</td><td><code>.tag--highlight</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Usage</h3>
+<pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
+&lt;link rel="stylesheet" href="icon.css"&gt;
+&lt;link rel="stylesheet" href="tag.css"&gt;
+
+&lt;span class="tag"&gt;
+  &lt;span class="icon tag__icon" style="--icon:url(assets/icons/video-line.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+  Video
+&lt;/span&gt;
+&lt;span class="tag tag--highlight"&gt;Daily 11:00 - 11:30 pm, Never ends&lt;/span&gt;</code></pre>
+<pre><code>&lt;script setup&gt;
+import Tag from "./design-system/components/Tag.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Tag icon="assets/icons/video-line.svg"&gt;Video&lt;/Tag&gt;
+  &lt;Tag variant="highlight"&gt;Daily 11:00 - 11:30 pm, Never ends&lt;/Tag&gt;
+&lt;/template&gt;</code></pre>
+
+  <h3>Accessibility</h3>
+  <ul>
+    <li>Tags are plain text, so screen readers read them as part of the surrounding content. The icon is decorative (<code>aria-hidden</code>), so the text must carry the meaning.</li>
+    <li>Don't put click handlers on a tag. If it needs to do something, use a chip or a link instead.</li>
+  </ul>
+
+  <!-- ================================================================ -->
+  <h2 id="chip">Chip</h2>
+  <p>Figma <code>Chips</code> (<a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3290-2336&m=dev" target="_blank" rel="noopener">3290:2336</a>), 26 variants across four properties: <code>Type</code> (Simple tag, With icon, Checkmark, Dropdown, Dropdown-Icon), <code>State</code> (Default, Hover, Activated, Playing, Disabled, Play-hover, Pause-Hover), <code>Collapse</code> and <code>Badge</code>. In code these become one <code>.chip</code> class. The <strong>parts</strong> you put inside decide the type, and <strong>ARIA state</strong> decides the look. Padding adjusts on its own: 12px next to text, 6px next to an icon, caret or badge. Use <code>chip.css</code> and <code>components/Chip.vue</code>.</p>
+
+  <table>
+    <thead><tr><th>Figma property</th><th>Code</th></tr></thead>
+    <tbody>
+      <tr><td><code>Type=Simple tag</code></td><td>text only</td></tr>
+      <tr><td><code>Type=With icon</code></td><td><code>.chip__icon</code> (18px) first</td></tr>
+      <tr><td><code>Type=Checkmark</code></td><td><code>.chip__check</code> first (tick, fills in when selected)</td></tr>
+      <tr><td><code>Type=Dropdown-Icon</code></td><td><code>.chip__icon</code> + <code>.chip__caret</code></td></tr>
+      <tr><td><code>Type=Dropdown</code></td><td><code>.chip__caret</code> last, or <code>.chip--media</code> + <code>.chip__media</code> for the 36px artwork chip</td></tr>
+      <tr><td><code>Collapse=True</code></td><td><code>.chip__caret</code> (unselected) or <code>.chip__remove</code> button (selected)</td></tr>
+      <tr><td><code>Badge=True</code></td><td><code>.badge.badge--muted</code> last</td></tr>
+      <tr><td><code>State=Hover</code></td><td><code>:hover</code> (<code>.is-hover</code> forces it for docs)</td></tr>
+      <tr><td><code>State=Activated</code></td><td><code>aria-pressed="true"</code> (filter chip) or <code>.is-selected</code> (menu chip with a value, removable chip)</td></tr>
+      <tr><td><code>State=Playing</code></td><td><code>aria-expanded="true"</code>. The chip's menu is open: blue border, caret flips up</td></tr>
+      <tr><td><code>State=Disabled</code></td><td><code>:disabled</code> / <code>aria-disabled="true"</code></td></tr>
+      <tr><td><code>State=Playing / Play-hover / Pause-Hover</code> (media)</td><td><code>data-playback="playing"</code> (equalizer, pause on hover) · <code>data-playback="paused"</code> (play on hover)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variants</h3>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage stage--rows">
+        <div class="stage__row">
+          <p class="stage__label">Type=Simple tag</p>
+          <figure><button type="button" class="chip" aria-pressed="false">Casual Dining</button><figcaption>Default</figcaption></figure>
+          <figure><button type="button" class="chip is-hover" aria-pressed="false">Casual Dining</button><figcaption>Hover</figcaption></figure>
+          <figure><button type="button" class="chip" aria-pressed="true">Casual Dining</button><figcaption>Activated</figcaption></figure>
+          <figure><button type="button" class="chip" aria-pressed="false">Casual Dining <span class="badge badge--muted">2</span></button><figcaption>Badge</figcaption></figure>
+          <figure><button type="button" class="chip is-hover" aria-pressed="false">Casual Dining <span class="badge badge--muted">2</span></button><figcaption>Badge · Hover</figcaption></figure>
+          <figure><button type="button" class="chip" aria-pressed="true">Casual Dining <span class="badge badge--muted">2</span></button><figcaption>Badge · Activated</figcaption></figure>
+        </div>
+        <div class="stage__row">
+          <p class="stage__label">Collapse=True / Type=Dropdown</p>
+          <figure><button type="button" class="chip" aria-haspopup="menu" aria-expanded="false">Casual Dining <span class="icon chip__caret" aria-hidden="true"></span></button><figcaption>Default</figcaption></figure>
+          <figure><button type="button" class="chip is-selected" aria-haspopup="menu" aria-expanded="false">Casual Dining <span class="icon chip__caret" aria-hidden="true"></span></button><figcaption>Activated</figcaption></figure>
+          <figure><button type="button" class="chip is-selected" aria-haspopup="menu" aria-expanded="true">Casual Dining <span class="icon chip__caret" aria-hidden="true"></span></button><figcaption>Playing (open)</figcaption></figure>
+          <figure><span class="chip is-selected">Casual Dining <button type="button" class="chip__remove" aria-label="Remove Casual Dining"></button></span><figcaption>Activated · remove</figcaption></figure>
+        </div>
+        <div class="stage__row">
+          <p class="stage__label">Type=With icon / Dropdown-Icon</p>
+          <figure><button type="button" class="chip" aria-pressed="false"><span class="icon chip__icon" style="--icon:url(assets/icons/location.svg)" aria-hidden="true"></span>Casual Dining</button><figcaption>Default</figcaption></figure>
+          <figure><button type="button" class="chip is-hover" aria-pressed="false"><span class="icon chip__icon" style="--icon:url(assets/icons/location.svg)" aria-hidden="true"></span>Casual Dining</button><figcaption>Hover</figcaption></figure>
+          <figure><button type="button" class="chip" aria-pressed="true"><span class="icon chip__icon" style="--icon:url(assets/icons/location.svg)" aria-hidden="true"></span>Casual Dining</button><figcaption>Activated</figcaption></figure>
+          <figure><span class="chip is-selected"><span class="icon chip__icon" style="--icon:url(assets/icons/location.svg)" aria-hidden="true"></span>Casual Dining <button type="button" class="chip__remove" aria-label="Remove Casual Dining"></button></span><figcaption>Activated · remove</figcaption></figure>
+          <figure><button type="button" class="chip" aria-haspopup="menu" aria-expanded="false"><span class="icon chip__icon" style="--icon:url(assets/icons/location.svg)" aria-hidden="true"></span>Casual Dining <span class="icon chip__caret" aria-hidden="true"></span></button><figcaption>Dropdown-Icon</figcaption></figure>
+          <figure><button type="button" class="chip is-selected" aria-haspopup="menu" aria-expanded="false"><span class="icon chip__icon" style="--icon:url(assets/icons/location.svg)" aria-hidden="true"></span>Casual Dining <span class="icon chip__caret" aria-hidden="true"></span></button><figcaption>Dropdown-Icon · Activated</figcaption></figure>
+          <figure><button type="button" class="chip is-selected" aria-haspopup="menu" aria-expanded="true"><span class="icon chip__icon" style="--icon:url(assets/icons/location.svg)" aria-hidden="true"></span>Casual Dining <span class="icon chip__caret" aria-hidden="true"></span></button><figcaption>Dropdown-Icon · Playing (open)</figcaption></figure>
+        </div>
+        <div class="stage__row">
+          <p class="stage__label">Type=Checkmark</p>
+          <figure><button type="button" class="chip" aria-pressed="false"><span class="icon chip__check" aria-hidden="true"></span>Casual Dining</button><figcaption>Default</figcaption></figure>
+          <figure><button type="button" class="chip is-hover" aria-pressed="false"><span class="icon chip__check" aria-hidden="true"></span>Casual Dining</button><figcaption>Hover</figcaption></figure>
+          <figure><button type="button" class="chip" aria-pressed="true"><span class="icon chip__check" aria-hidden="true"></span>Casual Dining</button><figcaption>Activated</figcaption></figure>
+        </div>
+        <div class="stage__row">
+          <p class="stage__label">Type=Dropdown with artwork · <code>.chip--media</code></p>
+          <figure><button type="button" class="chip chip--media" aria-haspopup="menu" aria-expanded="false"><span class="chip__media" aria-hidden="true"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect width='28' height='28' fill='%23b89a86'/%3E%3Crect x='7' y='10' width='14' height='8' rx='1.5' fill='%23332b26'/%3E%3Crect x='9' y='12' width='10' height='4' fill='%23f2d27a'/%3E%3C/svg%3E" alt="" /></span>Summer time <span class="icon chip__caret" aria-hidden="true"></span></button><figcaption>Default</figcaption></figure>
+          <figure><button type="button" class="chip chip--media is-hover" aria-haspopup="menu" aria-expanded="false"><span class="chip__media" aria-hidden="true"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect width='28' height='28' fill='%23b89a86'/%3E%3Crect x='7' y='10' width='14' height='8' rx='1.5' fill='%23332b26'/%3E%3Crect x='9' y='12' width='10' height='4' fill='%23f2d27a'/%3E%3C/svg%3E" alt="" /></span>Summer time <span class="icon chip__caret" aria-hidden="true"></span></button><figcaption>Hover</figcaption></figure>
+          <figure><button type="button" class="chip chip--media" aria-haspopup="menu" aria-expanded="true" data-playback="playing"><span class="chip__media" aria-hidden="true"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect width='28' height='28' fill='%23b89a86'/%3E%3Crect x='7' y='10' width='14' height='8' rx='1.5' fill='%23332b26'/%3E%3Crect x='9' y='12' width='10' height='4' fill='%23f2d27a'/%3E%3C/svg%3E" alt="" /></span>Summer time <span class="icon chip__caret" aria-hidden="true"></span></button><figcaption>Playing</figcaption></figure>
+          <figure><button type="button" class="chip chip--media is-hover" aria-haspopup="menu" aria-expanded="true" data-playback="paused"><span class="chip__media" aria-hidden="true"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect width='28' height='28' fill='%23b89a86'/%3E%3Crect x='7' y='10' width='14' height='8' rx='1.5' fill='%23332b26'/%3E%3Crect x='9' y='12' width='10' height='4' fill='%23f2d27a'/%3E%3C/svg%3E" alt="" /></span>Summer time <span class="icon chip__caret" aria-hidden="true"></span></button><figcaption>Pause-Hover (shows play)</figcaption></figure>
+          <figure><button type="button" class="chip chip--media is-hover" aria-haspopup="menu" aria-expanded="true" data-playback="playing"><span class="chip__media" aria-hidden="true"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect width='28' height='28' fill='%23b89a86'/%3E%3Crect x='7' y='10' width='14' height='8' rx='1.5' fill='%23332b26'/%3E%3Crect x='9' y='12' width='10' height='4' fill='%23f2d27a'/%3E%3C/svg%3E" alt="" /></span>Summer time <span class="icon chip__caret" aria-hidden="true"></span></button><figcaption>Play-hover (shows pause)</figcaption></figure>
+          <figure><button type="button" class="chip chip--media" aria-haspopup="menu" aria-expanded="false" disabled><span class="chip__media" aria-hidden="true"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect width='28' height='28' fill='%23b89a86'/%3E%3Crect x='7' y='10' width='14' height='8' rx='1.5' fill='%23332b26'/%3E%3Crect x='9' y='12' width='10' height='4' fill='%23f2d27a'/%3E%3C/svg%3E" alt="" /></span>Summer time <span class="icon chip__caret" aria-hidden="true"></span></button><figcaption>Disabled</figcaption></figure>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <h3>Try it</h3>
+  <p>Filter chips toggle <code>aria-pressed</code>. The menu chip toggles <code>aria-expanded</code>. The remove button removes its chip.</p>
+  <div class="playground" style="grid-template-columns:1fr">
+    <div class="preview" style="padding:24px">
+      <div class="demo-row" id="chip-demo">
+        <button type="button" class="chip" aria-pressed="true"><span class="icon chip__check" aria-hidden="true"></span>Veg only</button>
+        <button type="button" class="chip" aria-pressed="false"><span class="icon chip__icon" style="--icon:url(assets/icons/location.svg)" aria-hidden="true"></span>Nearby</button>
+        <button type="button" class="chip" aria-pressed="false">Casual Dining <span class="badge badge--muted">2</span></button>
+        <button type="button" class="chip" aria-haspopup="menu" aria-expanded="false" id="chip-menu">Sort <span class="icon chip__caret" aria-hidden="true"></span></button>
+        <span class="chip is-selected">Open now <button type="button" class="chip__remove" aria-label="Remove Open now"></button></span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Color</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-bg-2</code></td><td><code>BG/2</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-2)"></span>#F6F6F6</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-2)"></span>#1D1D1D</td>
+        <td>Default fill</td></tr>
+      <tr><td><code>--color-bg-hover</code></td><td><code>BG/Hover</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-hover)"></span>#F1F4F7</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-hover)"></span>#3D3D3D</td>
+        <td>Hover fill</td></tr>
+      <tr><td><code>--color-bg-1</code></td><td><code>BG/1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>Activated, open, disabled and media chip fill</td></tr>
+      <tr><td><code>--color-text-t3</code></td><td><code>Text/T3</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t3)"></span>#4D4D4D</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t3)"></span>#B3B3B3</td>
+        <td>Default label</td></tr>
+      <tr><td><code>--color-text-primary</code></td><td><code>Text/Primary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-primary)"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>#E3E3E3</td>
+        <td>Activated / open label and icon. Play and pause glyph</td></tr>
+      <tr><td><code>--color-text-secondary</code></td><td><code>Text/Secondary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-secondary)"></span>#666666</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-secondary)"></span>#B3B3B3</td>
+        <td>Default leading icon. Remove ×</td></tr>
+      <tr><td><code>--color-text-t2</code></td><td><code>Text/T2</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t2)"></span>#ABABAB</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t2)"></span>#727272</td>
+        <td>Activated border</td></tr>
+      <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>Open (Playing) border. Selected tick circle</td></tr>
+      <tr><td><code>--color-text-t1</code></td><td><code>Text/T1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t1)"></span>#888888</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t1)"></span>#848484</td>
+        <td>Unselected tick. Disabled label</td></tr>
+      <tr><td><code>--color-chip-icon</code></td><td><code>Chip-icon</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-chip-icon)"></span>#627282</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-chip-icon)"></span>#666666</td>
+        <td>Caret</td></tr>
+      <tr><td><code>--color-disabled</code></td><td><code>Disabled</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-disabled)"></span>#C4C4C4</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-disabled)"></span>#464646</td>
+        <td>Disabled caret</td></tr>
+      <tr><td><code>--color-bg-border</code></td><td><code>BG/Border</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-border)"></span>#E6E6E6</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-border)"></span>#3D3D3D</td>
+        <td>Disabled border</td></tr>
+      <tr><td><code>--color-button-100</code></td><td><code>Button/100</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-100)"></span>#E5F3FD</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-100)"></span>#273742</td>
+        <td>Play / pause circle on the artwork</td></tr>
+      <tr><td><code>--color-button-1000</code></td><td><code>Button/1000</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-1000)"></span>#0076CE</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-1000)"></span>#479EDF</td>
+        <td>Equalizer bars (Playing). Focus ring (code only)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Type</th><th>Height</th><th>Padding (start / end)</th><th>Gap</th><th>Leading</th><th>Trailing</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Simple tag</strong></td><td>32px</td><td>12 / 12px</td><td>4px</td><td>none</td><td>none</td></tr>
+      <tr><td><strong>Simple tag + badge / caret / remove</strong></td><td>32px</td><td>12 / 6px</td><td>4px</td><td>none</td><td>20px muted badge · 16px caret · 16px ×</td></tr>
+      <tr><td><strong>With icon</strong></td><td>32px</td><td>6 / 12px</td><td>4px</td><td>18px icon</td><td>none, or 16px × (6px end)</td></tr>
+      <tr><td><strong>Dropdown-Icon</strong></td><td>32px</td><td>6 / 6px</td><td>4px</td><td>18px icon</td><td>16px caret</td></tr>
+      <tr><td><strong>Checkmark</strong></td><td>32px</td><td>6 / 12px</td><td>4px</td><td>20px tick</td><td>none</td></tr>
+      <tr><td><strong>Dropdown (media)</strong></td><td>36px</td><td>4 / 12px</td><td>4px</td><td>28px round artwork</td><td>16px caret</td></tr>
+    </tbody>
+  </table>
+  <p>All chips use <code>--font-sub-text</code> (14/20 Medium) and are fully rounded (<code>--radius-pill</code>). Borders are 1px inside strokes, drawn with an inset <code>box-shadow</code> so the height doesn't change.</p>
+
+  <h3>Usage</h3>
+<pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
+&lt;link rel="stylesheet" href="icon.css"&gt;
+&lt;link rel="stylesheet" href="badge.css"&gt;
+&lt;link rel="stylesheet" href="chip.css"&gt;
+
+&lt;!-- Filter chip --&gt;
+&lt;button type="button" class="chip" aria-pressed="false"&gt;Casual Dining&lt;/button&gt;
+
+&lt;!-- With icon / checkmark / badge --&gt;
+&lt;button type="button" class="chip" aria-pressed="true"&gt;
+  &lt;span class="icon chip__icon" style="--icon:url(assets/icons/location.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+  Nearby
+&lt;/button&gt;
+&lt;button type="button" class="chip" aria-pressed="true"&gt;
+  &lt;span class="icon chip__check" aria-hidden="true"&gt;&lt;/span&gt; Veg only
+&lt;/button&gt;
+&lt;button type="button" class="chip" aria-pressed="false"&gt;
+  Casual Dining &lt;span class="badge badge--muted"&gt;2&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Menu chip (Collapse=True / Dropdown) --&gt;
+&lt;button type="button" class="chip" aria-haspopup="menu" aria-expanded="false"&gt;
+  Sort &lt;span class="icon chip__caret" aria-hidden="true"&gt;&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Removable: the root is a &lt;span&gt;, the × is its own button --&gt;
+&lt;span class="chip is-selected"&gt;
+  Open now &lt;button type="button" class="chip__remove" aria-label="Remove Open now"&gt;&lt;/button&gt;
+&lt;/span&gt;
+
+&lt;!-- Media chip --&gt;
+&lt;button type="button" class="chip chip--media" aria-haspopup="menu" aria-expanded="true" data-playback="playing"&gt;
+  &lt;span class="chip__media" aria-hidden="true"&gt;&lt;img src="cover.jpg" alt=""&gt;&lt;/span&gt;
+  Summer time &lt;span class="icon chip__caret" aria-hidden="true"&gt;&lt;/span&gt;
+&lt;/button&gt;</code></pre>
+<pre><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Chip from "./design-system/components/Chip.vue";
+const veg = ref(false);
+const sortOpen = ref(false);
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Chip v-model:selected="veg" checkmark&gt;Veg only&lt;/Chip&gt;
+  &lt;Chip :selected="false" icon="assets/icons/location.svg"&gt;Nearby&lt;/Chip&gt;
+  &lt;Chip :selected="false" :badge="2"&gt;Casual Dining&lt;/Chip&gt;
+  &lt;Chip caret :expanded="sortOpen" @click="sortOpen = !sortOpen"&gt;Sort&lt;/Chip&gt;
+  &lt;Chip removable remove-label="Remove Open now" @remove="…"&gt;Open now&lt;/Chip&gt;
+  &lt;Chip media="cover.jpg" caret :expanded="true" playback="playing"&gt;Summer time&lt;/Chip&gt;
+&lt;/template&gt;</code></pre>
+
+  <h3>Accessibility</h3>
+  <ul>
+    <li><strong>Filter chips</strong> are <code>&lt;button aria-pressed&gt;</code>, which screen readers announce as toggle buttons. Put a group of them inside an element with <code>role="group"</code> and an <code>aria-label</code> such as "Filters".</li>
+    <li><strong>Menu chips</strong> use <code>aria-haspopup</code> and <code>aria-expanded</code>. The open look (Figma "Playing") comes straight from <code>aria-expanded="true"</code>, so the visual state and the announced state always match.</li>
+    <li><strong>Removable chips</strong> can't be a button, because the × is a button and buttons can't be nested. The root is a <code>&lt;span&gt;</code> and the × has its own name ("Remove Open now"). After a removal, move focus to the next chip.</li>
+    <li>The <strong>media chip</strong>'s play and pause overlay is visual only. A single button can't also be a play control, so if playback needs a keyboard control, add a separate button in the menu the chip opens.</li>
+    <li>Focus shows a 2px <code>--color-button-1000</code> outline. Figma has no focus state, so this was added in code.</li>
+    <li>Contrast: the Default label (<code>Text/T3</code> on <code>BG/2</code>) is about 7.8:1 in light mode and 8:1 in dark mode. The disabled label (<code>Text/T1</code>) is below 4.5:1 by design, which WCAG allows for disabled controls.</li>
+  </ul>
+
+  <!-- ================================================================ -->
+  <h2 id="tooltip">Tooltip</h2>
+  <p>Figma <code>Tooltip</code> (<a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3319-4126&m=dev" target="_blank" rel="noopener">3319:4126</a>), properties <code>List</code> × <code>ArrowUp</code>, 4 variants. A short dark label that appears next to a control on hover and on keyboard focus. The List version shows a title and then rows, for example who reacted to a message. Use <code>tooltip.css</code> and <code>components/Tooltip.vue</code>.</p>
+
+  <h3>Variants</h3>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure><span class="tooltip tooltip--static" role="tooltip">Action name</span><figcaption>List=False, ArrowUp=True<code>.tooltip</code></figcaption></figure>
+        <figure><span class="tooltip tooltip--static tooltip--arrow-down" role="tooltip">Action name</span><figcaption>List=False, ArrowUp=False<code>--arrow-down</code></figcaption></figure>
+        <figure><span class="tooltip tooltip--static" role="tooltip"><span class="tooltip__title">Biceps</span><span class="tooltip__line">Bhim</span><span class="tooltip__line">Vignesh</span><span class="tooltip__line">Samuel L krishnanan</span></span><figcaption>List=True, ArrowUp=True<code>__title + __line</code></figcaption></figure>
+        <figure><span class="tooltip tooltip--static tooltip--arrow-down" role="tooltip"><span class="tooltip__title">Biceps</span><span class="tooltip__line">Bhim</span><span class="tooltip__line">Vignesh</span><span class="tooltip__line">Samuel L krishnanan</span></span><figcaption>List=True, ArrowUp=False<code>--arrow-down</code></figcaption></figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Try it</h3>
+  <p>Hover over a button or tab to it. Press Escape to hide the tooltip.</p>
+  <div class="playground" style="grid-template-columns:1fr">
+    <div class="preview" style="padding:72px 24px">
+      <div class="demo-row" style="gap:48px">
+        <span class="tooltip-anchor" data-tooltip-demo>
+          <button type="button" class="btn btn--primary btn--medium" aria-describedby="tip-below">Forward</button>
+          <span class="tooltip" role="tooltip" id="tip-below">Forward to a chat</span>
+        </span>
+        <span class="tooltip-anchor" data-tooltip-demo>
+          <button type="button" class="btn btn--primary btn--medium" aria-describedby="tip-above">Reactions</button>
+          <span class="tooltip tooltip--arrow-down" role="tooltip" id="tip-above"><span class="tooltip__title">Biceps</span><span class="tooltip__line">Bhim</span><span class="tooltip__line">Vignesh</span></span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <h3>Color</h3>
+  <p>The Figma tooltip has no variables bound and has no dark variant. It stays the same dark surface in both themes, so its colors are component-local custom properties.</p>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--tooltip-bg</code></td><td class="none">Unbound in Figma</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:#222222"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:#222222"></span>#222222</td>
+        <td>Surface and arrow</td></tr>
+      <tr><td><code>--tooltip-fg</code></td><td class="none">Unbound in Figma</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:#e3e3e3"></span>#E3E3E3</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:#e3e3e3"></span>#E3E3E3</td>
+        <td>Text and List title (same value as <code>Text/Primary</code> Dark)</td></tr>
+      <tr><td><code>--tooltip-fg-muted</code></td><td class="none">Unbound in Figma</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:#b3b3b3"></span>#B3B3B3</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:#b3b3b3"></span>#B3B3B3</td>
+        <td>List rows (same value as <code>Text/Secondary</code> Dark)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Part</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Surface</strong></td><td>Padding 6px (<code>--space-m</code>), radius 4px (<code>--radius-sm</code>), <code>--font-sub-text</code> 14/20 Medium, max-width 240px (code only)</td></tr>
+      <tr><td><strong>Arrow</strong></td><td>12 × 6px triangle, centred, touching the surface edge. <code>ArrowUp=True</code> means the tooltip sits below the trigger (default)</td></tr>
+      <tr><td><strong>Offset</strong></td><td>4px between the trigger and the arrow tip (code only, <code>--tooltip-offset</code>)</td></tr>
+      <tr><td><strong>Motion</strong></td><td>120ms fade, turned off under <code>prefers-reduced-motion</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Usage</h3>
+<pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
+&lt;link rel="stylesheet" href="tooltip.css"&gt;
+
+&lt;span class="tooltip-anchor"&gt;
+  &lt;button type="button" aria-describedby="tip-fwd"&gt;Forward&lt;/button&gt;
+  &lt;span class="tooltip" role="tooltip" id="tip-fwd"&gt;Forward to a chat&lt;/span&gt;
+&lt;/span&gt;
+
+&lt;!-- Above the trigger, list --&gt;
+&lt;span class="tooltip-anchor"&gt;
+  &lt;button type="button" aria-describedby="tip-react"&gt;💪 3&lt;/button&gt;
+  &lt;span class="tooltip tooltip--arrow-down" role="tooltip" id="tip-react"&gt;
+    &lt;span class="tooltip__title"&gt;Biceps&lt;/span&gt;
+    &lt;span class="tooltip__line"&gt;Bhim&lt;/span&gt;
+    &lt;span class="tooltip__line"&gt;Vignesh&lt;/span&gt;
+  &lt;/span&gt;
+&lt;/span&gt;</code></pre>
+<pre><code>&lt;script setup&gt;
+import Tooltip from "./design-system/components/Tooltip.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Tooltip text="Forward to a chat"&gt;
+    &lt;template #default="{ describedby }"&gt;
+      &lt;button type="button" :aria-describedby="describedby"&gt;Forward&lt;/button&gt;
+    &lt;/template&gt;
+  &lt;/Tooltip&gt;
+
+  &lt;Tooltip text="Biceps" :lines="['Bhim', 'Vignesh']" placement="top"&gt;
+    &lt;template #default="{ describedby }"&gt;
+      &lt;button type="button" :aria-describedby="describedby"&gt;💪 3&lt;/button&gt;
+    &lt;/template&gt;
+  &lt;/Tooltip&gt;
+&lt;/template&gt;</code></pre>
+
+  <h3>Accessibility</h3>
+  <ul>
+    <li>The tooltip has <code>role="tooltip"</code>, and the trigger points to it with <code>aria-describedby</code>, so screen readers read it after the trigger's name.</li>
+    <li>It appears on <strong>hover and keyboard focus</strong> (<code>:hover</code> and <code>:focus-within</code> on <code>.tooltip-anchor</code>). You can move the pointer onto it without it closing. Escape hides it (Vue component, or the small script on this page), which meets WCAG 1.4.13.</li>
+    <li>A tooltip is a hint, not a label. Icon-only buttons still need an <code>aria-label</code>. Never put links or buttons inside a tooltip.</li>
+    <li>Contrast: text is about 12.4:1 (#E3E3E3 on #222222) and List rows about 7.6:1. In dark mode the surface is only about 1.1:1 against the <code>BG/1</code> page (#2B2B2B), so the tooltip's edge is hard to see. The text is still readable.</li>
+  </ul>
+
+  <!-- ================================================================ -->
+  <h2 id="snackbar">Snackbar</h2>
+  <p>Figma <code>Snackbar</code> (<a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3167-2198&m=dev" target="_blank" rel="noopener">3167:2198</a>), properties <code>Button</code> × <code>Counter</code>, 2 variants. A short message about a background task, sometimes with one action such as Undo. It uses a primary small button from <code>button.css</code>. Use <code>snackbar.css</code> and <code>components/Snackbar.vue</code>.</p>
+
+  <h3>Variants</h3>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage stage--col">
+        <figure>
+          <div class="snackbar" role="status">
+            <span class="icon snackbar__icon" style="--icon:url(assets/icons/story-line.svg)" aria-hidden="true"></span>
+            <p class="snackbar__message">Posting to Stories…</p>
+          </div>
+          <figcaption>Button=False<code>.snackbar + .snackbar__icon</code></figcaption>
+        </figure>
+        <figure>
+          <div class="snackbar" role="status">
+            <span class="snackbar__count" aria-hidden="true">5</span>
+            <p class="snackbar__message">All messages marked as read</p>
+            <button type="button" class="btn btn--primary btn--small snackbar__action">Undo</button>
+          </div>
+          <figcaption>Button=True<code>.snackbar__count + .snackbar__action</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--snackbar-bg</code></td><td class="none">Unbound in Figma</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:#273742"></span>#273742</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:#273742"></span>#273742</td>
+        <td>Surface. Same value as <code>Button/100</code> Dark, but not bound in Figma, so it stays dark in both themes</td></tr>
+      <tr><td><code>--color-label</code></td><td><code>Label</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-label)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-label)"></span>#FFFFFF</td>
+        <td>Message, icon and count</td></tr>
+      <tr><td><code>--snackbar-count-bg</code></td><td class="none">Unbound in Figma</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:rgb(255 255 255 / .1)"></span>#FFFFFF 10%</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:rgb(255 255 255 / .1)"></span>#FFFFFF 10%</td>
+        <td>Count bubble</td></tr>
+      <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>Action button fill (from button.css)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Part</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Surface</strong></td><td>376px wide (max 100%), min-height 48px, padding 12px (<code>--space-xl</code>), gap 10px (<code>--space-btn</code>), radius 8px (<code>--radius-lg</code>). Shadow 0 2px 4px black 4%, background blur 19</td></tr>
+      <tr><td><strong>Icon</strong></td><td>22px, <code>Label</code></td></tr>
+      <tr><td><strong>Count</strong></td><td>22px circle, 14/16 Semibold</td></tr>
+      <tr><td><strong>Message</strong></td><td><code>--font-h3</code> 14/20 Semibold, fills the remaining width</td></tr>
+      <tr><td><strong>Action</strong></td><td><code>btn btn--primary btn--small</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Usage</h3>
+<pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
+&lt;link rel="stylesheet" href="icon.css"&gt;
+&lt;link rel="stylesheet" href="button.css"&gt;
+&lt;link rel="stylesheet" href="snackbar.css"&gt;
+
+&lt;div class="snackbar" role="status"&gt;
+  &lt;span class="snackbar__count" aria-hidden="true"&gt;5&lt;/span&gt;
+  &lt;p class="snackbar__message"&gt;5 messages marked as read&lt;/p&gt;
+  &lt;button type="button" class="btn btn--primary btn--small snackbar__action"&gt;Undo&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+<pre><code>&lt;script setup&gt;
+import Snackbar from "./design-system/components/Snackbar.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Snackbar icon="assets/icons/story-line.svg"&gt;Posting to Stories…&lt;/Snackbar&gt;
+  &lt;Snackbar :count="5" action-label="Undo" :timeout="8000" @action="undo" @close="hide"&gt;
+    5 messages marked as read
+  &lt;/Snackbar&gt;
+&lt;/template&gt;</code></pre>
+
+  <h3>Accessibility</h3>
+  <ul>
+    <li>Use <code>role="status"</code> so the message is announced without interrupting. Use <code>role="alert"</code> (the <code>urgent</code> prop) only for errors.</li>
+    <li>Keep the live region in the page and change its content, rather than inserting a new region. Some screen readers ignore live regions that are added along with their text.</li>
+    <li>The count bubble is <code>aria-hidden</code>, so put the number in the message text too ("5 messages marked as read").</li>
+    <li>If it disappears on its own, give people time to reach the action (at least 5 to 10 seconds) and pause the timer while it's hovered or focused. Make sure the action can also be done some other way.</li>
+    <li>Contrast: white text on #273742 is about 12.3:1. In dark mode the surface is close to the page color, but the text stays readable.</li>
+  </ul>
+
+  <!-- ================================================================ -->
+  <h2 id="alert">Alert</h2>
+  <p>Figma <code>Component 6</code> (<a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3160-2323&m=dev" target="_blank" rel="noopener">3160:2323</a>), properties <code>Property 1</code> × <code>Subtext</code> × <code>CTA</code>, 6 variants. The Figma set has no real name, but it's an <strong>inline alert</strong>: a tinted strip with a 4px accent bar, an icon, a message, and optionally a second line, a countdown and a ghost action. The <code>Modal</code> variant is the flat version used inside a dialog. It lives here with the other feedback components. Use <code>alert.css</code> and <code>components/Alert.vue</code>.</p>
+
+  <h3>Variants</h3>
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage stage--col">
+        <figure>
+          <div class="alert" role="status"><span class="icon alert__icon" style="--icon:url(assets/icons/like-line.svg)" aria-hidden="true"></span><div class="alert__body">Copied successfully!</div></div>
+          <figcaption>Property 1=Success<code>.alert</code></figcaption>
+        </figure>
+        <figure>
+          <div class="alert alert--error" role="alert"><span class="icon alert__icon" style="--icon:url(assets/icons/exclamation-warning-line.svg)" aria-hidden="true"></span><div class="alert__body">Custom tune upload failed, please try again later.</div></div>
+          <figcaption>Property 1=Error<code>.alert--error</code></figcaption>
+        </figure>
+        <figure>
+          <div class="alert alert--warning" role="status"><span class="icon alert__icon" style="--icon:url(assets/icons/exclamation-error-line.svg)" aria-hidden="true"></span><div class="alert__body">Maximum selection limit reached</div></div>
+          <figcaption>Property 1=Limit hit<code>.alert--warning</code></figcaption>
+        </figure>
+        <figure style="align-self:stretch">
+          <div class="alert alert--warning alert--banner" style="max-width:450px"><span class="icon alert__icon" style="--icon:url(assets/icons/exclamation-error-line.svg)" aria-hidden="true"></span><div class="alert__body"><span>Forwarded messages can only be sent to one group at a time. <a class="alert__link" href="#alert">Learn more</a></span></div></div>
+          <figcaption>Property 1=Modal<code>.alert--warning.alert--banner</code></figcaption>
+        </figure>
+        <figure>
+          <div class="alert" role="status"><span class="icon alert__icon" style="--icon:url(assets/icons/like-line.svg)" aria-hidden="true"></span><div class="alert__body"><span class="alert__title">Chat archived</span><span class="alert__text">Muted conversations will remain archived even when new message received</span></div><button type="button" class="btn btn--ghost btn--medium alert__action">Undo</button></div>
+          <figcaption>Property 1=CTA, Subtext=True, CTA=True<code>.alert__text + .alert__action</code></figcaption>
+        </figure>
+        <figure>
+          <div class="alert alert--error" role="alert"><span class="icon alert__icon" style="--icon:url(assets/icons/exclamation-warning-line.svg)" aria-hidden="true"></span><div class="alert__body"><span>Take deep breaths, the internet will reconnect in <span class="alert__timer">00:40</span></span></div><button type="button" class="btn btn--ghost btn--medium alert__action">Try now</button></div>
+          <figcaption>Property 1=Variant6, CTA=True<code>.alert--error + .alert__timer</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-button-100</code></td><td><code>Button/100</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-100)"></span>#E5F3FD</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-100)"></span>#273742</td>
+        <td>Success fill</td></tr>
+      <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>Success accent bar and icon. Link</td></tr>
+      <tr><td><code>--color-negative-100</code></td><td><code>Negative/100</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-negative-100)"></span>#FDEEEE</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-negative-100)"></span>#483131</td>
+        <td>Error fill</td></tr>
+      <tr><td><code>--color-negative-800</code></td><td><code>Negative/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-negative-800)"></span>#EB5757</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-negative-800)"></span>#FF7D7D</td>
+        <td>Error accent bar and icon</td></tr>
+      <tr><td><code>--color-alert-info-100</code></td><td><code>Alert-info/100</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-alert-info-100)"></span>#FEF9E5</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-alert-info-100)"></span>#453D20</td>
+        <td>Limit hit / Modal fill</td></tr>
+      <tr><td><code>--color-alert-info-color</code></td><td><code>Alert-info/Color</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-alert-info-color)"></span>#C49400</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-alert-info-color)"></span>#CBB368</td>
+        <td>Limit hit accent bar. Limit hit / Modal icon</td></tr>
+      <tr><td><code>--color-text-primary</code></td><td><code>Text/Primary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-primary)"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>#E3E3E3</td>
+        <td>Message</td></tr>
+      <tr><td><code>--color-text-t3</code></td><td><code>Text/T3</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t3)"></span>#4D4D4D</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t3)"></span>#B3B3B3</td>
+        <td>Subtext</td></tr>
+      <tr><td><code>--color-text-secondary</code></td><td><code>Text/Secondary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-secondary)"></span>#666666</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-secondary)"></span>#B3B3B3</td>
+        <td>Countdown</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Variant</th><th>Padding</th><th>Radius</th><th>Accent</th><th>Shadow</th><th>Code</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Success / Error / Limit hit</strong></td><td>12px</td><td>4px</td><td>4px left inside stroke</td><td>0 2px 4px black 4%, background blur 19</td><td><code>.alert</code>, <code>--error</code>, <code>--warning</code></td></tr>
+      <tr><td><strong>CTA / Variant6</strong></td><td>8px 12px (automatic when there's an <code>.alert__action</code>)</td><td>4px</td><td>4px left</td><td>same</td><td><code>.alert__action</code></td></tr>
+      <tr><td><strong>Modal</strong></td><td>10px 12px</td><td>0</td><td>none</td><td>none</td><td><code>.alert--banner</code></td></tr>
+    </tbody>
+  </table>
+  <p>Gap 10px (<code>--space-btn</code>), min-height 48px, 24px icon. Message <code>--font-sub-text</code> (14/20 Medium), subtext <code>--font-body-3</code>. The link is 14/18 Bold (no text style in Figma).</p>
+
+  <h3>Usage</h3>
+<pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
+&lt;link rel="stylesheet" href="icon.css"&gt;
+&lt;link rel="stylesheet" href="button.css"&gt;
+&lt;link rel="stylesheet" href="alert.css"&gt;
+
+&lt;div class="alert alert--error" role="alert"&gt;
+  &lt;span class="icon alert__icon" style="--icon:url(assets/icons/exclamation-warning-line.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;div class="alert__body"&gt;Custom tune upload failed, please try again later.&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="alert" role="status"&gt;
+  &lt;span class="icon alert__icon" style="--icon:url(assets/icons/like-line.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;div class="alert__body"&gt;
+    &lt;span class="alert__title"&gt;Chat archived&lt;/span&gt;
+    &lt;span class="alert__text"&gt;Muted conversations stay archived when new messages arrive&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;button type="button" class="btn btn--ghost btn--medium alert__action"&gt;Undo&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- Inside a dialog --&gt;
+&lt;div class="alert alert--warning alert--banner"&gt;…&lt;/div&gt;</code></pre>
+<pre><code>&lt;script setup&gt;
+import Alert from "./design-system/components/Alert.vue";
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;Alert&gt;Copied successfully!&lt;/Alert&gt;
+  &lt;Alert tone="error"&gt;Custom tune upload failed, please try again later.&lt;/Alert&gt;
+  &lt;Alert tone="warning"&gt;Maximum selection limit reached&lt;/Alert&gt;
+  &lt;Alert action-label="Undo" @action="unarchive"&gt;
+    Chat archived
+    &lt;template #subtext&gt;Muted conversations stay archived when new messages arrive&lt;/template&gt;
+  &lt;/Alert&gt;
+  &lt;Alert tone="warning" banner&gt;
+    Forwarded messages can only be sent to one group at a time.
+    &lt;a class="alert__link" href="/help/forward"&gt;Learn more&lt;/a&gt;
+  &lt;/Alert&gt;
+&lt;/template&gt;</code></pre>
+
+  <h3>Accessibility</h3>
+  <ul>
+    <li>Transient alerts are live regions: <code>role="alert"</code> for errors, which interrupts, and <code>role="status"</code> for success and limits, which is polite. The Modal banner is static content, so it has no live role.</li>
+    <li>Color isn't the only signal. Each tone has its own icon (thumbs-up, triangle, circle), and the message text must say what happened.</li>
+    <li>For the countdown, don't announce every tick. Keep <code>.alert__timer</code> outside any live region, or add <code>aria-hidden</code> and describe the wait in words.</li>
+    <li>Contrast: the Success icon (<code>Button/800</code> on <code>Button/100</code>) is about 3.3:1 in light mode, just above the 3:1 minimum for graphics. The Limit hit icon (<code>Alert-info/Color</code> on <code>Alert-info/100</code>) is about 2.6:1 in light mode, below 3:1. The text alongside it carries the meaning. The Modal "Learn more" link (<code>Button/800</code> on <code>Alert-info/100</code>) is about 3.5:1, below 4.5:1 for 14px text. All of these pass in dark mode.</li>
+  </ul>
+
+</main>
+
+<script src="docs.js"></script>
+<script>
+  // Chip demo: filter chips toggle, the menu chip opens and closes, × removes.
+  document.querySelectorAll('#chip-demo .chip[aria-pressed]').forEach((chip) => {
+    chip.addEventListener('click', () => chip.setAttribute('aria-pressed', String(chip.getAttribute('aria-pressed') !== 'true')));
+  });
+  const menu = document.getElementById('chip-menu');
+  menu.addEventListener('click', () => menu.setAttribute('aria-expanded', String(menu.getAttribute('aria-expanded') !== 'true')));
+  document.querySelectorAll('#chip-demo .chip__remove').forEach((btn) => {
+    btn.addEventListener('click', () => { const next = btn.closest('.chip').previousElementSibling; btn.closest('.chip').remove(); next && next.focus(); });
+  });
+
+  // Tooltip demo: Escape hides the tooltip until the pointer / focus leaves.
+  document.querySelectorAll('[data-tooltip-demo]').forEach((anchor) => {
+    const tip = anchor.querySelector('.tooltip');
+    anchor.addEventListener('keydown', (e) => { if (e.key === 'Escape') tip.classList.add('is-dismissed'); });
+    ['mouseleave', 'focusout'].forEach((ev) => anchor.addEventListener(ev, () => tip.classList.remove('is-dismissed')));
+  });
+</script>
+</body>
+</html>

@@ -8,9 +8,13 @@
     class="badge"
     :class="variant !== 'default' ? `badge--${variant}` : null"
     :role="variant === 'dot' ? 'img' : undefined"
-    :aria-label="label"
+    :aria-label="variant === 'dot' ? label : undefined"
+    :aria-hidden="variant === 'dot' && !label ? 'true' : undefined"
   >
-    <template v-if="variant !== 'dot'">{{ display }}</template>
+    <template v-if="variant !== 'dot'">
+      <span :aria-hidden="label ? 'true' : undefined">{{ display }}</span>
+      <span v-if="label" class="badge__sr">{{ label }}</span>
+    </template>
   </span>
 </template>
 
