@@ -98,7 +98,8 @@
 }
 
 /* Hover — BG/Hover pill (Figma shows it on the selected segment) */
-.segmented__option:hover:not(:has(.segmented__input:disabled)) {
+.segmented__option:hover:not(:has(.segmented__input:disabled)),
+.segmented__option.is-hover:not(:has(.segmented__input:disabled)) {
   --segment-bg: var(--color-bg-hover);
 }
 

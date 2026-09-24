@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dropdowns &amp; menus — Design System</title>
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="icon.css" />
+  <link rel="stylesheet" href="dropdown.css" />
+  <link rel="stylesheet" href="menu.css" />
+  <link rel="stylesheet" href="segmented.css" />
+  <link rel="stylesheet" href="toggle.css" />
+  <link rel="stylesheet" href="docs.css" />
+  <style>
+    /* Docs only: dashed outline showing the bounds of a standalone item */
+    .item-frame { width: 163px; outline: 1px dashed var(--color-bg-border); background: var(--color-bg-1); }
+    .item-frame--hug { width: auto; }
+    .item-frame .menu-item { width: 100%; }
+    .stage--menus { align-items: flex-start; padding: 32px 20px; }
+    .stage--menus .menu--search { width: 379px; min-width: 0; }
+    .compare--stack { grid-template-columns: 1fr; }
+    .demo { display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; min-height: 360px; padding: 28px; border: 1px solid var(--doc-line); border-radius: 12px; background: var(--color-bg-1); }
+    .demo__status { font-size: 13px; color: var(--doc-muted); margin: 8px 0 0; }
+    .toc { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; font-size: 14px; }
+  </style>
+</head>
+<body>
+<main class="doc">
+
+  <div class="doc-bar">
+    <nav data-doc-nav></nav>
+    <label class="theme-switch">Dark mode <input type="checkbox" role="switch" class="toggle" data-theme-switch /></label>
+  </div>
+
+  <div class="eyebrow">Components · Navigation</div>
+  <h1>Dropdowns &amp; menus</h1>
+  <p class="lead">A compact trigger that opens a floating list: an action menu (Forward, Copy, Delete), a single-choice filter with a check-mark, or a searchable picker for long lists like time zones. The page also covers the segmented control, a pill-shaped switcher for choosing one of two to four options.</p>
+  <div class="meta">
+    <span class="chip">Figma: <code>Dropdown</code> · <code>Dropdown items - Small / Medium</code> · <code>Dropdown menu</code> · <code>Text &amp; Icon</code></span>
+    <span class="chip">27 variants</span>
+    <span class="chip">Light &amp; dark</span>
+  </div>
+  <div class="toc">
+    <a href="#dropdown">Dropdown trigger</a> · <a href="#items">Dropdown items</a> · <a href="#menu">Dropdown menu</a> · <a href="#interactive">Interactive</a> · <a href="#segmented">Segmented control</a> · <a href="#usage">Usage</a> · <a href="#a11y">Accessibility</a>
+  </div>
+
+  <!-- ================================================================ -->
+  <h2 id="dropdown">Dropdown trigger</h2>
+  <div class="meta">
+    <span class="chip">Figma: <code>Dropdown</code></span>
+    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3167-2208&m=dev" target="_blank" rel="noopener">3167:2208</a></span>
+    <span class="chip">4 variants</span>
+    <span class="chip">Hug × 28px</span>
+    <span class="chip"><code>dropdown.css</code> · <code>Dropdown.vue</code></span>
+  </div>
+  <p>The Figma property <code>Property 1</code> uses frame names for its values. Here they are mapped to states. Hover, Open and Disabled come from <code>:hover</code>, <code>aria-expanded="true"</code> and <code>:disabled</code>. The <code>.is-hover</code> and <code>.is-open</code> classes exist only so these docs can show the states without interaction.</p>
+
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <button type="button" class="dropdown" tabindex="-1">Sort by contact<span class="dropdown__chevron" aria-hidden="true"></span></button>
+          <figcaption>Default<code>Frame 28090</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="dropdown is-hover" tabindex="-1">Sort by contact<span class="dropdown__chevron" aria-hidden="true"></span></button>
+          <figcaption>Hover<code>Frame 57503 · :hover</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="dropdown is-open" tabindex="-1">Sort by contact<span class="dropdown__chevron" aria-hidden="true"></span></button>
+          <figcaption>Open<code>Frame 57504 · [aria-expanded=true]</code></figcaption>
+        </figure>
+        <figure>
+          <button type="button" class="dropdown" disabled>Sort by contact<span class="dropdown__chevron" aria-hidden="true"></span></button>
+          <figcaption>Disabled<code>Frame 57505 · :disabled</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-text-t3</code></td><td><code>Text/T3</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t3)"></span>#4D4D4D</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t3)"></span>#B3B3B3</td>
+        <td>Label, Default and Disabled</td></tr>
+      <tr><td><code>--color-text-primary</code></td><td><code>Text/Primary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-primary)"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>#E3E3E3</td>
+        <td>Label, Hover and Open</td></tr>
+      <tr><td><code>--color-text-t1</code></td><td><code>Text/T1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t1)"></span>#888888</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t1)"></span>#848484</td>
+        <td>Chevron (all states)</td></tr>
+      <tr><td><code>--color-bg-hover</code></td><td><code>BG/Hover</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-hover)"></span>#F1F4F7</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-hover)"></span>#3D3D3D</td>
+        <td>Fill, Hover and Open</td></tr>
+      <tr><td><code>--color-text-t2</code></td><td><code>Text/T2</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t2)"></span>#ABABAB</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t2)"></span>#727272</td>
+        <td>1px inside stroke, Open</td></tr>
+      <tr><td><code>--color-button-1000</code></td><td><code>Button/1000</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-1000)"></span>#0076CE</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-1000)"></span>#479EDF</td>
+        <td>Focus ring (code only)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Variant</th><th>Fill</th><th>Stroke</th><th>Label</th><th>Chevron</th><th>Code selector</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Default</strong></td><td class="none">none</td><td class="none">none</td><td><code>--color-text-t3</code></td><td>Down, <code>--color-text-t1</code></td><td><code>.dropdown</code></td></tr>
+      <tr><td><strong>Hover</strong></td><td><code>--color-bg-hover</code></td><td class="none">none</td><td><code>--color-text-primary</code></td><td>Down</td><td><code>:hover</code></td></tr>
+      <tr><td><strong>Open</strong></td><td><code>--color-bg-hover</code></td><td>1px inside, <code>--color-text-t2</code></td><td><code>--color-text-primary</code></td><td>Up</td><td><code>[aria-expanded="true"]</code></td></tr>
+      <tr><td><strong>Disabled</strong></td><td class="none">none</td><td class="none">none</td><td>Default at 50% opacity</td><td>Down</td><td><code>:disabled</code></td></tr>
+    </tbody>
+  </table>
+  <p>All states: padding 6px 8px (<code>--space-m</code> / <code>--space-l</code>), 6px gap, radius 39px (hardcoded in Figma, fully rounded), label Zoho Puvi Semibold 14/16 (no text style in Figma, so it's written as <code>font: 14px/16px var(--font-family-semibold)</code>). The chevron is 10 × 6px.</p>
+
+  <!-- ================================================================ -->
+  <h2 id="items">Dropdown items</h2>
+  <div class="meta">
+    <span class="chip">Figma: <code>Dropdown items - Small</code> <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3167-2219&m=dev" target="_blank" rel="noopener">3167:2219</a> · 5 variants</span>
+    <span class="chip">Figma: <code>Dropdown items - Medium</code> <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3167-2251&m=dev" target="_blank" rel="noopener">3167:2251</a> · 3 variants</span>
+    <span class="chip"><code>.menu-item</code> · <code>MenuItem.vue</code></span>
+  </div>
+  <p>A row is a leading icon (optional), a label, and an optional trailing badge or check-mark. These are separate elements in code, not modifier classes. The check-mark appears when the row has <code>aria-checked="true"</code> (menus) or <code>aria-selected="true"</code> (listboxes). Rows are Small by default and become Medium inside <code>.menu--medium</code> or with <code>.menu-item--medium</code>.</p>
+
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <div class="item-frame"><button type="button" class="menu-item" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/unread.svg)" aria-hidden="true"></span><span class="menu-item__label">Unread</span><span class="menu-item__badge">2</span></button></div>
+          <figcaption>Icon · Badge<code>Icon=True, Badge=True</code></figcaption>
+        </figure>
+        <figure>
+          <div class="item-frame"><button type="button" class="menu-item" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/unread.svg)" aria-hidden="true"></span><span class="menu-item__label">Unread</span></button></div>
+          <figcaption>Icon<code>Icon=True, Badge=False</code></figcaption>
+        </figure>
+        <figure>
+          <div class="item-frame"><button type="button" class="menu-item" tabindex="-1"><span class="menu-item__label">Unread</span><span class="menu-item__badge">2</span></button></div>
+          <figcaption>Badge<code>Icon=False, Badge=True</code></figcaption>
+        </figure>
+        <figure>
+          <div class="item-frame"><button type="button" class="menu-item" tabindex="-1"><span class="menu-item__label">Unread</span></button></div>
+          <figcaption>Label only<code>Icon=False, Badge=False</code></figcaption>
+        </figure>
+        <figure>
+          <div class="item-frame"><button type="button" class="menu-item" role="menuitemradio" aria-checked="true" tabindex="-1"><span class="menu-item__label">Unread</span></button></div>
+          <figcaption>Check-mark<code>Check-mark=True · [aria-checked=true]</code></figcaption>
+        </figure>
+      </div>
+      <div class="stage" style="padding-top:0">
+        <figure>
+          <div class="item-frame"><button type="button" class="menu-item menu-item--medium" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/unread.svg)" aria-hidden="true"></span><span class="menu-item__label">Mark as read</span></button></div>
+          <figcaption>Medium · Icon<code>Icon=True, Check-mark=False</code></figcaption>
+        </figure>
+        <figure>
+          <div class="item-frame"><button type="button" class="menu-item menu-item--medium" tabindex="-1"><span class="menu-item__label">Mark as read</span></button></div>
+          <figcaption>Medium · Label only<code>Icon=False, Check-mark=False</code></figcaption>
+        </figure>
+        <figure>
+          <div class="item-frame" style="width:170px"><button type="button" class="menu-item menu-item--medium" role="menuitemradio" aria-checked="true" tabindex="-1"><span class="menu-item__label">Mark as read</span></button></div>
+          <figcaption>Medium · Check-mark<code>Icon=False, Check-mark=True</code></figcaption>
+        </figure>
+      </div>
+      <div class="stage" style="padding-top:0">
+        <figure>
+          <div class="item-frame"><button type="button" class="menu-item is-hover" tabindex="-1"><span class="menu-item__label">Hover</span></button></div>
+          <figcaption>Hover<code>:hover · BG/Hover</code></figcaption>
+        </figure>
+        <figure>
+          <div class="item-frame"><button type="button" class="menu-item menu-item--negative" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/delete.svg)" aria-hidden="true"></span><span class="menu-item__label">Delete</span></button></div>
+          <figcaption>Negative<code>.menu-item--negative</code></figcaption>
+        </figure>
+        <figure>
+          <div class="item-frame"><button type="button" class="menu-item" aria-disabled="true" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/archive.svg)" aria-hidden="true"></span><span class="menu-item__label">Disabled</span></button></div>
+          <figcaption>Disabled (code only)<code>[aria-disabled=true]</code></figcaption>
+        </figure>
+        <figure>
+          <div class="item-frame"><button type="button" class="menu-item" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/bell-notification-sl.svg)" aria-hidden="true"></span><span class="menu-item__label">Muted</span><span class="menu-item__badge menu-item__badge--muted">2</span></button></div>
+          <figcaption>Muted badge<code>.menu-item__badge--muted</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-bg-1</code></td><td><code>BG/1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>Row fill (same as the menu panel)</td></tr>
+      <tr><td><code>--color-text-primary</code></td><td><code>Text/Primary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-primary)"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>#E3E3E3</td>
+        <td>Label, icon, badge number</td></tr>
+      <tr><td><code>--color-bg-hover</code></td><td><code>BG/Hover</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-hover)"></span>#F1F4F7</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-hover)"></span>#3D3D3D</td>
+        <td>Hover and keyboard focus</td></tr>
+      <tr><td><code>--color-success-800</code></td><td><code>Success/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-success-800)"></span>#009C48</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-success-800)"></span>#74BE96</td>
+        <td>Check-mark</td></tr>
+      <tr><td><code>--color-theme-yellow-1000</code></td><td><code>Theme/yellow/1000</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-theme-yellow-1000)"></span>#F3CD00</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-theme-yellow-1000)"></span>#E4C100</td>
+        <td>Badge (Default)</td></tr>
+      <tr><td><code>--color-bg-border</code></td><td><code>BG/Border</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-border)"></span>#E6E6E6</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-border)"></span>#3D3D3D</td>
+        <td>Badge (Muted)</td></tr>
+      <tr><td><code>--color-negative-800</code></td><td><code>Negative/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-negative-800)"></span>#EB5757</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-negative-800)"></span>#FF7D7D</td>
+        <td>Destructive row (Delete): label and icon</td></tr>
+      <tr><td><code>--color-disabled</code></td><td><code>Disabled</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-disabled)"></span>#C4C4C4</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-disabled)"></span>#464646</td>
+        <td>Disabled row (code only)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Size</th><th>Height</th><th>Padding</th><th>Icon</th><th>Icon → label</th><th>Label padding</th><th>Label → trailing</th><th>Text</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Small</strong></td><td>40px</td><td>0 12px</td><td>18px</td><td>4px</td><td>0 4px</td><td>8px</td><td><code>--font-body-3</code> (14/20 Regular)</td></tr>
+      <tr><td><strong>Medium</strong></td><td>48px</td><td>0 12px</td><td>20px</td><td>4px</td><td>0 8px</td><td>12px</td><td><code>--font-body-1</code> (16/22 Regular)</td></tr>
+    </tbody>
+  </table>
+  <p>Trailing elements: the badge is 20px tall with a 20px minimum width, padding 1px 4px, radius 22px, <code>--font-badge</code>. The check-mark is a 24px tick. Rows fill the width of their menu. Figma sets Small rows at a fixed 163px and one Medium row at hug width (170px).</p>
+
+  <!-- ================================================================ -->
+  <h2 id="menu">Dropdown menu</h2>
+  <div class="meta">
+    <span class="chip">Figma: <code>Dropdown menu</code></span>
+    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3167-2272&m=dev" target="_blank" rel="noopener">3167:2272</a></span>
+    <span class="chip">3 variants</span>
+    <span class="chip">Effect: <code>Drop down menu</code></span>
+    <span class="chip"><code>menu.css</code> · <code>DropdownMenu.vue</code></span>
+  </div>
+  <p>The panel is a <code>BG/1</code> surface with 4px vertical padding and the <code>--shadow-dropdown-menu</code> effect. Small is 160px wide and uses Small rows. Medium is 180px wide and uses Medium rows. Small-search selection adds a search field, uses a 12px radius, and gives hovered rows an 8px radius.</p>
+
+  <div class="compare compare--stack">
+    <section class="compare__panel">
+      <div class="stage stage--menus">
+        <figure>
+          <div class="menu menu--small" role="menu" aria-label="Filter chats">
+            <button type="button" class="menu-item" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/time-clock.svg)" aria-hidden="true"></span><span class="menu-item__label">Recent</span></button>
+            <button type="button" class="menu-item" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/unread.svg)" aria-hidden="true"></span><span class="menu-item__label">Unread</span><span class="menu-item__badge">2</span></button>
+            <button type="button" class="menu-item" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/bell-notification-sl.svg)" aria-hidden="true"></span><span class="menu-item__label">Muted</span><span class="menu-item__badge menu-item__badge--muted">2</span></button>
+            <button type="button" class="menu-item" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/archive.svg)" aria-hidden="true"></span><span class="menu-item__label">Archived</span><span class="menu-item__badge menu-item__badge--muted">2</span></button>
+          </div>
+          <figcaption>Small<code>.menu--small</code></figcaption>
+        </figure>
+        <figure>
+          <div class="menu menu--medium" role="menu" aria-label="Message actions">
+            <button type="button" class="menu-item" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/forward-share.svg)" aria-hidden="true"></span><span class="menu-item__label">Forward</span></button>
+            <button type="button" class="menu-item" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/copy.svg)" aria-hidden="true"></span><span class="menu-item__label">Copy</span></button>
+            <button type="button" class="menu-item" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/edit-pen.svg)" aria-hidden="true"></span><span class="menu-item__label">Edit</span></button>
+            <button type="button" class="menu-item" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/unread.svg)" aria-hidden="true"></span><span class="menu-item__label">Mark as read</span></button>
+            <button type="button" class="menu-item" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/pin-2.svg)" aria-hidden="true"></span><span class="menu-item__label">Pin message</span></button>
+            <button type="button" class="menu-item menu-item--negative" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/delete.svg)" aria-hidden="true"></span><span class="menu-item__label">Delete</span></button>
+          </div>
+          <figcaption>Medium<code>.menu--medium</code></figcaption>
+        </figure>
+        <figure>
+          <div class="menu menu--search">
+            <div class="menu__search">
+              <div class="menu__search-field">
+                <span class="icon icon--24" style="--icon:url(assets/icons/search.svg)" aria-hidden="true"></span>
+                <input class="menu__search-input" type="text" placeholder="Search timezone" aria-label="Search timezone" tabindex="-1" />
+              </div>
+            </div>
+            <div class="menu__list" role="listbox" aria-label="Time zone">
+              <div class="menu-item" role="option" aria-selected="true"><span class="menu-item__label">(GMT +05:30) Asia/Kolkata, Indian Standard Time</span></div>
+              <div class="menu-item" role="option" aria-selected="false"><span class="menu-item__label">(GMT -05:00) America/Eirunepe, Acre time</span></div>
+              <div class="menu-item is-hover" role="option" aria-selected="false"><span class="menu-item__label">(GMT -05:00) America/Porto_Acre, Acre time</span></div>
+              <div class="menu-item" role="option" aria-selected="false"><span class="menu-item__label">(GMT -05:00) America/Rio_Branco, Acre time</span></div>
+              <div class="menu-item" role="option" aria-selected="false"><span class="menu-item__label">(GMT -05:00) Brazil/Acre, Acre time</span></div>
+              <div class="menu-item" role="option" aria-selected="false"><span class="menu-item__label">(GMT -05:00) Asia/Kabul, Afghanistan time</span></div>
+            </div>
+          </div>
+          <figcaption>Small-search selection<code>.menu--search</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Color &amp; effect</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma source</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-bg-1</code></td><td><code>BG/1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>Panel and search field fill</td></tr>
+      <tr><td><code>--shadow-dropdown-menu</code></td><td>Effect style <code>Drop down menu</code></td>
+        <td colspan="2"><code>0 0 12px rgba(0,0,0,.25)</code> in both themes</td>
+        <td>Panel elevation</td></tr>
+      <tr><td><code>--color-bg-border</code></td><td><code>BG/Border</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-border)"></span>#E6E6E6</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-border)"></span>#3D3D3D</td>
+        <td>Search field stroke (Search / Default)</td></tr>
+      <tr><td><code>--color-button-800</code></td><td><code>Button/800</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-button-800)"></span>#0087ED</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-button-800)"></span>#4DADF5</td>
+        <td>Search field stroke while focused</td></tr>
+      <tr><td><code>--color-text-t1</code></td><td><code>Text/T1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t1)"></span>#888888</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t1)"></span>#848484</td>
+        <td>Search placeholder</td></tr>
+      <tr><td><code>--menu-search-icon</code></td><td class="none">Unbound in Figma</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:#000"></span>#000000</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>Text/Primary</td>
+        <td>Search glyph. It's a raw #000000 in Figma, so dark mode falls back to Text/Primary to stay visible</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Variant</th><th>Width</th><th>Radius</th><th>Padding</th><th>Rows</th><th>Code</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Small</strong></td><td>160px</td><td>4px (<code>--radius-sm</code>)</td><td>4px 0</td><td>Small (40px)</td><td><code>.menu.menu--small</code></td></tr>
+      <tr><td><strong>Medium</strong></td><td>180px</td><td>4px (<code>--radius-sm</code>)</td><td>4px 0</td><td>Medium (48px)</td><td><code>.menu.menu--medium</code></td></tr>
+      <tr><td><strong>Small-search selection</strong></td><td>Hug (379px in Figma)</td><td>12px</td><td>4px 0; search 4px 8px</td><td>Small (40px), 8px row radius</td><td><code>.menu.menu--search</code></td></tr>
+    </tbody>
+  </table>
+  <p>Search field: 40px tall, padding 8px, 12px gap, radius 8px (<code>--radius-lg</code>), 24px icon, <code>--font-body-1</code> text. For long lists, set <code>--menu-list-max-height</code> on the menu to make the option list scroll.</p>
+
+  <!-- ================================================================ -->
+  <h2 id="interactive">Interactive</h2>
+  <p>These examples are live. Click a trigger, or tab to it and press Enter, Space or ↓. Inside a menu, use ↑ ↓ Home End or type a letter. Escape closes the menu and returns focus to the trigger.</p>
+  <div class="demo">
+    <div>
+      <div class="dropdown-wrap">
+        <button type="button" class="dropdown" id="sort-trigger" aria-haspopup="menu" aria-expanded="false" aria-controls="sort-menu"><span id="sort-label">Sort by contact</span><span class="dropdown__chevron" aria-hidden="true"></span></button>
+        <div class="menu menu--small" id="sort-menu" role="menu" aria-labelledby="sort-trigger" hidden>
+          <button type="button" class="menu-item" role="menuitemradio" aria-checked="true" tabindex="-1"><span class="menu-item__label">Contact</span></button>
+          <button type="button" class="menu-item" role="menuitemradio" aria-checked="false" tabindex="-1"><span class="menu-item__label">Name</span></button>
+          <button type="button" class="menu-item" role="menuitemradio" aria-checked="false" tabindex="-1"><span class="menu-item__label">Recent</span></button>
+          <button type="button" class="menu-item" role="menuitemradio" aria-checked="false" aria-disabled="true" tabindex="-1"><span class="menu-item__label">Unread</span></button>
+        </div>
+      </div>
+      <p class="demo__status" id="sort-status" aria-live="polite">Single choice (menuitemradio)</p>
+    </div>
+
+    <div>
+      <div class="dropdown-wrap">
+        <button type="button" class="dropdown" id="act-trigger" aria-haspopup="menu" aria-expanded="false" aria-controls="act-menu">Message actions<span class="dropdown__chevron" aria-hidden="true"></span></button>
+        <div class="menu menu--medium" id="act-menu" role="menu" aria-labelledby="act-trigger" hidden>
+          <button type="button" class="menu-item" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/forward-share.svg)" aria-hidden="true"></span><span class="menu-item__label">Forward</span></button>
+          <button type="button" class="menu-item" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/copy.svg)" aria-hidden="true"></span><span class="menu-item__label">Copy</span></button>
+          <button type="button" class="menu-item" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/edit-pen.svg)" aria-hidden="true"></span><span class="menu-item__label">Edit</span></button>
+          <button type="button" class="menu-item" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/pin-2.svg)" aria-hidden="true"></span><span class="menu-item__label">Pin message</span></button>
+          <button type="button" class="menu-item menu-item--negative" role="menuitem" tabindex="-1"><span class="icon menu-item__icon" style="--icon:url(assets/icons/delete.svg)" aria-hidden="true"></span><span class="menu-item__label">Delete</span></button>
+        </div>
+      </div>
+      <p class="demo__status" id="act-status" aria-live="polite">Actions (menuitem)</p>
+    </div>
+
+    <div>
+      <div class="dropdown-wrap">
+        <button type="button" class="dropdown" id="tz-trigger" aria-haspopup="listbox" aria-expanded="false" aria-controls="tz-menu"><span id="tz-label">Asia/Kolkata</span><span class="dropdown__chevron" aria-hidden="true"></span></button>
+        <div class="menu menu--search" id="tz-menu" style="--menu-list-max-height:200px" hidden>
+          <div class="menu__search">
+            <div class="menu__search-field">
+              <span class="icon icon--24" style="--icon:url(assets/icons/search.svg)" aria-hidden="true"></span>
+              <input id="tz-input" class="menu__search-input" type="text" placeholder="Search timezone" role="combobox" aria-autocomplete="list" aria-expanded="true" aria-controls="tz-list" aria-label="Search timezone" autocomplete="off" />
+            </div>
+          </div>
+          <div class="menu__list" id="tz-list" role="listbox" aria-label="Time zone"></div>
+        </div>
+      </div>
+      <p class="demo__status" id="tz-status" aria-live="polite">Search selection (combobox + listbox)</p>
+    </div>
+  </div>
+
+  <!-- ================================================================ -->
+  <h2 id="segmented">Segmented control</h2>
+  <div class="meta">
+    <span class="chip">Figma: <code>Text &amp; Icon</code></span>
+    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3315-2664&m=dev" target="_blank" rel="noopener">3315:2664</a></span>
+    <span class="chip">12 variants</span>
+    <span class="chip">40px tall</span>
+    <span class="chip"><code>segmented.css</code> · <code>SegmentedControl.vue</code></span>
+  </div>
+  <p>The Figma set is named <code>Text &amp; Icon</code> and its twelve variants have frame names. They form a segmented control: a pill track holding two segments, with the selected one raised on a white pill. The twelve variants are three layouts × four states. In code it's a group of native radio buttons, so selection comes from <code>:checked</code> and disabled from <code>:disabled</code>. There are no state classes. The <code>.is-hover</code> class exists only so these docs can show the hover state.</p>
+
+  <div class="compare">
+    <section class="compare__panel">
+      <div class="stage">
+        <figure>
+          <div class="segmented" role="radiogroup" aria-label="Platform">
+            <label class="segmented__option"><input type="radio" class="segmented__input" checked tabindex="-1" aria-label="Android" /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-android.svg)" aria-hidden="true"></span></span></label>
+            <label class="segmented__option"><input type="radio" class="segmented__input" tabindex="-1" aria-label="iOS" /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-ios.svg)" aria-hidden="true"></span></span></label>
+          </div>
+          <figcaption>Icon · Default<code>Frame …601</code></figcaption>
+        </figure>
+        <figure>
+          <div class="segmented" role="radiogroup" aria-label="Platform">
+            <label class="segmented__option"><input type="radio" class="segmented__input" checked tabindex="-1" /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-android.svg)" aria-hidden="true"></span></span><span class="segmented__label">Android</span></label>
+            <label class="segmented__option"><input type="radio" class="segmented__input" tabindex="-1" /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-ios.svg)" aria-hidden="true"></span></span><span class="segmented__label">iOS</span></label>
+          </div>
+          <figcaption>Icon &amp; text · Default<code>Frame …594</code></figcaption>
+        </figure>
+        <figure>
+          <div class="segmented segmented--text" role="radiogroup" aria-label="Option">
+            <label class="segmented__option"><input type="radio" class="segmented__input" checked tabindex="-1" /><span class="segmented__label">Option 1</span></label>
+            <label class="segmented__option"><input type="radio" class="segmented__input" tabindex="-1" /><span class="segmented__label">Option 2</span></label>
+          </div>
+          <figcaption>Text · Default<code>Frame …600</code></figcaption>
+        </figure>
+      </div>
+      <div class="stage" style="padding-top:0">
+        <figure>
+          <div class="segmented" role="radiogroup" aria-label="Platform">
+            <label class="segmented__option is-hover"><input type="radio" class="segmented__input" checked tabindex="-1" aria-label="Android" /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-android.svg)" aria-hidden="true"></span></span></label>
+            <label class="segmented__option"><input type="radio" class="segmented__input" tabindex="-1" aria-label="iOS" /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-ios.svg)" aria-hidden="true"></span></span></label>
+          </div>
+          <figcaption>Icon · Hover<code>Frame …602</code></figcaption>
+        </figure>
+        <figure>
+          <div class="segmented" role="radiogroup" aria-label="Platform">
+            <label class="segmented__option is-hover"><input type="radio" class="segmented__input" checked tabindex="-1" /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-android.svg)" aria-hidden="true"></span></span><span class="segmented__label">Android</span></label>
+            <label class="segmented__option"><input type="radio" class="segmented__input" tabindex="-1" /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-ios.svg)" aria-hidden="true"></span></span><span class="segmented__label">iOS</span></label>
+          </div>
+          <figcaption>Icon &amp; text · Hover<code>Frame …603</code></figcaption>
+        </figure>
+        <figure>
+          <div class="segmented segmented--text" role="radiogroup" aria-label="Option">
+            <label class="segmented__option is-hover"><input type="radio" class="segmented__input" checked tabindex="-1" /><span class="segmented__label">Option 1</span></label>
+            <label class="segmented__option"><input type="radio" class="segmented__input" tabindex="-1" /><span class="segmented__label">Option 2</span></label>
+          </div>
+          <figcaption>Text · Hover<code>Frame …604</code></figcaption>
+        </figure>
+      </div>
+      <div class="stage" style="padding-top:0">
+        <figure>
+          <div class="segmented" role="radiogroup" aria-label="Platform">
+            <label class="segmented__option"><input type="radio" class="segmented__input" checked disabled aria-label="Android" /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-android.svg)" aria-hidden="true"></span></span></label>
+            <label class="segmented__option"><input type="radio" class="segmented__input" disabled aria-label="iOS" /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-ios.svg)" aria-hidden="true"></span></span></label>
+          </div>
+          <figcaption>Icon · Disabled<code>Frame …606</code></figcaption>
+        </figure>
+        <figure>
+          <div class="segmented" role="radiogroup" aria-label="Platform">
+            <label class="segmented__option"><input type="radio" class="segmented__input" checked disabled /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-android.svg)" aria-hidden="true"></span></span><span class="segmented__label">Android</span></label>
+            <label class="segmented__option"><input type="radio" class="segmented__input" disabled /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-ios.svg)" aria-hidden="true"></span></span><span class="segmented__label">iOS</span></label>
+          </div>
+          <figcaption>Icon &amp; text · Disabled<code>Frame …605</code></figcaption>
+        </figure>
+        <figure>
+          <div class="segmented segmented--text" role="radiogroup" aria-label="Option">
+            <label class="segmented__option"><input type="radio" class="segmented__input" checked disabled /><span class="segmented__label">Option 1</span></label>
+            <label class="segmented__option"><input type="radio" class="segmented__input" disabled /><span class="segmented__label">Option 2</span></label>
+          </div>
+          <figcaption>Text · Disabled<code>Frame …607</code></figcaption>
+        </figure>
+      </div>
+      <div class="stage" style="padding-top:0">
+        <figure>
+          <div class="segmented" role="radiogroup" aria-label="Platform">
+            <label class="segmented__option"><input type="radio" class="segmented__input" disabled aria-label="Android" /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-android.svg)" aria-hidden="true"></span></span></label>
+            <label class="segmented__option"><input type="radio" class="segmented__input" disabled aria-label="iOS" /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-ios.svg)" aria-hidden="true"></span></span></label>
+          </div>
+          <figcaption>Icon · Disabled, none selected<code>Frame …609</code></figcaption>
+        </figure>
+        <figure>
+          <div class="segmented" role="radiogroup" aria-label="Platform">
+            <label class="segmented__option"><input type="radio" class="segmented__input" disabled /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-android.svg)" aria-hidden="true"></span></span><span class="segmented__label">Android</span></label>
+            <label class="segmented__option"><input type="radio" class="segmented__input" disabled /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-ios.svg)" aria-hidden="true"></span></span><span class="segmented__label">iOS</span></label>
+          </div>
+          <figcaption>Icon &amp; text · Disabled, none<code>Frame …608</code></figcaption>
+        </figure>
+        <figure>
+          <div class="segmented segmented--text" role="radiogroup" aria-label="Option">
+            <label class="segmented__option"><input type="radio" class="segmented__input" disabled /><span class="segmented__label">Option 1</span></label>
+            <label class="segmented__option"><input type="radio" class="segmented__input" disabled /><span class="segmented__label">Option 2</span></label>
+          </div>
+          <figcaption>Text · Disabled, none<code>Frame …610</code></figcaption>
+        </figure>
+      </div>
+    </section>
+  </div>
+
+  <h3>Try it</h3>
+  <div class="demo" style="min-height:0; gap:32px">
+    <div class="segmented" role="radiogroup" aria-label="Platform">
+      <label class="segmented__option"><input type="radio" name="pf-live" value="android" class="segmented__input" checked /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-android.svg)" aria-hidden="true"></span></span><span class="segmented__label">Android</span></label>
+      <label class="segmented__option"><input type="radio" name="pf-live" value="ios" class="segmented__input" /><span class="segmented__icon"><span class="icon" style="--icon:url(assets/icons/platform-ios.svg)" aria-hidden="true"></span></span><span class="segmented__label">iOS</span></label>
+    </div>
+    <div class="segmented segmented--text" role="radiogroup" aria-label="View">
+      <label class="segmented__option"><input type="radio" name="view-live" value="1" class="segmented__input" checked /><span class="segmented__label">Option 1</span></label>
+      <label class="segmented__option"><input type="radio" name="view-live" value="2" class="segmented__input" /><span class="segmented__label">Option 2</span></label>
+    </div>
+  </div>
+
+  <h3>Color</h3>
+  <table>
+    <thead><tr><th>CSS variable</th><th>Figma variable</th><th>Light</th><th>Dark</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td><code>--color-surface-e5-a50</code></td><td><code>Surface #E5-a50</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-surface-e5-a50)"></span>#E5E5E5 50%</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-surface-e5-a50)"></span>#E5E5E5 50%</td>
+        <td>Track, Icon and Icon &amp; text layouts (same value in both themes)</td></tr>
+      <tr><td><code>--color-bg-2</code></td><td><code>BG/2</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-2)"></span>#F6F6F6</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-2)"></span>#1D1D1D</td>
+        <td>Track, Text layout. Also the circle behind the selected icon in Icon &amp; text</td></tr>
+      <tr><td><code>--color-bg-1</code></td><td><code>BG/1</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-1)"></span>#FFFFFF</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-1)"></span>#2B2B2B</td>
+        <td>Selected pill</td></tr>
+      <tr><td><code>--color-bg-hover</code></td><td><code>BG/Hover</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-bg-hover)"></span>#F1F4F7</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-bg-hover)"></span>#3D3D3D</td>
+        <td>Hovered pill</td></tr>
+      <tr><td><code>--color-text-primary</code></td><td><code>Text/Primary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-primary)"></span>#222222</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-primary)"></span>#E3E3E3</td>
+        <td>Label</td></tr>
+      <tr><td><code>--color-text-secondary</code></td><td><code>Text/Secondary</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-secondary)"></span>#666666</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-secondary)"></span>#B3B3B3</td>
+        <td>Icon</td></tr>
+      <tr><td><code>--color-disabled</code></td><td><code>Disabled</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-disabled)"></span>#C4C4C4</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-disabled)"></span>#464646</td>
+        <td>Label, disabled</td></tr>
+      <tr><td><code>--color-text-t2</code></td><td><code>Text/T2</code></td>
+        <td class="swatch-cell"><span class="swatch" data-theme="light" style="background:var(--color-text-t2)"></span>#ABABAB</td>
+        <td class="swatch-cell"><span class="swatch" data-theme="dark" style="background:var(--color-text-t2)"></span>#727272</td>
+        <td>Icon, disabled</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Variant specs</h3>
+  <table>
+    <thead><tr><th>Layout / state</th><th>Track</th><th>Segment padding</th><th>Selected pill</th><th>Label · icon</th><th>Code</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Icon only</strong></td><td><code>Surface #E5-a50</code>, 2px padding</td><td>2px (36 × 36)</td><td rowspan="3"><code>--color-bg-1</code></td><td rowspan="3">H3 SB 14/20 <code>Text/Primary</code> · 24px glyph in a 32px circle, <code>Text/Secondary</code></td><td><code>.segmented</code></td></tr>
+      <tr><td><strong>Icon &amp; text</strong></td><td><code>Surface #E5-a50</code></td><td>2px 20px 2px 2px, 10px gap</td><td><code>.segmented</code></td></tr>
+      <tr><td><strong>Text only</strong></td><td><code>BG/2</code></td><td>2px 20px</td><td><code>.segmented--text</code></td></tr>
+      <tr><td><strong>Hover</strong></td><td colspan="2">unchanged</td><td><code>--color-bg-hover</code></td><td>unchanged</td><td><code>:hover</code></td></tr>
+      <tr><td><strong>Disabled</strong></td><td colspan="2">unchanged</td><td><code>--color-bg-1</code></td><td><code>Disabled</code> · <code>Text/T2</code></td><td><code>:disabled</code></td></tr>
+      <tr><td><strong>Disabled, none selected</strong></td><td colspan="2">unchanged</td><td class="none">none</td><td><code>Disabled</code> · <code>Text/T2</code></td><td>no <code>:checked</code> radio</td></tr>
+    </tbody>
+  </table>
+  <p>Segments are 36px tall and the control is 40px. The track, segments and icon circles are fully rounded, with radii of 100px and 1000px hardcoded in Figma.</p>
+
+  <!-- ================================================================ -->
+  <h2 id="usage">Usage</h2>
+  <h3>HTML + CSS</h3>
+<pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
+&lt;link rel="stylesheet" href="icon.css"&gt;
+&lt;link rel="stylesheet" href="dropdown.css"&gt;
+&lt;link rel="stylesheet" href="menu.css"&gt;
+&lt;link rel="stylesheet" href="segmented.css"&gt;
+
+&lt;!-- Trigger + action menu (add your own open/close script, or use the Vue component) --&gt;
+&lt;div class="dropdown-wrap"&gt;
+  &lt;button type="button" class="dropdown" id="actions" aria-haspopup="menu"
+          aria-expanded="false" aria-controls="actions-menu"&gt;
+    Actions &lt;span class="dropdown__chevron" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;div class="menu menu--medium" id="actions-menu" role="menu" aria-labelledby="actions" hidden&gt;
+    &lt;button type="button" class="menu-item" role="menuitem" tabindex="-1"&gt;
+      &lt;span class="icon menu-item__icon" style="--icon:url(assets/icons/copy.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+      &lt;span class="menu-item__label"&gt;Copy&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;button type="button" class="menu-item menu-item--negative" role="menuitem" tabindex="-1"&gt;
+      &lt;span class="icon menu-item__icon" style="--icon:url(assets/icons/delete.svg)" aria-hidden="true"&gt;&lt;/span&gt;
+      &lt;span class="menu-item__label"&gt;Delete&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Single choice with a check-mark and badge --&gt;
+&lt;button type="button" class="menu-item" role="menuitemradio" aria-checked="true" tabindex="-1"&gt;
+  &lt;span class="menu-item__label"&gt;Unread&lt;/span&gt;
+  &lt;span class="menu-item__badge"&gt;2&lt;/span&gt;
+&lt;/button&gt;
+
+&lt;!-- Segmented control --&gt;
+&lt;div class="segmented segmented--text" role="radiogroup" aria-label="View"&gt;
+  &lt;label class="segmented__option"&gt;&lt;input type="radio" name="view" class="segmented__input" checked&gt;&lt;span class="segmented__label"&gt;Option 1&lt;/span&gt;&lt;/label&gt;
+  &lt;label class="segmented__option"&gt;&lt;input type="radio" name="view" class="segmented__input"&gt;&lt;span class="segmented__label"&gt;Option 2&lt;/span&gt;&lt;/label&gt;
+&lt;/div&gt;</code></pre>
+
+  <h3>Vue</h3>
+<pre><code>&lt;script setup&gt;
+import { ref } from "vue";
+import Dropdown from "./design-system/components/Dropdown.vue";
+import DropdownMenu from "./design-system/components/DropdownMenu.vue";
+import SegmentedControl from "./design-system/components/SegmentedControl.vue";
+
+const sort = ref("contact");
+const zone = ref("kolkata");
+const platform = ref("android");
+const actions = [
+  { value: "forward", label: "Forward", icon: "assets/icons/forward-share.svg" },
+  { value: "copy",    label: "Copy",    icon: "assets/icons/copy.svg" },
+  { value: "delete",  label: "Delete",  icon: "assets/icons/delete.svg", negative: true },
+];
+&lt;/script&gt;
+
+&lt;template&gt;
+  &lt;!-- Trigger + menu: keyboard, Escape, click-outside and focus return built in --&gt;
+  &lt;Dropdown label="Sort by contact" v-model="sort" selectable :items="[
+    { value: 'contact', label: 'Contact' },
+    { value: 'name',    label: 'Name' },
+    { value: 'unread',  label: 'Unread', icon: 'assets/icons/unread.svg', badge: 2 },
+  ]" /&gt;
+  &lt;Dropdown label="Actions" size="medium" :items="actions" @select="run" /&gt;
+  &lt;Dropdown label="Time zone" size="search" v-model="zone" :items="zones"
+            search-placeholder="Search timezone" /&gt;
+
+  &lt;!-- Panel only (e.g. a context menu you position yourself) --&gt;
+  &lt;DropdownMenu size="medium" :items="actions" label="Message actions" @select="run" /&gt;
+
+  &lt;SegmentedControl v-model="platform" label="Platform" :options="[
+    { value: 'android', label: 'Android', icon: 'assets/icons/platform-android.svg' },
+    { value: 'ios',     label: 'iOS',     icon: 'assets/icons/platform-ios.svg' },
+  ]" /&gt;
+&lt;/template&gt;</code></pre>
+  <p>The components are <code>Dropdown.vue</code>, <code>DropdownMenu.vue</code>, <code>MenuItem.vue</code> and <code>SegmentedControl.vue</code>. They have no <code>&lt;style&gt;</code> blocks, so load the CSS files above globally.</p>
+
+  <h3>Light and dark mode</h3>
+  <p>Everything follows the OS setting. To force a theme, set <code>data-theme="light"</code> or <code>data-theme="dark"</code> on <code>&lt;html&gt;</code> or on any container.</p>
+
+  <!-- ================================================================ -->
+  <h2 id="a11y">Accessibility</h2>
+  <ul>
+    <li><strong>Trigger:</strong> a native <code>&lt;button&gt;</code> with <code>aria-haspopup="menu"</code> (or <code>"listbox"</code> for the search picker), <code>aria-expanded</code> and <code>aria-controls</code>. Enter, Space and ↓ open the menu and focus the first row (or the checked one). ↑ opens it and focuses the last row.</li>
+    <li><strong>Action menus</strong> use <code>role="menu"</code> with <code>role="menuitem"</code> rows. Single-choice menus use <code>role="menuitemradio"</code> with <code>aria-checked</code>, and the check-mark is drawn from that attribute, so the visuals and semantics can't drift apart. Rows get roving focus (<code>tabindex="-1"</code>): ↑ ↓ wrap around, Home and End jump, a letter jumps to the next row that starts with it, Enter and Space activate.</li>
+    <li><strong>Search selection</strong> is a combobox. Focus stays in the <code>role="combobox"</code> input, the list is <code>role="listbox"</code> with <code>role="option"</code> rows and <code>aria-selected</code>, and ↑ ↓ move <code>aria-activedescendant</code>. Typing filters the list, and Enter picks the highlighted option.</li>
+    <li>Escape closes the menu and returns focus to the trigger. Tab and clicking outside close it without moving focus back.</li>
+    <li>Disabled rows use <code>aria-disabled="true"</code>. They stay focusable so screen reader users can find them, but they can't be activated. Figma has no disabled row, so this state was added in code using <code>Disabled</code>.</li>
+    <li>Focus on the trigger and on rows shows a 2px <code>--color-button-1000</code> ring (inset on rows), since Figma has no focus state. Keyboard focus on a row also shows the hover fill.</li>
+    <li>Icons are decorative (<code>aria-hidden</code>). The badge number is read as part of the row name, for example "Unread 2". If that's ambiguous, add visually hidden text such as "2 unread".</li>
+    <li><strong>Segmented control:</strong> native radios in a <code>role="radiogroup"</code> with a label, so arrow keys move the selection. For Icon only, give each radio an <code>aria-label</code>.</li>
+    <li>Contrast: the disabled label (<code>#C4C4C4</code> on white) is well below 4.5:1, which WCAG allows for disabled controls. In dark mode the <code>Surface #E5-a50</code> track has the same value as in light mode, so it shows as a light grey band around the <code>#2B2B2B</code> selected pill.</li>
+    <li>Background and focus-ring transitions are turned off when the user has <code>prefers-reduced-motion</code> set.</li>
+  </ul>
+
+</main>
+
+<script src="docs.js"></script>
+<script>
+  // ---- Minimal vanilla menu-button behavior for the Interactive demos ----
+  function menuButton(trigger, menu, { onPick, onOpen } = {}) {
+    const rows = () => [...menu.querySelectorAll('.menu-item')].filter((r) => r.getAttribute('aria-disabled') !== 'true');
+    const isOpen = () => !menu.hidden;
+
+    function open(where = 'first') {
+      menu.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      document.addEventListener('pointerdown', outside, true);
+      if (onOpen) return onOpen();
+      const list = rows();
+      const checked = list.find((r) => r.getAttribute('aria-checked') === 'true');
+      (where === 'last' ? list[list.length - 1] : checked || list[0])?.focus();
+    }
+    function close(restore = true) {
+      if (!isOpen()) return;
+      menu.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      document.removeEventListener('pointerdown', outside, true);
+      if (restore) trigger.focus();
+    }
+    function outside(e) {
+      if (!trigger.parentElement.contains(e.target)) close(false);
+    }
+
+    trigger.addEventListener('click', () => (isOpen() ? close() : open()));
+    trigger.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') { e.preventDefault(); open('first'); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); open('last'); }
+    });
+
+    menu.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key === 'Tab') { close(false); return; }
+      if (onOpen) return; // listbox handles its own keys
+      const list = rows();
+      const i = list.indexOf(document.activeElement);
+      const go = (n) => list[(n + list.length) % list.length]?.focus();
+      if (e.key === 'ArrowDown') { e.preventDefault(); go(i + 1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); go(i < 0 ? -1 : i - 1); }
+      else if (e.key === 'Home') { e.preventDefault(); go(0); }
+      else if (e.key === 'End') { e.preventDefault(); go(-1); }
+      else if (e.key.length === 1 && /\S/.test(e.key)) {
+        const order = [...list.slice(i + 1), ...list.slice(0, i + 1)];
+        order.find((r) => r.textContent.trim().toLowerCase().startsWith(e.key.toLowerCase()))?.focus();
+      }
+    });
+
+    menu.addEventListener('click', (e) => {
+      const row = e.target.closest('.menu-item');
+      if (!row || row.getAttribute('aria-disabled') === 'true') return;
+      onPick?.(row);
+      close();
+    });
+
+    return { close };
+  }
+
+  // Sort — menuitemradio
+  const sortMenu = document.getElementById('sort-menu');
+  menuButton(document.getElementById('sort-trigger'), sortMenu, {
+    onPick(row) {
+      sortMenu.querySelectorAll('[role="menuitemradio"]').forEach((r) => r.setAttribute('aria-checked', String(r === row)));
+      const label = row.textContent.trim();
+      document.getElementById('sort-label').textContent = 'Sort by ' + label.toLowerCase();
+      document.getElementById('sort-status').textContent = 'Selected: ' + label;
+    },
+  });
+
+  // Actions — menuitem
+  menuButton(document.getElementById('act-trigger'), document.getElementById('act-menu'), {
+    onPick(row) { document.getElementById('act-status').textContent = 'Ran: ' + row.textContent.trim(); },
+  });
+
+  // Time zone — combobox + listbox with aria-activedescendant
+  const zones = [
+    ['kolkata', '(GMT +05:30) Asia/Kolkata, Indian Standard Time', 'Asia/Kolkata'],
+    ['eirunepe', '(GMT -05:00) America/Eirunepe, Acre time', 'America/Eirunepe'],
+    ['porto', '(GMT -05:00) America/Porto_Acre, Acre time', 'America/Porto_Acre'],
+    ['rio', '(GMT -05:00) America/Rio_Branco, Acre time', 'America/Rio_Branco'],
+    ['brazil', '(GMT -05:00) Brazil/Acre, Acre time', 'Brazil/Acre'],
+    ['kabul', '(GMT +04:30) Asia/Kabul, Afghanistan time', 'Asia/Kabul'],
+    ['london', '(GMT +00:00) Europe/London, Greenwich Mean Time', 'Europe/London'],
+    ['tokyo', '(GMT +09:00) Asia/Tokyo, Japan Standard Time', 'Asia/Tokyo'],
+  ];
+  let tzValue = 'kolkata';
+  let tzActive = 0;
+  let tzShown = zones;
+  const tzInput = document.getElementById('tz-input');
+  const tzList = document.getElementById('tz-list');
+
+  function renderZones() {
+    const q = tzInput.value.trim().toLowerCase();
+    tzShown = zones.filter((z) => z[1].toLowerCase().includes(q));
+    if (tzActive >= tzShown.length) tzActive = tzShown.length ? 0 : -1;
+    tzList.innerHTML = tzShown.length
+      ? tzShown.map((z, i) =>
+          `<div class="menu-item${i === tzActive ? ' is-active' : ''}" role="option" id="tz-opt-${z[0]}" aria-selected="${z[0] === tzValue}" data-i="${i}"><span class="menu-item__label">${z[1]}</span></div>`
+        ).join('')
+      : '<div class="menu__empty" role="presentation">No results</div>';
+    if (tzActive >= 0) {
+      tzInput.setAttribute('aria-activedescendant', 'tz-opt-' + tzShown[tzActive][0]);
+      document.getElementById('tz-opt-' + tzShown[tzActive][0]).scrollIntoView({ block: 'nearest' });
+    } else tzInput.removeAttribute('aria-activedescendant');
+  }
+  function pickZone(z) {
+    tzValue = z[0];
+    document.getElementById('tz-label').textContent = z[2];
+    document.getElementById('tz-status').textContent = 'Selected: ' + z[1];
+  }
+
+  const tz = menuButton(document.getElementById('tz-trigger'), document.getElementById('tz-menu'), {
+    onOpen() {
+      tzInput.value = '';
+      tzActive = Math.max(0, zones.findIndex((z) => z[0] === tzValue));
+      renderZones();
+      tzInput.focus();
+    },
+    onPick(row) { pickZone(tzShown[+row.dataset.i]); },
+  });
+  tzInput.addEventListener('input', () => { tzActive = 0; renderZones(); });
+  tzInput.addEventListener('keydown', (e) => {
+    const n = tzShown.length;
+    if (e.key === 'ArrowDown' && n) { e.preventDefault(); tzActive = (tzActive + 1) % n; renderZones(); }
+    else if (e.key === 'ArrowUp' && n) { e.preventDefault(); tzActive = (tzActive - 1 + n) % n; renderZones(); }
+    else if (e.key === 'Enter' && tzActive >= 0) { e.preventDefault(); pickZone(tzShown[tzActive]); tz.close(); }
+  });
+  tzList.addEventListener('mousemove', (e) => {
+    const row = e.target.closest('.menu-item');
+    if (row && +row.dataset.i !== tzActive) { tzActive = +row.dataset.i; renderZones(); }
+  });
+</script>
+</body>
+</html>
