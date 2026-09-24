@@ -137,7 +137,6 @@
   --color-dev-portal-graph-plot-1: light-dark(#ff651e, #c75b2a); /* Dev portal/Graph plot 1 */
   --color-dev-portal-stats-text: light-dark(#3b3b3b, #e0e0e0); /* Dev portal/Stats text */
   --color-dev-portal-graph-plot-2: light-dark(#6186ff, #4e6dd4); /* Dev portal/Graph plot 2 */
-  --color-text-disabled: var(--color-disabled); /* alias used by Button.vue */
 
   /* ---- Spacing ---- */
   --space-none: 0;   /* None */

@@ -68,3 +68,22 @@
     transition: none;
   }
 }
+
+/* Optional label wrapper (code only; Figma has no label). Used by Toggle.vue:
+     <label class="toggle-field"><input type="checkbox" role="switch" class="toggle"> Label</label> */
+.toggle-field {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-l);
+  font: var(--font-body-3);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+.toggle-field.is-disabled,
+.toggle-field:has(.toggle:disabled) {
+  color: var(--color-text-t2);
+  cursor: not-allowed;
+}
+.toggle-field .toggle {
+  cursor: inherit;
+}

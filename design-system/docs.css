@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Documentation page chrome — shared by button.html and toggle.html.
+   Documentation page chrome — shared by every docs page.
    Not part of any component. Built on tokens.css so it follows the theme.
    ========================================================================== */
 
@@ -41,8 +41,8 @@ p, li { color: var(--doc-muted); }
 strong { color: var(--doc-ink); }
 a { color: var(--color-button-800); }
 .meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
-.chip { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: var(--doc-surface); border: 1px solid var(--doc-line); color: var(--doc-muted); }
-.chip a { color: inherit; }
+.doc-chip { font-size: 12px; padding: 4px 10px; border-radius: 999px; background: var(--doc-surface); border: 1px solid var(--doc-line); color: var(--doc-muted); }
+.doc-chip a { color: inherit; }
 
 /* ---- Light / dark comparison ----
    Each panel sets data-theme, which scopes color-scheme to that subtree. */

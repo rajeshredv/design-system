@@ -19,7 +19,7 @@
              <button type="button" class="btn btn--link">Turn on</button>
            </div>
          </div>
-         <button type="button" class="lhs-banner__close" aria-label="Dismiss">
+         <button type="button" class="icon-btn icon-btn--transparent icon-btn--small lhs-banner__close" aria-label="Dismiss">
            <span class="icon icon--20" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span>
          </button>
        </div>
@@ -84,47 +84,7 @@
    32px hit area inside a 16px slot: the -8px margin keeps the layout of the
    Figma frame (16 × 16 slot, button offset -8,-8). */
 .lhs-banner__close {
-  --lhs-banner-close-fg: var(--color-text-secondary);
-  --lhs-banner-close-bg: transparent;
-  --lhs-banner-close-ring: transparent;
-
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 32px;
-  height: 32px;
+  /* The button itself is the shared Icon-Small-Transparent button:
+     class="icon-btn icon-btn--transparent icon-btn--small" (icon-button.css) */
   margin: -8px;
-  padding: 0;
-  border: 0;
-  border-radius: 50%; /* 42px in Figma, larger than half the size */
-  background: var(--lhs-banner-close-bg);
-  box-shadow: inset 0 0 0 1px var(--lhs-banner-close-ring);
-  color: var(--lhs-banner-close-fg);
-  cursor: pointer;
-  transition: background-color 120ms ease, color 120ms ease;
-}
-
-/* States=Hover */
-.lhs-banner__close:hover {
-  --lhs-banner-close-fg: var(--color-text-primary);
-  --lhs-banner-close-bg: var(--color-bg-hover);
-}
-/* The banner itself is BG/Hover, so the hover fill only shows as the icon
-   darkening. Kept as designed. */
-
-/* States=Active */
-.lhs-banner__close:active {
-  --lhs-banner-close-fg: var(--color-button-800);
-  --lhs-banner-close-ring: var(--color-button-800);
-}
-
-.lhs-banner__close:focus-visible {
-  outline: 2px solid var(--color-button-1000);
-  outline-offset: 2px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .lhs-banner__close { transition: none; }
 }

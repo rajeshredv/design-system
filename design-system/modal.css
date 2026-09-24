@@ -10,8 +10,8 @@
        .modal__header--back     Modal- Header, Back=True (back button, centered title)
        .modal__title            H1 20 B
        .modal__actions          Icon btn cluster (4px gap)
-       .modal__icon-btn         40px transparent icon button (header actions)
-       .modal__close            same look, for the close ✕ (can be combined)
+       header icon buttons     icon-btn icon-btn--transparent icon-btn--large (icon-button.css)
+       .modal__back             modifier on the back button (Text/Primary arrow)
        .modal__body             scrollable content
        .modal__footer           Modal- Footer 3159:2198
      .button-flex               Button flex 3139:2395, Property 1=2 | 3
@@ -26,7 +26,7 @@
        .confirm__title          title (turns Negative/800 inside .confirm__heading)
        .confirm__description    Subtext=True
        .confirm__ack            checkbox + label row (Icon=True)
-       .confirm__checkbox       18px checkbox in a 24px box
+       .confirm__ack .checkbox  shared checkbox (checkbox.css), 1px Text/T1 ring
 
    Markup: use a native <dialog> and open it with showModal(). That gives a
    focus trap, Escape to close, inert page content and a ::backdrop for free.
@@ -152,62 +152,12 @@
   flex-shrink: 0;
 }
 
-/* Icon-Large-Transparent 2050:3186, styled locally until .icon-btn is shared.
-   40px, 8px padding, fully round, 24px icon. */
-.modal__icon-btn,
-.modal__close {
-  --modal-icon-btn-fg: var(--color-text-secondary);
-  --modal-icon-btn-bg: transparent;
-  --modal-icon-btn-ring: transparent;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  margin: 0;
-  padding: var(--space-l); /* 8px */
-  border: 0;
-  border-radius: 50%; /* 68px in Figma on a 40px box */
-  background: var(--modal-icon-btn-bg);
-  box-shadow: inset 0 0 0 1px var(--modal-icon-btn-ring);
-  color: var(--modal-icon-btn-fg);
-  cursor: pointer;
-  transition: background-color 120ms ease, color 120ms ease;
-}
-
-/* The back arrow is Text/Primary in Figma, the other actions Text/Secondary */
-.modal__icon-btn--back {
-  --modal-icon-btn-fg: var(--color-text-primary);
-}
-
-/* States=Hover */
-.modal__icon-btn:is(:hover, .is-hover):not(:disabled),
-.modal__close:is(:hover, .is-hover):not(:disabled) {
-  --modal-icon-btn-bg: var(--color-bg-hover);
-  --modal-icon-btn-fg: var(--color-text-primary);
-}
-
-/* States=Active: Button/800 inside stroke and icon */
-.modal__icon-btn:is(:active, [aria-pressed="true"], [aria-expanded="true"]):not(:disabled),
-.modal__close:active:not(:disabled) {
-  --modal-icon-btn-bg: transparent;
-  --modal-icon-btn-fg: var(--color-button-800);
-  --modal-icon-btn-ring: var(--color-button-800);
-}
-
-/* States=Disabled: 0.5 layer opacity */
-.modal__icon-btn:disabled,
-.modal__close:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.modal__icon-btn:focus-visible,
-.modal__close:focus-visible {
-  outline: 2px solid var(--color-button-1000);
-  outline-offset: 2px;
+/* Header icon buttons are the shared Icon-Large-Transparent button:
+   class="icon-btn icon-btn--transparent icon-btn--large" (icon-button.css).
+   Only difference: the back arrow is Text/Primary in Figma, the other
+   actions Text/Secondary. */
+.icon-btn.modal__back:not(:hover, .is-hover, :active, .icon-btn--pressed, [aria-pressed="true"]) {
+  --icon-btn-fg: var(--color-text-primary);
 }
 
 /* ---- Body ----
@@ -354,35 +304,11 @@
 
 /* 18px box with a 1px Text/T1 border and 2px radius, centered in 24px.
    Local until the shared checkbox is available. */
-.confirm__checkbox {
-  appearance: none;
-  position: relative;
-  flex-shrink: 0;
-  width: 18px;
-  height: 18px;
-  margin: 3px;
-  border: 1px solid var(--color-text-t1);
-  border-radius: 2px; /* unbound in Figma */
-  background: transparent;
-  cursor: pointer;
-}
-/* Checked: not drawn in this Figma set (the tick layer is hidden), so it
-   uses the Button/800 fill + BG/1 tick of the checkbox component. */
-.confirm__checkbox:checked {
-  border-color: var(--color-button-800);
-  background: var(--color-button-800);
-}
-.confirm__checkbox:checked::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--color-bg-1);
-  -webkit-mask: url("assets/icons/checkbox-check.svg") center / 10.5px 8px no-repeat;
-  mask: url("assets/icons/checkbox-check.svg") center / 10.5px 8px no-repeat;
-}
-.confirm__checkbox:focus-visible {
-  outline: 2px solid var(--color-button-1000);
-  outline-offset: 2px;
+/* The checkbox is the shared one (class="checkbox", checkbox.css). The
+   confirmation dialog draws it with a thinner Text/T1 ring. */
+.confirm__ack .checkbox {
+  --checkbox-border: var(--color-text-t1);
+  --checkbox-border-width: 1px;
 }
 
 /* ---- Place=Outside chat window ----

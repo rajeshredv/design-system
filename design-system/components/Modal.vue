@@ -27,7 +27,7 @@
       <button
         v-if="back"
         type="button"
-        class="modal__icon-btn modal__icon-btn--back"
+        class="icon-btn icon-btn--transparent icon-btn--large modal__back"
         :aria-label="backLabel"
         @click="emit('back')"
       >
@@ -39,12 +39,12 @@
       </h2>
 
       <div class="modal__actions">
-        <!-- Extra header actions, e.g. <button class="modal__icon-btn" aria-label="Sort">…</button> -->
+        <!-- Extra header actions, e.g. <button class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Sort">…</button> -->
         <slot name="actions" />
         <button
           v-if="closable"
           type="button"
-          class="modal__close"
+          class="icon-btn icon-btn--transparent icon-btn--large"
           :aria-label="closeLabel"
           @click="close('close')"
         >

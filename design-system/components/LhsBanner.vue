@@ -34,7 +34,7 @@
       <button
         v-if="closable"
         type="button"
-        class="lhs-banner__close"
+        class="icon-btn icon-btn--transparent icon-btn--small lhs-banner__close"
         :aria-label="closeLabel"
         @click="emit('close')"
       >

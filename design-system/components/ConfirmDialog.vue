@@ -43,7 +43,7 @@
       </p>
 
       <label v-if="acknowledge" class="confirm__ack">
-        <input v-model="acknowledged" type="checkbox" class="confirm__checkbox" />
+        <input v-model="acknowledged" type="checkbox" class="checkbox" />
         {{ acknowledge }}
       </label>
     </div>

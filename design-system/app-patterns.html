@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="button.css" />
   <link rel="stylesheet" href="toggle.css" />
   <link rel="stylesheet" href="notice-message.css" />
+  <link rel="stylesheet" href="icon-button.css" />
   <link rel="stylesheet" href="lhs-banner.css" />
   <link rel="stylesheet" href="chat-action-bar.css" />
   <link rel="stylesheet" href="create-group-dialog.css" />
@@ -37,10 +38,10 @@
   <h1>App patterns</h1>
   <p class="lead">Product pieces of the Arattai chat app: the banner at the top of the left-hand chat list, the strip under the chat header, the centered message of a full-window notice and the Create group dialog. They're built from the shared tokens and buttons, and their product content (names, photos, copy) comes in through props and slots.</p>
   <div class="meta">
-    <span class="chip">Figma: <code>LHS banner</code>, <code>Chat window action bar</code>, <code>Component 7</code>, <code>Frame 1171279598</code></span>
-    <span class="chip">Section <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=5408-3176&m=dev" target="_blank" rel="noopener">5408:3176</a></span>
-    <span class="chip">4 components · 7 variants</span>
-    <span class="chip">Light &amp; dark</span>
+    <span class="doc-chip">Figma: <code>LHS banner</code>, <code>Chat window action bar</code>, <code>Component 7</code>, <code>Frame 1171279598</code></span>
+    <span class="doc-chip">Section <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=5408-3176&m=dev" target="_blank" rel="noopener">5408:3176</a></span>
+    <span class="doc-chip">4 components · 7 variants</span>
+    <span class="doc-chip">Light &amp; dark</span>
   </div>
 
   <!-- ================================================================== -->
@@ -49,11 +50,11 @@
   <h2 id="lhs-banner">LHS banner</h2>
   <p>A notice at the top of the left-hand chat list: an icon, a title, supporting text and one link action. <code>Close=True</code> adds a dismiss button. <code>Close=False</code> is for notices the user has to act on, like an app update.</p>
   <div class="meta">
-    <span class="chip">Figma: <code>LHS banner</code></span>
-    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3313-2509&m=dev" target="_blank" rel="noopener">3313:2509</a></span>
-    <span class="chip">2 variants</span>
-    <span class="chip">400px wide (368px card)</span>
-    <span class="chip">Light &amp; dark</span>
+    <span class="doc-chip">Figma: <code>LHS banner</code></span>
+    <span class="doc-chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3313-2509&m=dev" target="_blank" rel="noopener">3313:2509</a></span>
+    <span class="doc-chip">2 variants</span>
+    <span class="doc-chip">400px wide (368px card)</span>
+    <span class="doc-chip">Light &amp; dark</span>
   </div>
 
   <h3>Variants</h3>
@@ -70,7 +71,7 @@
                   <p class="lhs-banner__text">Turn on push notifications to receive alerts for new messages.</p>
                   <div class="lhs-banner__actions"><button type="button" class="btn btn--link">Turn on</button></div>
                 </div>
-                <button type="button" class="lhs-banner__close" aria-label="Dismiss">
+                <button type="button" class="icon-btn icon-btn--transparent icon-btn--small lhs-banner__close" aria-label="Dismiss">
                   <span class="icon icon--20" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span>
                 </button>
               </div>
@@ -148,7 +149,7 @@
       &lt;div class="lhs-banner__actions"&gt;&lt;button type="button" class="btn btn--link"&gt;Turn on&lt;/button&gt;&lt;/div&gt;
     &lt;/div&gt;
     &lt;!-- Close=True only --&gt;
-    &lt;button type="button" class="lhs-banner__close" aria-label="Dismiss"&gt;
+    &lt;button type="button" class="icon-btn icon-btn--transparent icon-btn--small lhs-banner__close" aria-label="Dismiss"&gt;
       &lt;span class="icon icon--20" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"&gt;&lt;/span&gt;
     &lt;/button&gt;
   &lt;/div&gt;
@@ -184,11 +185,11 @@ import LhsBanner from "./design-system/components/LhsBanner.vue";
   <h2 id="chat-action-bar">Chat action bar</h2>
   <p>A strip under the chat window header with a 1px bottom border. It comes in two versions: the <strong>pinned message</strong> strip (Figma <code>Plain text message</code>) and the <strong>join requests</strong> strip (Figma <code>Video</code>, even though it has nothing to do with video).</p>
   <div class="meta">
-    <span class="chip">Figma: <code>Chat window action bar</code></span>
-    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3315-2471&m=dev" target="_blank" rel="noopener">3315:2471</a></span>
-    <span class="chip">2 variants</span>
-    <span class="chip">Full width · 44px / 48px tall</span>
-    <span class="chip">Light &amp; dark</span>
+    <span class="doc-chip">Figma: <code>Chat window action bar</code></span>
+    <span class="doc-chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3315-2471&m=dev" target="_blank" rel="noopener">3315:2471</a></span>
+    <span class="doc-chip">2 variants</span>
+    <span class="doc-chip">Full width · 44px / 48px tall</span>
+    <span class="doc-chip">Light &amp; dark</span>
   </div>
 
   <h3>Variants</h3>
@@ -331,11 +332,11 @@ import ChatActionBar from "./design-system/components/ChatActionBar.vue";
   <h2 id="notice-message">Notice message</h2>
   <p>The centered title and text block of a full-window notice, used by Confirmation dialog <code>Place=Outside chat window</code> for messages like "You have been logged out". Unnamed in Figma (<code>Component 7</code>).</p>
   <div class="meta">
-    <span class="chip">Figma: <code>Component 7</code></span>
-    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3311-2594&m=dev" target="_blank" rel="noopener">3311:2594</a></span>
-    <span class="chip">2 variants</span>
-    <span class="chip">468px max width</span>
-    <span class="chip">Light &amp; dark</span>
+    <span class="doc-chip">Figma: <code>Component 7</code></span>
+    <span class="doc-chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3311-2594&m=dev" target="_blank" rel="noopener">3311:2594</a></span>
+    <span class="doc-chip">2 variants</span>
+    <span class="doc-chip">468px max width</span>
+    <span class="doc-chip">Light &amp; dark</span>
   </div>
 
   <h3>Variants</h3>
@@ -415,11 +416,11 @@ const text = "Your SIM is no longer active on your primary device.\n\nFor your s
   <h2 id="create-group">Create group dialog</h2>
   <p>The first step of creating a group: pick a photo, name the group, add a description and open group settings. Unnamed in Figma (<code>Frame 1171279598</code>). It's built from Modal header and footer, two outlined text fields and a settings row.</p>
   <div class="meta">
-    <span class="chip">Figma: <code>Frame 1171279598</code></span>
-    <span class="chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3158-2296&m=dev" target="_blank" rel="noopener">3158:2296</a></span>
-    <span class="chip">1 variant</span>
-    <span class="chip">450 × 748px</span>
-    <span class="chip">Light &amp; dark</span>
+    <span class="doc-chip">Figma: <code>Frame 1171279598</code></span>
+    <span class="doc-chip">Node <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3158-2296&m=dev" target="_blank" rel="noopener">3158:2296</a></span>
+    <span class="doc-chip">1 variant</span>
+    <span class="doc-chip">450 × 748px</span>
+    <span class="doc-chip">Light &amp; dark</span>
   </div>
 
   <h3>Variants</h3>
@@ -432,7 +433,7 @@ const text = "Your SIM is no longer active on your primary device.\n\nFor your s
             <div class="create-group__main">
               <header class="create-group__header">
                 <h3 class="create-group__title" id="cg-title">Create group</h3>
-                <button type="button" class="create-group__icon-btn" aria-label="Close">
+                <button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Close">
                   <span class="icon" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span>
                 </button>
               </header>
@@ -452,7 +453,7 @@ const text = "Your SIM is no longer active on your primary device.\n\nFor your s
                       <span class="create-group__label">Group name <span class="create-group__required" aria-hidden="true">*</span></span>
                       <input class="create-group__input" type="text" placeholder=" " required value="College group" />
                     </label>
-                    <button type="button" class="create-group__icon-btn" aria-label="Insert emoji">
+                    <button type="button" class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Insert emoji">
                       <span class="icon" style="--icon:url(assets/icons/emoji-smiley.svg)" aria-hidden="true"></span>
                     </button>
                   </div>
@@ -541,7 +542,7 @@ const text = "Your SIM is no longer active on your primary device.\n\nFor your s
     <thead><tr><th>Part</th><th>Figma source</th><th>Spec</th><th>Code</th></tr></thead>
     <tbody>
       <tr><td><strong>Header</strong></td><td>Modal- Header, Back=False</td><td>Padding 10 8 10 20 · H1 20 B title · 40px close</td><td><code>.create-group__header</code></td></tr>
-      <tr><td><strong>Icon button</strong></td><td>Icon-Large-Transparent</td><td>40px circle, 24px icon. Hover <code>BG/Hover</code> + <code>Text/Primary</code>; Active <code>Button/800</code> + ring</td><td><code>.create-group__icon-btn</code></td></tr>
+      <tr><td><strong>Icon button</strong></td><td>Icon-Large-Transparent</td><td>40px circle, 24px icon. Hover <code>BG/Hover</code> + <code>Text/Primary</code>; Active <code>Button/800</code> + ring</td><td><code>icon-btn icon-btn--transparent icon-btn--large</code></td></tr>
       <tr><td><strong>Photo picker</strong></td><td>Frame 27019</td><td>128px circle photo · 8px · 20px info icon + 14/16 caption, 4px gap</td><td><code>.create-group__photo-picker</code></td></tr>
       <tr><td><strong>Text field</strong></td><td>Multi line input, With icon</td><td>44px box, 1px border, 12px left / 2px right padding, floating Body 3 R label, Body 2 M value, 40px emoji button</td><td><code>.create-group__field</code></td></tr>
       <tr><td><strong>Text area</strong></td><td>Multi line input, Large</td><td>112px box, padding 14 12 8</td><td><code>.create-group__field--large</code></td></tr>
@@ -556,7 +557,7 @@ const text = "Your SIM is no longer active on your primary device.\n\nFor your s
     &lt;div class="create-group__main"&gt;
       &lt;header class="create-group__header"&gt;
         &lt;h2 class="create-group__title" id="cg-title"&gt;Create group&lt;/h2&gt;
-        &lt;button class="create-group__icon-btn" value="close" aria-label="Close"&gt;
+        &lt;button class="icon-btn icon-btn--transparent icon-btn--large" value="close" aria-label="Close"&gt;
           &lt;span class="icon" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"&gt;&lt;/span&gt;
         &lt;/button&gt;
       &lt;/header&gt;

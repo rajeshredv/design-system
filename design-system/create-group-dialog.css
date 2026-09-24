@@ -16,7 +16,7 @@
         <div class="create-group__main">
          <header class="create-group__header">
            <h2 class="create-group__title" id="cg-title">Create group</h2>
-           <button class="create-group__icon-btn" value="close" aria-label="Close">…</button>
+           <button class="icon-btn icon-btn--transparent icon-btn--large" value="close" aria-label="Close">…</button>
          </header>
          <div class="create-group__body">
            <div class="create-group__photo-picker">…</div>
@@ -113,38 +113,8 @@ dialog.create-group::backdrop {
   color: var(--color-text-primary);
 }
 
-/* ---- 40px transparent icon button (Icon-Large-Transparent 2050:3186) ----
-   Used for the header close and the emoji button. Local until .icon-btn
-   lands. */
-.create-group__icon-btn {
-  --create-group-icon-btn-fg: var(--color-text-secondary);
-  --create-group-icon-btn-bg: transparent;
-  --create-group-icon-btn-ring: transparent;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  margin: 0;
-  padding: var(--space-l); /* 8px */
-  border: 0;
-  border-radius: 50%;      /* 68px in Figma */
-  background: var(--create-group-icon-btn-bg);
-  box-shadow: inset 0 0 0 1px var(--create-group-icon-btn-ring);
-  color: var(--create-group-icon-btn-fg);
-  cursor: pointer;
-  transition: background-color 120ms ease, color 120ms ease;
-}
-.create-group__icon-btn:hover {
-  --create-group-icon-btn-fg: var(--color-text-primary);
-  --create-group-icon-btn-bg: var(--color-bg-hover);
-}
-.create-group__icon-btn:active {
-  --create-group-icon-btn-fg: var(--color-button-800);
-  --create-group-icon-btn-ring: var(--color-button-800);
-}
+/* Close and emoji buttons are the shared Icon-Large-Transparent button:
+   class="icon-btn icon-btn--transparent icon-btn--large" (icon-button.css). */
 
 /* ---- Body ----------------------------------------------------------------- */
 
@@ -340,7 +310,6 @@ dialog.create-group::backdrop {
 
 /* ---- Focus + motion ------------------------------------------------------- */
 
-.create-group__icon-btn:focus-visible,
 .create-group__photo:focus-visible,
 .create-group__settings:focus-visible {
   outline: 2px solid var(--color-button-1000);
@@ -348,7 +317,6 @@ dialog.create-group::backdrop {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .create-group__icon-btn,
   .create-group__field-box,
   .create-group__settings { transition: none; }
 }

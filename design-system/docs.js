@@ -7,7 +7,7 @@ const DOC_PAGES = [
   ["icon-buttons.html", "Icon buttons"],
   ["toggle.html", "Toggle"],
   ["selection.html", "Checkbox & radio"],
-  ["menus.html", "Dropdowns"],
+  ["menus.html", "Dropdowns & menus"],
   ["feedback.html", "Badges, tags & chips"],
   ["dialogs.html", "Dialogs"],
   ["app-patterns.html", "App patterns"],

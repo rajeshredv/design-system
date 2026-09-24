@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="tokens.css" />
   <link rel="stylesheet" href="icon.css" />
   <link rel="stylesheet" href="button.css" />
+  <link rel="stylesheet" href="icon-button.css" />
+  <link rel="stylesheet" href="checkbox.css" />
   <link rel="stylesheet" href="modal.css" />
   <link rel="stylesheet" href="toggle.css" />
   <link rel="stylesheet" href="docs.css" />
@@ -36,11 +38,11 @@
   <h1>Dialogs</h1>
   <p class="lead">Modals hold a focused task, like creating a group, on top of the app. Confirmation dialogs ask one yes / no question before an action, especially one that can't be undone.</p>
   <div class="meta">
-    <span class="chip">Figma: <code>Modal- Header</code> <code>Modal- Footer</code> <code>Button flex</code> <code>Confirmation dialog</code></span>
-    <span class="chip">Nodes <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3103-2145&m=dev" target="_blank" rel="noopener">3103:2145</a> · <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3159-2198&m=dev" target="_blank" rel="noopener">3159:2198</a> · <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3139-2395&m=dev" target="_blank" rel="noopener">3139:2395</a> · <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3139-2366&m=dev" target="_blank" rel="noopener">3139:2366</a></span>
-    <span class="chip">13 variants</span>
-    <span class="chip">Native &lt;dialog&gt;</span>
-    <span class="chip">Light &amp; dark</span>
+    <span class="doc-chip">Figma: <code>Modal- Header</code> <code>Modal- Footer</code> <code>Button flex</code> <code>Confirmation dialog</code></span>
+    <span class="doc-chip">Nodes <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3103-2145&m=dev" target="_blank" rel="noopener">3103:2145</a> · <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3159-2198&m=dev" target="_blank" rel="noopener">3159:2198</a> · <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3139-2395&m=dev" target="_blank" rel="noopener">3139:2395</a> · <a href="https://www.figma.com/design/fPrKkOBCh1zkIKQqgRSQrF/Style-library-Components--Copy-?node-id=3139-2366&m=dev" target="_blank" rel="noopener">3139:2366</a></span>
+    <span class="doc-chip">13 variants</span>
+    <span class="doc-chip">Native &lt;dialog&gt;</span>
+    <span class="doc-chip">Light &amp; dark</span>
   </div>
 
   <h2>Try it</h2>
@@ -57,7 +59,7 @@
     <header class="modal__header">
       <h2 class="modal__title" id="live-modal-title">Create group</h2>
       <div class="modal__actions">
-        <form method="dialog"><button class="modal__close" value="close" aria-label="Close"><span class="icon icon--24" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button></form>
+        <form method="dialog"><button class="icon-btn icon-btn--transparent icon-btn--large" value="close" aria-label="Close"><span class="icon icon--24" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button></form>
       </div>
     </header>
     <div class="modal__body">
@@ -79,7 +81,7 @@
         <h2 class="confirm__title" id="live-confirm-title">Delete channel</h2>
       </div>
       <p class="confirm__description" id="live-confirm-desc">Are sure you want to delete this channel, The messages will be lost forever and all the subscribers will be removed ?</p>
-      <label class="confirm__ack"><input type="checkbox" class="confirm__checkbox" id="live-ack" /> I am aware that the action cannot be reverted &amp; I agree to proceed</label>
+      <label class="confirm__ack"><input type="checkbox" class="checkbox" id="live-ack" /> I am aware that the action cannot be reverted &amp; I agree to proceed</label>
     </div>
     <form method="dialog" class="button-flex">
       <div class="button-flex__aux"><a class="btn btn--link btn--medium" href="#confirmation-dialog">Learn more</a></div>
@@ -111,9 +113,9 @@
             <header class="modal__header">
               <h2 class="modal__title">Contacts</h2>
               <div class="modal__actions">
-                <button class="modal__icon-btn" type="button" aria-label="Sort"><span class="icon icon--24" style="--icon:url(assets/icons/sort-ascending.svg)" aria-hidden="true"></span></button>
-                <button class="modal__icon-btn" type="button" aria-label="More"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
-                <button class="modal__close" type="button" aria-label="Close"><span class="icon icon--24" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button>
+                <button class="icon-btn icon-btn--transparent icon-btn--large" type="button" aria-label="Sort"><span class="icon icon--24" style="--icon:url(assets/icons/sort-ascending.svg)" aria-hidden="true"></span></button>
+                <button class="icon-btn icon-btn--transparent icon-btn--large" type="button" aria-label="More"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
+                <button class="icon-btn icon-btn--transparent icon-btn--large" type="button" aria-label="Close"><span class="icon icon--24" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button>
               </div>
             </header>
           </div>
@@ -122,11 +124,11 @@
         <figure>
           <div class="frame">
             <header class="modal__header modal__header--back">
-              <button class="modal__icon-btn modal__icon-btn--back" type="button" aria-label="Back"><span class="icon icon--24" style="--icon:url(assets/icons/back.svg)" aria-hidden="true"></span></button>
+              <button class="icon-btn icon-btn--transparent icon-btn--large modal__back" type="button" aria-label="Back"><span class="icon icon--24" style="--icon:url(assets/icons/back.svg)" aria-hidden="true"></span></button>
               <h2 class="modal__title">Settings</h2>
               <div class="modal__actions">
-                <button class="modal__icon-btn" type="button" aria-label="More"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
-                <button class="modal__close" type="button" aria-label="Close"><span class="icon icon--24" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button>
+                <button class="icon-btn icon-btn--transparent icon-btn--large" type="button" aria-label="More"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
+                <button class="icon-btn icon-btn--transparent icon-btn--large" type="button" aria-label="Close"><span class="icon icon--24" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button>
               </div>
             </header>
           </div>
@@ -134,12 +136,12 @@
         </figure>
         <figure>
           <div class="modal__actions">
-            <button class="modal__icon-btn" type="button" aria-label="Default"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
-            <button class="modal__icon-btn is-hover" type="button" aria-label="Hover"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
-            <button class="modal__icon-btn" type="button" aria-label="Active" aria-pressed="true"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
-            <button class="modal__icon-btn" type="button" aria-label="Disabled" disabled><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
+            <button class="icon-btn icon-btn--transparent icon-btn--large" type="button" aria-label="Default"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
+            <button class="icon-btn icon-btn--transparent icon-btn--large is-hover" type="button" aria-label="Hover"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
+            <button class="icon-btn icon-btn--transparent icon-btn--large" type="button" aria-label="Active" aria-pressed="true"><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
+            <button class="icon-btn icon-btn--transparent icon-btn--large" type="button" aria-label="Disabled" disabled><span class="icon icon--24" style="--icon:url(assets/icons/more-meatballs.svg)" aria-hidden="true"></span></button>
           </div>
-          <figcaption>Header icon button: Default · Hover · Active · Disabled<code>.modal__icon-btn / .modal__close</code></figcaption>
+          <figcaption>Header icon button: Default · Hover · Active · Disabled<code>.icon-btn--transparent.icon-btn--large</code></figcaption>
         </figure>
       </div>
     </section>
@@ -172,7 +174,7 @@
           <header class="modal__header">
             <h2 class="modal__title">Create group</h2>
             <div class="modal__actions">
-              <button class="modal__close" type="button" aria-label="Close"><span class="icon icon--24" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button>
+              <button class="icon-btn icon-btn--transparent icon-btn--large" type="button" aria-label="Close"><span class="icon icon--24" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"></span></button>
             </div>
           </header>
           <div class="modal__body">
@@ -237,7 +239,7 @@
       <tr><td><strong>Header, Back=False</strong></td><td>Row, space-between, 8px gap, 60px tall</td><td>10 · 8 · 10 · 20</td><td>Title H1 20 B (20/32 Bold)</td><td><code>.modal__header</code></td></tr>
       <tr><td><strong>Header, Back=True</strong></td><td>Back button · title (fills, centered) · actions</td><td>10 · 8 · 10 · 8</td><td>Title H1 20 B</td><td><code>.modal__header--back</code></td></tr>
       <tr><td><strong>Header actions</strong></td><td>Icon btn cluster, 4px gap</td><td>—</td><td>—</td><td><code>.modal__actions</code></td></tr>
-      <tr><td><strong>Icon button</strong></td><td>40 × 40, round, 24px icon</td><td>8</td><td>—</td><td><code>.modal__icon-btn</code>, <code>.modal__close</code></td></tr>
+      <tr><td><strong>Icon button</strong></td><td>40 × 40, round, 24px icon</td><td>8</td><td>—</td><td><code>icon-btn icon-btn--transparent icon-btn--large</code></td></tr>
       <tr><td><strong>Body</strong></td><td>Column, 16px gap, scrolls</td><td>0 · 20 · 40 · 20</td><td>Body 3 R</td><td><code>.modal__body</code></td></tr>
       <tr><td><strong>Footer</strong></td><td>Row, right-aligned, 16px gap, holds a Button flex</td><td>16 · 20 · 24 · 20</td><td>—</td><td><code>.modal__footer</code></td></tr>
       <tr><td><strong>Surface</strong></td><td>450px wide, column, 16px gap</td><td>0</td><td>—</td><td><code>.modal</code></td></tr>
@@ -347,7 +349,7 @@
                 <h2 class="confirm__title">Delete channel</h2>
               </div>
               <p class="confirm__description">Are sure you want to delete this channel, The messages will be lost forever and all the subscribers will be removed ?</p>
-              <label class="confirm__ack"><input type="checkbox" class="confirm__checkbox" /> I am aware that the action cannot be reverted &amp; I agree to proceed</label>
+              <label class="confirm__ack"><input type="checkbox" class="checkbox" /> I am aware that the action cannot be reverted &amp; I agree to proceed</label>
             </div>
             <div class="button-flex">
               <div class="button-flex__aux"><a class="btn btn--link btn--medium" href="#confirmation-dialog">Learn more</a></div>
@@ -444,6 +446,8 @@
 <pre><code>&lt;link rel="stylesheet" href="tokens.css"&gt;
 &lt;link rel="stylesheet" href="icon.css"&gt;
 &lt;link rel="stylesheet" href="button.css"&gt;
+&lt;link rel="stylesheet" href="icon-button.css"&gt;
+&lt;link rel="stylesheet" href="checkbox.css"&gt;
 &lt;link rel="stylesheet" href="modal.css"&gt;
 
 &lt;!-- Modal --&gt;
@@ -452,7 +456,7 @@
     &lt;h2 class="modal__title" id="create-group-title"&gt;Create group&lt;/h2&gt;
     &lt;div class="modal__actions"&gt;
       &lt;form method="dialog"&gt;
-        &lt;button class="modal__close" aria-label="Close"&gt;
+        &lt;button class="icon-btn icon-btn--transparent icon-btn--large" aria-label="Close"&gt;
           &lt;span class="icon icon--24" style="--icon:url(assets/icons/close-line2.svg)" aria-hidden="true"&gt;&lt;/span&gt;
         &lt;/button&gt;
       &lt;/form&gt;
@@ -509,7 +513,7 @@ const askDelete = ref(false);
   &lt;!-- Back=True header with extra actions --&gt;
   &lt;Modal v-model:open="showSettings" title="Settings" back @back="goBack"&gt;
     &lt;template #actions&gt;
-      &lt;button class="modal__icon-btn" aria-label="More"&gt;…&lt;/button&gt;
+      &lt;button class="icon-btn icon-btn--transparent icon-btn--large" aria-label="More"&gt;…&lt;/button&gt;
     &lt;/template&gt;
   &lt;/Modal&gt;
 
@@ -573,7 +577,7 @@ const askDelete = ref(false);
     const dlg = document.getElementById(btn.dataset.open);
     btn.addEventListener("click", () => {
       dlg.returnValue = "";
-      dlg.querySelectorAll(".confirm__checkbox").forEach((c) => { c.checked = false; });
+      dlg.querySelectorAll(".confirm__ack .checkbox").forEach((c) => { c.checked = false; });
       const del = document.getElementById("live-delete");
       if (dlg.contains(del)) del.disabled = true;
       dlg.showModal();

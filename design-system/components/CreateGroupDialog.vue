@@ -24,7 +24,7 @@
       <div class="create-group__main">
         <header class="create-group__header">
           <h2 :id="ids.title" class="create-group__title">{{ title }}</h2>
-          <button type="button" class="create-group__icon-btn" :aria-label="closeLabel" @click="close">
+          <button type="button" class="icon-btn icon-btn--transparent icon-btn--large" :aria-label="closeLabel" @click="close">
             <span class="icon" style="--icon: url(assets/icons/close-line2.svg)" aria-hidden="true"></span>
           </button>
         </header>
@@ -56,7 +56,7 @@
                   @input="emit('update:name', $event.target.value)"
                 />
               </label>
-              <button type="button" class="create-group__icon-btn" :aria-label="emojiLabel" @click="emit('emoji')">
+              <button type="button" class="icon-btn icon-btn--transparent icon-btn--large" :aria-label="emojiLabel" @click="emit('emoji')">
                 <span class="icon" style="--icon: url(assets/icons/emoji-smiley.svg)" aria-hidden="true"></span>
               </button>
             </div>

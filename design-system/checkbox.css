@@ -19,6 +19,7 @@
 .checkbox {
   /* Component-level tokens (override these to theme a single instance) */
   --checkbox-border: var(--color-text-t2);   /* Uncheck ring: Text/T2 */
+  --checkbox-border-width: 1.5px;
   --checkbox-fill: var(--color-button-800);  /* Checked / Semi box: Button/800 */
   --checkbox-mark: var(--color-bg-1);        /* Check / dash: BG/1 */
 
@@ -39,7 +40,7 @@
   position: absolute;
   inset: 3px;
   box-sizing: border-box;
-  border: 1.5px solid var(--checkbox-border);
+  border: var(--checkbox-border-width) solid var(--checkbox-border);
   border-radius: 2px;
   background: transparent;
   transition: background-color 120ms ease, border-color 120ms ease;
