@@ -17,7 +17,6 @@
     :indeterminate="indeterminate"
     :disabled="disabled"
     :aria-label="label"
-    :aria-checked="indeterminate ? 'mixed' : undefined"
     @change="onChange"
   />
 </template>

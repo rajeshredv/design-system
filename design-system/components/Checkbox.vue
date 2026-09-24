@@ -15,7 +15,6 @@
       :checked="modelValue"
       :indeterminate="indeterminate"
       :disabled="disabled"
-      :aria-checked="indeterminate ? 'mixed' : undefined"
       @change="onChange"
     />
     <span class="checkbox-field__label"><slot /></span>
@@ -30,7 +29,6 @@
     :indeterminate="indeterminate"
     :disabled="disabled"
     :aria-label="label"
-    :aria-checked="indeterminate ? 'mixed' : undefined"
     @change="onChange"
   />
 </template>
@@ -39,7 +37,7 @@
 defineProps({
   /** Checked / Uncheck. Use with v-model. */
   modelValue: { type: Boolean, default: false },
-  /** Renders the Semi frame (aria-checked="mixed"). Use with v-model:indeterminate. */
+  /** Renders the Semi frame; announced as "mixed" natively. Use with v-model:indeterminate. */
   indeterminate: { type: Boolean, default: false },
   /** Renders the Disabled / Check disabled frames. */
   disabled: { type: Boolean, default: false },
