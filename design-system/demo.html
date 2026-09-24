@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Button — design system gallery</title>
+    <link rel="stylesheet" href="./tokens.css" />
+    <style>
+      body {
+        font-family: var(--font-family-base);
+        background: var(--color-bg-1);
+        color: var(--color-text-primary);
+        padding: 32px;
+      }
+      h1 {
+        font-size: 20px;
+        margin-bottom: 4px;
+      }
+      p.subtitle {
+        color: var(--color-text-t3);
+        margin-top: 0;
+        margin-bottom: 32px;
+      }
+      table {
+        border-collapse: collapse;
+        margin-bottom: 40px;
+      }
+      caption {
+        text-align: left;
+        font-weight: var(--font-weight-semibold);
+        margin-bottom: 8px;
+      }
+      th,
+      td {
+        padding: 12px 16px;
+        text-align: left;
+        vertical-align: middle;
+      }
+      th {
+        color: var(--color-text-t3);
+        font-size: 13px;
+        font-weight: var(--font-weight-semibold);
+        border-bottom: 1px solid var(--color-bg-2);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+        }
+      }
+    </script>
+    <script type="module">
+      import { createApp, h } from "vue";
+      import { loadModule } from "https://unpkg.com/vue3-sfc-loader@0.9/dist/vue3-sfc-loader.esm.js";
+
+      const options = {
+        moduleCache: { vue: await import("vue") },
+        async getFile(url) {
+          const res = await fetch(url);
+          if (!res.ok) throw Object.assign(new Error(url + " " + res.statusText), { res });
+          return { getContentData: (asBinary) => (asBinary ? res.arrayBuffer() : res.text()) };
+        },
+        addStyle(textContent) {
+          const style = Object.assign(document.createElement("style"), { textContent });
+          document.head.appendChild(style);
+        },
+      };
+
+      const Button = await loadModule("./components/Button.vue", options);
+
+      const VARIANTS = ["primary", "secondary", "ghost", "negative", "negative-secondary"];
+      const STATES = [
+        { label: "Default", props: {} },
+        { label: "Loading", props: { loading: true } },
+        { label: "Pressed", props: { pressed: true } },
+        { label: "Disabled", props: { disabled: true } },
+      ];
+      const LABEL = { primary: "Reply", secondary: "Edit", ghost: "Edit", negative: "Delete", "negative-secondary": "Delete" };
+
+      const App = {
+        render() {
+          return h("div", [
+            h("h1", "Button — design system"),
+            h("p", { class: "subtitle" }, "Every variant × size × state, driven by tokens.css"),
+
+            ...["small", "medium", "large"].map((size) =>
+              h("table", { key: size }, [
+                h("caption", `Size: ${size}`),
+                h("thead", h("tr", [h("th", "Variant"), ...STATES.map((s) => h("th", s.label))])),
+                h(
+                  "tbody",
+                  VARIANTS.map((variant) =>
+                    h("tr", { key: variant }, [
+                      h("td", variant),
+                      ...STATES.map((s) =>
+                        h("td", h(Button, { variant, size, ...s.props }, () => LABEL[variant]))
+                      ),
+                    ])
+                  )
+                ),
+              ])
+            ),
+
+            h("table", [
+              h("caption", "Link & full width"),
+              h("tbody", [
+                h("tr", [
+                  h("td", h(Button, { variant: "link" }, () => "View all")),
+                  h("td", h(Button, { variant: "link", disabled: true }, () => "View all")),
+                ]),
+                h("tr", [
+                  h(
+                    "td",
+                    { colspan: 2, style: "width: 320px" },
+                    h(Button, { variant: "primary", fullWidth: true }, () => "Sign Up with Arattai")
+                  ),
+                ]),
+                h("tr", [
+                  h(
+                    "td",
+                    { colspan: 2, style: "width: 320px" },
+                    h(Button, { variant: "secondary", fullWidth: true }, () => "Cancel")
+                  ),
+                ]),
+              ]),
+            ]),
+          ]);
+        },
+      };
+
+      createApp(App).mount("#app");
+    </script>
+  </body>
+</html>

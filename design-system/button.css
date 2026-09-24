@@ -1,0 +1,87 @@
+/* ==========================================================================
+   Buttons-Primary / Medium
+   Figma component set: 2145:2682
+   Variants: Default · Hover · Activated · Loading · Disabled
+   Requires tokens.css
+   ========================================================================== */
+
+.btn-primary-md {
+  /* Component-level tokens (override these to theme a single instance) */
+  --btn-bg: var(--color-button-800);
+  --btn-fg: var(--color-bg-1);
+  --btn-border: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-btn);
+  min-width: 90px;
+  height: var(--control-height-md); /* fixed height, so label and spinner states match */
+  padding: 0 var(--space-xl);
+  border: 0;
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 0 0 1px var(--btn-border); /* inside stroke, keeps 36px height */
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+
+  font-family: var(--font-family-medium);
+  font-weight: normal; /* weight comes from the Medium face, not font-weight */
+  font-size: var(--font-size-md);
+  line-height: var(--line-height-md);
+  letter-spacing: var(--letter-spacing-md);
+  white-space: nowrap;
+
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease, box-shadow 120ms ease;
+}
+
+.btn-primary-md:focus-visible {
+  outline: 2px solid var(--color-button-1000);
+  outline-offset: 2px;
+}
+
+/* Hover — Property 1=Hover */
+.btn-primary-md:hover,
+.btn-primary-md.is-hover {
+  --btn-bg: var(--color-button-1000);
+}
+
+/* Activated — Property 1=Activated (pressed / toggled on) */
+.btn-primary-md:active,
+.btn-primary-md[aria-pressed="true"],
+.btn-primary-md.is-activated {
+  --btn-bg: var(--color-button-100);
+  --btn-fg: var(--color-button-1000);
+  --btn-border: var(--color-button-1000);
+}
+
+/* Loading — Property 1=Loading */
+.btn-primary-md[aria-busy="true"] {
+  --btn-bg: var(--color-button-1000);
+  --btn-fg: var(--color-bg-1);
+  --btn-border: transparent;
+  cursor: progress;
+}
+
+.btn-primary-md__spinner {
+  display: block;
+  animation: btn-spin 800ms linear infinite;
+}
+
+@keyframes btn-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary-md__spinner { animation-duration: 2400ms; }
+}
+
+/* Disabled — Property 1=Disabled */
+.btn-primary-md:disabled,
+.btn-primary-md[aria-disabled="true"] {
+  --btn-bg: var(--color-button-800);
+  --btn-fg: var(--color-bg-1);
+  --btn-border: transparent;
+  opacity: 0.5; /* layer opacity in Figma; no token for it in tokens.css */
+  cursor: not-allowed;
+}
