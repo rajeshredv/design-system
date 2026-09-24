@@ -25,7 +25,6 @@
   color: var(--btn-fg);
 
   font-family: var(--font-family-medium);
-  font-weight: normal; /* weight comes from the Medium face, not font-weight */
   font-size: var(--font-size-md);
   line-height: var(--line-height-md);
   letter-spacing: var(--letter-spacing-md);

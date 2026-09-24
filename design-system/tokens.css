@@ -44,10 +44,8 @@
 
   /* ---- Typography ---- */
   --font-family-base: "Zoho Puvi", -apple-system, BlinkMacSystemFont, sans-serif;
-  /* Weight-specific face: the weight comes from the font file itself,
-     so use with font-weight: normal (no synthetic bolding). */
+  /* Weight-specific face: the weight comes from the font file itself. */
   --font-family-medium: "Zoho Puvi Medium", "ZohoPuvi-Medium", "Zoho Puvi Med", -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-weight-semibold: 600;
 
   /* BTN Small */
   --font-size-sm: 14px;
