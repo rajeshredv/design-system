@@ -1,4 +1,24 @@
-// Documentation page helpers — shared by button.html and toggle.html.
+// Documentation page helpers — shared by every docs page.
+
+// ---- Page nav -----------------------------------------------------------
+// Rendered into <nav data-doc-nav></nav>. Add new pages here only.
+const DOC_PAGES = [
+  ["button.html", "Button"],
+  ["icon-buttons.html", "Icon buttons"],
+  ["toggle.html", "Toggle"],
+  ["selection.html", "Checkbox & radio"],
+  ["menus.html", "Dropdowns"],
+  ["feedback.html", "Badges, tags & chips"],
+  ["dialogs.html", "Dialogs"],
+  ["app-patterns.html", "App patterns"],
+];
+
+document.querySelectorAll("[data-doc-nav]").forEach((nav) => {
+  const current = location.pathname.split("/").pop() || "button.html";
+  nav.innerHTML = DOC_PAGES.map(
+    ([href, label]) => `<a href="${href}"${href === current ? ' aria-current="page"' : ""}>${label}</a>`
+  ).join("");
+});
 
 // ---- Theme switch -------------------------------------------------------
 // Follows the OS until the user flips the switch; the choice is remembered.

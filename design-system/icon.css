@@ -1,0 +1,30 @@
+/* ==========================================================================
+   Icon — shared utility for single-color icons exported from Figma.
+   Requires tokens.css
+
+   The SVG is used as a mask and filled with currentColor, so icons take the
+   text color of their parent and switch with light / dark mode. Keep the SVG
+   files exactly as exported from Figma (assets/icons/*.svg).
+
+     <span class="icon" style="--icon: url(assets/icons/close.svg)" aria-hidden="true"></span>
+     <span class="icon icon--20" style="--icon: url(assets/icons/close.svg)" aria-hidden="true"></span>
+
+   Multi-color artwork (avatars, illustrations) should use <img> instead.
+   ========================================================================== */
+
+.icon {
+  --icon-size: 24px;
+
+  display: inline-block;
+  flex-shrink: 0;
+  width: var(--icon-size);
+  height: var(--icon-size);
+  background: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+.icon--16 { --icon-size: 16px; }
+.icon--20 { --icon-size: 20px; }
+.icon--24 { --icon-size: 24px; }
+.icon--32 { --icon-size: 32px; }

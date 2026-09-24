@@ -30,54 +30,164 @@
 }
 
 :root {
-  /* ---- Color / Button ----                         Light     Dark    */
-  --color-button-100: light-dark(#e5f3fd, #273742);
-  --color-button-600: light-dark(#66b7f4, #3b75a0);
-  --color-button-800: light-dark(#0087ed, #4dadf5); /* primary default */
-  --color-button-1000: light-dark(#0076ce, #479edf); /* primary hover / activated border */
+  /* ---- Color / Other ---- */
+  --color-fav-border: #daa400; /* ~FavBorder */
+  --color-chip-icon: light-dark(#627282, #666666); /* Chip-icon */
+  --color-draft-badge: light-dark(#f63b00, #f06c66); /* Draft-badge */
+  --color-disabled: light-dark(#c4c4c4, #464646); /* Disabled */
+  --color-label: #ffffff; /* Label */
+  --color-surface-e5-a50: #e5e5e580; /* Surface #E5-a50 */
 
-  /* ---- Color / Negative ---- */
-  --color-negative-100: light-dark(#fdeeee, #483131);
-  --color-negative-200: light-dark(#ffe5e5, #603737);
-  --color-negative-800: light-dark(#eb5757, #ff7d7d); /* negative default */
-  --color-negative-1000: light-dark(#dd5151, #ed6a6a); /* negative hover / activated border */
-
-  /* ---- Color / Background ---- */
-  --color-bg-1: light-dark(#ffffff, #2b2b2b);
-  --color-bg-2: light-dark(#f6f6f6, #1d1d1d); /* secondary default */
-  --color-bg-3: light-dark(#fafafa, #202020);
-  --color-bg-hover: light-dark(#f1f4f7, #3d3d3d);
-  --color-bg-border: light-dark(#e6e6e6, #3d3d3d);
+  /* ---- Color / BG ---- */
+  --color-bg-1: light-dark(#ffffff, #2b2b2b); /* BG/1 */
+  --color-bg-2: light-dark(#f6f6f6, #1d1d1d); /* BG/2 */
+  --color-bg-3: light-dark(#fafafa, #202020); /* BG/3 */
+  --color-bg-dev-portal: light-dark(#f9fafb, #181a1b); /* BG/Dev portal */
+  --color-bg-hover: light-dark(#f1f4f7, #3d3d3d); /* BG/Hover */
+  --color-bg-border: light-dark(#e6e6e6, #3d3d3d); /* BG/Border */
 
   /* ---- Color / Text ---- */
-  --color-text-primary: light-dark(#222222, #e3e3e3);
-  --color-text-secondary: light-dark(#666666, #b3b3b3);
-  --color-text-t1: light-dark(#888888, #848484);
-  --color-text-t2: light-dark(#ababab, #727272);
-  --color-text-t3: light-dark(#4d4d4d, #b3b3b3);
+  --color-text-primary: light-dark(#222222, #e3e3e3); /* Text/Primary */
+  --color-text-secondary: light-dark(#666666, #b3b3b3); /* Text/Secondary */
+  --color-text-t1: light-dark(#888888, #848484); /* Text/T1 */
+  --color-text-t2: light-dark(#ababab, #727272); /* Text/T2 */
+  --color-text-t3: light-dark(#4d4d4d, #b3b3b3); /* Text/T3 */
 
-  /* ---- Color / Disabled ---- */
-  --color-disabled: light-dark(#c4c4c4, #464646); /* Figma: Disabled */
-  --color-text-disabled: var(--color-disabled);
+  /* ---- Color / Button ---- */
+  --color-button-1000: light-dark(#0076ce, #479edf); /* Button/1000 */
+  --color-button-800: light-dark(#0087ed, #4dadf5); /* Button/800 */
+  --color-button-100: light-dark(#e5f3fd, #273742); /* Button/100 */
+  --color-button-600: light-dark(#66b7f4, #3b75a0); /* Button/600 */
+
+  /* ---- Color / Success ---- */
+  --color-success-1000: light-dark(#27bb6b, #43d988); /* Success/1000 */
+  --color-success-800: light-dark(#009c48, #74be96); /* Success/800 */
+  --color-success-2000: light-dark(#2c9460, #74be96); /* Success/2000 */
+  --color-success-100: light-dark(#e9f8f0, #274535); /* Success/100 */
+
+  /* ---- Color / Alert-info ---- */
+  --color-alert-info-1000: light-dark(#f3be00, #dab121); /* Alert-info/1000 */
+  --color-alert-info-color: light-dark(#c49400, #cbb368); /* Alert-info/Color */
+  --color-alert-info-100: light-dark(#fef9e5, #453d20); /* Alert-info/100 */
+
+  /* ---- Color / Negative ---- */
+  --color-negative-800: light-dark(#eb5757, #ff7d7d); /* Negative/800 */
+  --color-negative-1000: light-dark(#dd5151, #ed6a6a); /* Negative/1000 */
+  --color-negative-100: light-dark(#fdeeee, #483131); /* Negative/100 */
+  --color-negative-200: light-dark(#ffe5e5, #603737); /* Negative/200 */
+
+  /* ---- Color / Surface ---- */
+  --color-surface-s1: light-dark(#ffffff, #202020); /* Surface/S1 */
+  --color-surface-s2: light-dark(#f6f6f6, #1d1d1d); /* Surface/S2 */
+
+  /* ---- Color / Theme/yellow ---- */
+  --color-theme-yellow-1000: light-dark(#f3cd00, #e4c100); /* Theme/yellow/1000 */
+  --color-theme-yellow-400: light-dark(#fdefb8, #564b0d); /* Theme/yellow/400 */
+  --color-theme-yellow-200: light-dark(#fdf5cc, #3b340e); /* Theme/yellow/200 */
+  --color-theme-yellow-100: light-dark(#fef9e0, #38331c); /* Theme/yellow/100 */
+  --color-theme-yellow-reply-tag: light-dark(#f4e5a9, #4f450d); /* Theme/yellow/reply-tag */
+
+  /* ---- Color / Theme/orange ---- */
+  --color-theme-orange-1000: light-dark(#ff6600, #db5800); /* Theme/orange/1000 */
+  --color-theme-orange-400: light-dark(#ffd2ad, #53290d); /* Theme/orange/400 */
+  --color-theme-orange-200: light-dark(#ffe9d6, #391f0e); /* Theme/orange/200 */
+  --color-theme-orange-100: light-dark(#fff2e6, #36271c); /* Theme/orange/100 */
+  --color-theme-orange-reply-tag: light-dark(#f4c8a5, #4a240b); /* Theme/orange/reply-tag */
+
+  /* ---- Color / Theme/green ---- */
+  --color-theme-green-1000: light-dark(#2c9460, #008f48); /* Theme/green/1000 */
+  --color-theme-green-400: light-dark(#a0e1c0, #0d3b24); /* Theme/green/400 */
+  --color-theme-green-200: light-dark(#d5eadf, #0e2a1c); /* Theme/green/200 */
+  --color-theme-green-100: light-dark(#e6f2ec, #1c2d25); /* Theme/green/100 */
+  --color-theme-green-reply-tag: light-dark(#98d7b7, #0b3520); /* Theme/green/Reply-tag */
+
+  /* ---- Color / Theme/blue ---- */
+  --color-theme-blue-1000: light-dark(#008fcc, #006b99); /* Theme/blue/1000 */
+  --color-theme-blue-400: light-dark(#b5e9ff, #0b394d); /* Theme/blue/400 */
+  --color-theme-blue-200: light-dark(#cce9f5, #0e232c); /* Theme/blue/200 */
+  --color-theme-blue-100: light-dark(#e0f2f9, #1c292f); /* Theme/blue/100 */
+  --color-theme-blue-reply-tag: light-dark(#acdff4, #093142); /* Theme/blue/Reply-tag */
+
+  /* ---- Color / Theme/teal ---- */
+  --color-theme-teal-1000: #006a80; /* Theme/teal/1000 */
+  --color-theme-teal-400: light-dark(#ace4ef, #0d2f36); /* Theme/teal/400 */
+  --color-theme-teal-200: light-dark(#cce2e7, #0e2327); /* Theme/teal/200 */
+  --color-theme-teal-100: light-dark(#e0eef1, #1c292c); /* Theme/teal/100 */
+  --color-theme-teal-reply-tag: light-dark(#a3dae5, #0a272d); /* Theme/teal/Reply-tag */
+
+  /* ---- Color / Theme/violet ---- */
+  --color-theme-violet-1000: light-dark(#4759b3, #5266cc); /* Theme/violet/1000 */
+  --color-theme-violet-400: light-dark(#bec9ff, #272e4e); /* Theme/violet/400 */
+  --color-theme-violet-200: light-dark(#dadef0, #1e2236); /* Theme/violet/200 */
+  --color-theme-violet-100: light-dark(#e9ebf6, #262835); /* Theme/violet/100 */
+  --color-theme-violet-reply-tag: light-dark(#b5c0f4, #1f2540); /* Theme/violet/Reply-tag */
+
+  /* ---- Color / Theme/rose ---- */
+  --color-theme-rose-1000: light-dark(#f460aa, #d15091); /* Theme/rose/1000 */
+  --color-theme-rose-400: light-dark(#febfde, #50273b); /* Theme/rose/400 */
+  --color-theme-rose-200: light-dark(#fddfee, #371e2b); /* Theme/rose/200 */
+  --color-theme-rose-100: light-dark(#feecf5, #35262e); /* Theme/rose/100 */
+  --color-theme-rose-reply-tag: light-dark(#f3b6d4, #442232); /* Theme/rose/Reply-tag */
+
+  /* ---- Color / Dev portal ---- */
+  --color-dev-portal-color: #ffffff; /* Dev portal/Color */
+  --color-dev-portal-code-syntax1: light-dark(#2200ce, #ac9bff); /* Dev portal/Code syntax1 */
+  --color-dev-portal-code-syntax2: light-dark(#ce5200, #f39e66); /* Dev portal/Code syntax2 */
+  --color-dev-portal-graph-scale: light-dark(#1d1d1d, #f2f2f2); /* Dev portal/Graph scale */
+  --color-dev-portal-graph-plot-1: light-dark(#ff651e, #c75b2a); /* Dev portal/Graph plot 1 */
+  --color-dev-portal-stats-text: light-dark(#3b3b3b, #e0e0e0); /* Dev portal/Stats text */
+  --color-dev-portal-graph-plot-2: light-dark(#6186ff, #4e6dd4); /* Dev portal/Graph plot 2 */
+  --color-text-disabled: var(--color-disabled); /* alias used by Button.vue */
 
   /* ---- Spacing ---- */
-  --space-xs: 2px;
-  --space-s: 4px;
-  --space-m: 6px;
-  --space-l: 8px;
-  --space-btn: 10px;
-  --space-xl: 12px;
-  --space-3xl: 20px;
+  --space-none: 0;   /* None */
+  --space-xs: 2px;   /* XS */
+  --space-s: 4px;    /* S */
+  --space-m: 6px;    /* M */
+  --space-l: 8px;    /* L */
+  --space-btn: 10px; /* BTN */
+  --space-xl: 12px;  /* XL */
+  --space-2xl: 16px; /* 2XL */
+  --space-3xl: 20px; /* 3XL */
+  --space-4xl: 24px; /* 4XL */
+  /* The Figma Space collection also has a "Mode 2" (compact) scale; it is
+     not used by any component yet, so it isn't mirrored here. */
 
   /* ---- Radius ---- */
   --radius-sm: 4px;
   --radius-lg: 8px;
   --radius-pill: 28px; /* Toggle track and knob */
 
+  /* ---- Effects ---- */
+  --shadow-dropdown-menu: 0 0 12px rgba(0, 0, 0, 0.25); /* Drop down menu */
+
   /* ---- Typography ---- */
   --font-family-base: "Zoho Puvi", -apple-system, BlinkMacSystemFont, sans-serif;
-  /* Weight-specific face: the weight comes from the font file itself. */
+  /* Weight-specific faces: the weight comes from the font file itself, so
+     never combine these with font-weight. */
+  --font-family-regular: "Zoho Puvi Regular", "ZohoPuvi-Regular", "Zoho Puvi", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-family-medium: "Zoho Puvi Medium", "ZohoPuvi-Medium", "Zoho Puvi Med", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family-semibold: "Zoho Puvi Semibold", "ZohoPuvi-Semibold", "Zoho Puvi SemBd", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family-bold: "Zoho Puvi Bold", "ZohoPuvi-Bold", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Figma text styles, as `font` shorthands: font: var(--font-body-3);
+     Letter spacing isn't part of `font`, so styles that have it get a
+     separate --ls-* token. */
+  --font-h1: 20px/32px var(--font-family-bold);            /* H1 20 B */
+  --font-h2: 18px/26px var(--font-family-semibold);        /* H2 SB */
+  --font-h3: 14px/20px var(--font-family-semibold);        /* H3 SB */
+  --font-h4: 16px/24px var(--font-family-semibold);        /* H4 SB */
+  --font-h5: 20px/32px var(--font-family-semibold);        /* H5 20 SB */
+  --ls-h5: -0.25px;
+  --font-h6: 20px/32px var(--font-family-medium);          /* H6 20M */
+  --ls-h6: 0.2px;                                          /* 1% of 20px */
+  --font-body-1: 16px/22px var(--font-family-regular);     /* Body 1 R */
+  --font-body-2: 16px/24px var(--font-family-medium);      /* Body 2 M */
+  --font-body-3: 14px/20px var(--font-family-regular);     /* Body 3 R */
+  --font-sub-text: 14px/20px var(--font-family-medium);    /* Sub text M */
+  --font-caption: 13px/18px var(--font-family-regular);    /* Caption- 13px Reg */
+  --font-badge: 12px/normal var(--font-family-regular);    /* Badge-text 12px */
+  --font-last-message: 14px/16px var(--font-family-regular); /* Last message */
 
   /* BTN Small */
   --font-size-sm: 14px;
