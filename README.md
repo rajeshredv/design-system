@@ -17,6 +17,8 @@ Every component works in light and dark mode. See [Light and dark mode](#light-a
 
 ## Using it
 
+Add this repo to your app, for example as a `design-system/` folder (a copy, or `git submodule add <repo-url> design-system`). The examples below and on the docs pages assume that path.
+
 Load the tokens, the icon utility and the CSS of each component you use, once, globally:
 
 ```html
@@ -48,7 +50,7 @@ import Checkbox from "./design-system/components/Checkbox.vue";
 </template>
 ```
 
-Each component's full class API, props and usage are documented at the top of its CSS file and on its docs page.
+Each component's full class API, props and usage are documented at the top of its CSS file and on its docs page. [`DESIGN-SYSTEM.md`](./DESIGN-SYSTEM.md) is a self-contained visual spec of the whole system (foundations, every token with Light and Dark values, and each component's anatomy, sizes, states, behavior and usage). It needs no code, so it can be given to Claude Design or another design tool as the design-system reference. Update it by hand when a component changes.
 
 Icon and image paths in the markup and Vue defaults are relative (`assets/icons/…`), so serve `assets/` next to the page, or pass your own icon URLs as props.
 
@@ -106,7 +108,7 @@ No component needs extra CSS for dark mode, as long as it only uses color tokens
 
 [`tokens.css`](./tokens.css) mirrors the Figma file:
 
-- **Color:** all 77 variables of the `Colors` collection, e.g. `Button/800` → `--color-button-800`, `BG/Border` → `--color-bg-border`, `Theme/blue/100` → `--color-theme-blue-100`.
+- **Color:** all 76 colors of the `Colors` collection (its 77th variable, `BTN`, is a number, mirrored as `--space-btn`), e.g. `Button/800` → `--color-button-800`, `BG/Border` → `--color-bg-border`, `Theme/blue/100` → `--color-theme-blue-100`.
 - **Spacing:** the `Space` collection, `--space-none` … `--space-4xl` (0–24px). Its compact "Mode 2" isn't used yet.
 - **Typography:** every text style as a `font` shorthand, e.g. `font: var(--font-body-3)`. Weights come from weight-specific families (`--font-family-regular`, `-medium`, `-semibold`, `-bold`). **Never use `font-weight`.** Buttons use the Medium face by project decision, where Figma uses Semibold.
 - **Radius, shadow and control heights:** `--radius-sm/lg/pill`, `--shadow-dropdown-menu`, `--control-height-sm/md/lg`.

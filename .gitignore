@@ -1,0 +1,11 @@
+# Local Claude Code settings and preview config (machine-specific)
+.claude/
+
+# OS / editor noise
+.DS_Store
+*.swp
+.vscode/
+.idea/
+
+# Dependencies, if tooling is added later
+node_modules/
